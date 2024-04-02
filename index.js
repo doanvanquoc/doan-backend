@@ -1,10 +1,15 @@
-const express = require('express')
+import express from 'express'
+import db from './models'
+
 const app = express()
+const PORT = process.env.PORT || 3001
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-  res.send('DoAn-Backend')
-})
+import auth from './routes/auth'
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
+app.use('/auth', auth)
+
+app.listen(PORT, () => {
+  console.log('Server đang chạy tại cổng ' + PORT)
 })
