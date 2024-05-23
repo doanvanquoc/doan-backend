@@ -1,9 +1,9 @@
-import { response } from 'express';
-import db from '../models'
-import bcrypt from 'bcryptjs'
+
+const db = require('../models');
+const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 dotenv.config()
 //hash password
 const hashPassword = (password) => bcrypt.hashSync(password, salt);
@@ -44,7 +44,7 @@ const login = (username, password) => new Promise(async (resolve, reject) => {
   }
 });
 
-export default {
-  register,
-  login
+module.exports = {
+  login,
+  register
 }

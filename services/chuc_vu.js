@@ -1,4 +1,4 @@
-import db from '../models'
+const db = require('../models');
 
 const layDanhSachChucVu = () => new Promise(async (resolve, reject) => {
   try {
@@ -9,6 +9,6 @@ const layDanhSachChucVu = () => new Promise(async (resolve, reject) => {
   }
 });
 
-export default {
+module.exports = {
   layDanhSachChucVu
 }

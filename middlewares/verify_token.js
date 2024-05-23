@@ -1,5 +1,4 @@
-//verify token middleware
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
   if (!authorizationHeader) {

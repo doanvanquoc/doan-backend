@@ -1,11 +1,11 @@
-import express from 'express'
+const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-import auth from './routes/auth'
-import chucVu from './routes/chuc_vu'
+const auth = require('./routes/auth')
+const chucVu = require('./routes/chuc_vu')
 app.get('/', (req, res) => {
   //reirect to /chuc-vu
   res.redirect('/chuc-vu')

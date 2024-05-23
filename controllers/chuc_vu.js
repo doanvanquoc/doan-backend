@@ -1,4 +1,4 @@
-import chucVuService from '../services/chuc_vu.js';
+const chucVuService = require('../services/chuc_vu');
 
 const layDanhSachChucVu = async (req, res) => {
   try {
@@ -9,6 +9,6 @@ const layDanhSachChucVu = async (req, res) => {
   }
 }
 
-export default {
+module.exports = {
   layDanhSachChucVu
 }
