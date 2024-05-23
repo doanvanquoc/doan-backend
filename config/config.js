@@ -6,9 +6,7 @@ let config = {
     database: dotenv.DB_NAME,
     host: dotenv.DB_HOST,
     port: dotenv.DB_PORT,
-    dialect: dotenv.DB_DIALECT,
-    migrationStorageTableName: "sequelize_migrations",
-    seederStorageTableName: "sequelize_seeds"
+    dialect: dotenv.DB_DIALECT
 };
 
 module.exports = {
