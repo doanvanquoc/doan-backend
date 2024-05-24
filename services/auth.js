@@ -8,7 +8,7 @@ dotenv.config()
 //hash password
 const hashPassword = (password) => bcrypt.hashSync(password, salt);
 
-const register = (username, password) => new Promise(async (resolve, reject) => {
+const dangKy = (username, password) => new Promise(async (resolve, reject) => {
   try {
     const res = await db.Account.findOrCreate({
       where: { username },
@@ -25,7 +25,7 @@ const register = (username, password) => new Promise(async (resolve, reject) => 
   }
 });
 
-const login = (username, password) => new Promise(async (resolve, reject) => {
+const dangNhap = (username, password) => new Promise(async (resolve, reject) => {
   try {
     const account = await db.Account.findOne({ where: { username } });
     if (!account) {
@@ -45,6 +45,6 @@ const login = (username, password) => new Promise(async (resolve, reject) => {
 });
 
 module.exports = {
-  login,
-  register
+  login: dangNhap,
+  register: dangKy
 }
