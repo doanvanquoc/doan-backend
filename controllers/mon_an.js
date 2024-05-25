@@ -22,7 +22,21 @@ const layMonAnTheoDanhMuc = async (req, res) => {
   }
 }
 
+const datMon = async (req, res) => {
+  try {
+    const {hoaDon, danhSachChiTietHoaDon} = req.body
+    if (!hoaDon || !danhSachChiTietHoaDon) {
+      return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
+    }
+    const result = await monAnService.datMon(hoaDon, danhSachChiTietHoaDon);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+
 module.exports = {
   layDanhSachMonAn,
-  layMonAnTheoDanhMuc
+  layMonAnTheoDanhMuc,
+  datMon
 }

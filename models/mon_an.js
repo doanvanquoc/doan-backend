@@ -10,7 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      MonAn.belongsTo(models.DanhMucMonAn, {
+        foreignKey: 'id_danh_muc',
+        as: 'danh_muc'
+      });
+      MonAn.hasMany(models.HinhAnhMonAn, {
+        foreignKey: 'id_mon_an',
+        as: 'hinh_anh'
+      });
+      MonAn.hasMany(models.ChiTietHoaDon, {
+        foreignKey: 'id_mon_an',
+        as: 'chi_tiet_hoa_don'
+      });
     }
   }
   MonAn.init({
@@ -23,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     mo_ta: DataTypes.STRING,
     gia: DataTypes.DECIMAL(10, 2),
     id_danh_muc: DataTypes.INTEGER,
+    don_vi_tinh: DataTypes.STRING,
     trang_thai: {
       type: DataTypes.INTEGER,
       defaultValue: 1
