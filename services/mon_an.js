@@ -53,11 +53,47 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
   try {
     const hoaDonMoi = await db.HoaDon.create(hoaDon);
     if (hoaDonMoi) {
-      danhSachChiTietHoaDon.forEach(async (chiTietHoaDon) => {
+      await Promise.all(danhSachChiTietHoaDon.map(async (chiTietHoaDon) => {
         chiTietHoaDon.id_hoa_don = hoaDonMoi.id_hoa_don;
         await db.ChiTietHoaDon.create(chiTietHoaDon);
+      }));
+      const thongTinHoaDon = await db.HoaDon.findOne({
+        where: { id_hoa_don: hoaDonMoi.id_hoa_don },
+        attributes: {exclude: ['id_ban']},
+        include: [
+          {
+            model: db.Ban,
+            as: 'ban',
+            attributes: ['id_ban', 'ten_ban'],
+            include: [
+              {
+                model: db.KhuVuc,
+                as: 'khu_vuc',
+                attributes: ['id_khu_vuc', 'ten_khu_vuc']
+              }
+            ]
+          },
+          {
+            model: db.ChiTietHoaDon,
+            as: 'chi_tiet_hoa_don',
+            include: [
+              {
+                model: db.MonAn,
+                as: 'mon_an',
+                include: [
+                  {
+                    model: db.HinhAnhMonAn,
+                    as: 'hinh_anh',
+                    attributes: ['id_hinh_anh', 'duong_dan']
+                  }
+                ]
+              }
+            ]
+          },
+          
+        ]
       });
-      resolve({ success: true, data: hoaDonMoi });
+      resolve({ success: true, data: thongTinHoaDon });
     }
     else {
       reject({ success: false, message: 'Tạo hóa đơn thất bại' });

@@ -14,14 +14,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_ban',
         as: 'hoa_don'
       });
+      Ban.belongsTo(models.KhuVuc, {
+        foreignKey: 'id_khu_vuc',
+        as: 'khu_vuc'
+      });
     }
   }
   Ban.init({
     id_ban: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true
     },
     ten_ban: DataTypes.STRING,
+    id_khu_vuc: DataTypes.INTEGER,
   }, {
     timestamps: false,
     sequelize,

@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   ChiTietHoaDon.init({
     id_cthd: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true
     },
     id_hoa_don: DataTypes.INTEGER,
