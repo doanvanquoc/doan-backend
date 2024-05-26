@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     id_hoa_don: DataTypes.INTEGER,
     id_mon_an: DataTypes.INTEGER,
     so_luong: DataTypes.INTEGER,
-    thanh_tien: DataTypes.DECIMAL(10, 2)
+    thanh_tien: DataTypes.DECIMAL(10, 2),
+    ghi_chu: DataTypes.STRING
   }, {
     timestamps: false,
     sequelize,

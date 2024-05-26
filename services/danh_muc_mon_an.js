@@ -7,7 +7,7 @@ const layDanhSachDanhMucMonAn = () => new Promise(async (resolve, reject) => {
       resolve({ success: true, data: danhSachDanhMucMonAn });
     }
     else {
-      reject({ success: false, message: 'Không tìm thấy danh mục món ăn' });
+      resolve({ success: false, message: 'Không tìm thấy danh mục món ăn' });
     }
   } catch (error) {
     reject({success: false, message: error.message});

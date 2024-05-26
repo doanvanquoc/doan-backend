@@ -18,7 +18,7 @@ const dangKy = (username, password) => new Promise(async (resolve, reject) => {
       const token = jwt.sign({id: res[0].id, username: res[0].username}, process.env.JWT_SECRET, {expiresIn: '1h'})
       resolve({ success: true, message: 'Tạo tài khoản thành công', token });
     } else {
-      reject({ success: false, message: 'Tài khoản đã tồn tại' });
+      resolve({ success: false, message: 'Tài khoản đã tồn tại' });
     }
   } catch (error) {
     reject({ success: false, message: error.message });
@@ -36,7 +36,7 @@ const dangNhap = (username, password) => new Promise(async (resolve, reject) => 
         const token = jwt.sign({id: account.id, username: account.username}, process.env.JWT_SECRET, {expiresIn: '1h'})
         resolve({ success: true, message: 'Đăng nhập thành công', token });
       } else {
-        reject({ success: false, message: 'Mật khẩu không đúng' });
+        resolve({ success: false, message: 'Mật khẩu không đúng' });
       }
     }
   } catch (error) {

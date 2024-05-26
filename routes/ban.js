@@ -36,6 +36,33 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/Ban'
  */
 
+//swagger cho api lấy bàn theo khu vực
+/**
+ * @swagger
+ * /ban/{id_khu_vuc}:
+ *   get:
+ *     summary: Lấy danh sách bàn theo khu vực
+ *     tags: [Ban]
+ *     parameters:
+ *       - in: path
+ *         name: id_khu_vuc
+ *         required: true
+ *         description: Mã khu vực
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Danh sách bàn theo khu vực
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Ban'
+ */
+
+
+router.get('/:id_khu_vuc', controller.layBanTheoKhuVuc)
 router.get('/', controller.layDanhSachBan)
 
 module.exports = router
