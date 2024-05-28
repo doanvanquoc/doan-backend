@@ -51,12 +51,15 @@ const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) =
 
 const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, reject) => {
   try {
+    console.log("0");
     const hoaDonMoi = await db.HoaDon.create(hoaDon);
+    console.log("1");
     if (hoaDonMoi) {
       await Promise.all(danhSachChiTietHoaDon.map(async (chiTietHoaDon) => {
         chiTietHoaDon.id_hoa_don = hoaDonMoi.id_hoa_don;
         await db.ChiTietHoaDon.create(chiTietHoaDon);
       }));
+      console.log('2');
       const thongTinHoaDon = await db.HoaDon.findOne({
         where: { id_hoa_don: hoaDonMoi.id_hoa_don },
         attributes: {exclude: ['id_ban']},
@@ -93,6 +96,7 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
           
         ]
       });
+      console.log("3");
       resolve({ success: true, data: thongTinHoaDon });
     }
     else {

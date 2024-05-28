@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    ten_khuc_vuc: DataTypes.STRING,
+    ten_khu_vuc: DataTypes.STRING,
   }, {
     timestamps: false,
     sequelize,

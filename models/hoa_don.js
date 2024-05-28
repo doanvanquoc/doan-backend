@@ -34,12 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     gio_vao: {
-      type: DataTypes.TIME,
-      defaultValue: DataTypes.NOW
+      type: DataTypes.TIME
     },
     gio_ra: {
-      type: DataTypes.TIME,
-      defaultValue: DataTypes.NOW
+      type: DataTypes.TIME
     },
     tong_tien: DataTypes.DECIMAL(10, 2),
     chiet_khau: DataTypes.DOUBLE,
