@@ -14,6 +14,7 @@ const danhMucMonAn = require('./routes/danh_muc_mon_an')
 const monAn = require('./routes/mon_an')
 const ban = require('./routes/ban')
 const khuVuc = require('./routes/khu_vuc')
+const hoadon = require('./routes/hoa_don')
 
 setupSwagger(app);
 
@@ -27,6 +28,7 @@ app.use('/danh-muc-mon-an', danhMucMonAn)
 app.use('/mon-an', monAn)
 app.use('/ban', ban)
 app.use('/khu-vuc', khuVuc)
+app.use('/hoa-don', hoadon)
 
 app.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)
