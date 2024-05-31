@@ -35,8 +35,22 @@ const datMon = async (req, res) => {
   }
 }
 
+const themMonVaoHoaDonDaCo = async (req, res) => {
+  try {
+    const {id_hoa_don, danhSachChiTietHoaDon} = req.body
+    if (!id_hoa_don || !danhSachChiTietHoaDon) {
+      return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
+    }
+    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danhSachChiTietHoaDon);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+
 module.exports = {
   layDanhSachMonAn,
   layMonAnTheoDanhMuc,
-  datMon
+  datMon,
+  themMonVaoHoaDonDaCo
 }

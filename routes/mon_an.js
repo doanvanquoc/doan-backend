@@ -154,9 +154,48 @@ const router = express.Router()
  *         description: Lỗi khi lấy danh sách món ăn
  */
 
+// swagger cho mon-an/them-mon-vao-hoa-don-da-co
+/**
+ * @swagger
+ * /mon-an/them-mon-vao-hoa-don-da-co:
+ *   post:
+ *     summary: Thêm món vào hóa đơn đã có
+ *     tags: [MonAn]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id_hoa_don:
+ *                 type: integer
+ *                 description: Mã hóa đơn
+ *               danhSachChiTietHoaDon:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/ChiTietHoaDon'
+ *     responses:
+ *       200:
+ *         description: Món đã được thêm vào hóa đơn
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Kết quả của yêu cầu
+ *                 data:
+ *                   $ref: '#/components/schemas/HoaDon'
+ *       400:
+ *         description: Lỗi khi thêm món vào hóa đơn
+ */ 
+
 
 router.get('/tat-ca', controller.layDanhSachMonAn)
 router.get('/:id', controller.layMonAnTheoDanhMuc)
 router.post('/dat-mon', controller.datMon)
+router.post('/them-mon-vao-hoa-don-da-co', controller.themMonVaoHoaDonDaCo)
 
 module.exports = router
