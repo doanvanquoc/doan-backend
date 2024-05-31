@@ -29,7 +29,12 @@ module.exports = (sequelize, DataTypes) => {
     id_mon_an: DataTypes.INTEGER,
     so_luong: DataTypes.INTEGER,
     thanh_tien: DataTypes.DECIMAL(10, 2),
-    ghi_chu: DataTypes.STRING
+    ghi_chu: DataTypes.STRING,
+    thoi_gian: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+
   }, {
     timestamps: false,
     sequelize,

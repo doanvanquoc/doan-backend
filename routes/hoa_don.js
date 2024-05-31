@@ -52,6 +52,10 @@ const router = express.Router()
  *         ghi_chu:
  *           type: string
  *           desctiption: Ghi chú chi tiết hóa đơn
+ *         thoi_gian:
+ *           type: string
+ *           format: date-time
+ *           description: Thời gian
  *     MonAn:
  *       type: object
  *       properties:
@@ -65,6 +69,8 @@ const router = express.Router()
  *          type: number
  *          description: Đơn giá
  *         don_vi_tinh:
+ *          type: string
+ *          description: Đơn vị tính
  */
 
 // GET all hoa_don
