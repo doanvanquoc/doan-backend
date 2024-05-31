@@ -70,7 +70,7 @@ const router = express.Router()
 // GET all hoa_don
 /**
  * @swagger
- * /api/hoa_don:
+ * /hoa-don:
  *   get:
  *     summary: Get all hoa_don
  *     tags: [HoaDon]
