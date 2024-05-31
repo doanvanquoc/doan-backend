@@ -87,7 +87,7 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
                   {
                     model: db.HinhAnhMonAn,
                     as: 'hinh_anh',
-                    attributes: ['id_hinh_anh', 'duong_dan']
+                    attributes: ['id_hinh_anh', 'duong_dan'],
                   }
                 ]
               }
