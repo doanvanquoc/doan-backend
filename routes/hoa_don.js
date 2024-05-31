@@ -31,6 +31,9 @@ const router = express.Router()
  *         tong_tien:
  *           type: number
  *           description: Tổng tiền
+ *         ghi_chu:
+ *           type: string
+ *           desctiption: Ghi chú hóa đơn
  *         phuong_thuc_thanh_toan:
  *           type: string
  *           description: Phương thức thanh toán
@@ -46,6 +49,9 @@ const router = express.Router()
  *         thanh_tien:
  *           type: number
  *           description: Thành tiền
+ *         ghi_chu:
+ *           type: string
+ *           desctiption: Ghi chú chi tiết hóa đơn
  *     MonAn:
  *       type: object
  *       properties:
