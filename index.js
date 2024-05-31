@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/', express.static('D:/anh'));
 
-const auth = require('./routes/auth')
+const taiKhoan = require('./routes/tai_khoan')
 const chucVu = require('./routes/chuc_vu')
 const danhMucMonAn = require('./routes/danh_muc_mon_an')
 const monAn = require('./routes/mon_an')
@@ -23,7 +23,7 @@ setupSwagger(app);
 app.get('/', (req, res) => {
   res.redirect('/api-docs')
 })
-app.use('/auth', auth)
+app.use('/tai-khoan', taiKhoan)
 app.use('/chuc-vu', chucVu)
 app.use('/danh-muc-mon-an', danhMucMonAn)
 app.use('/mon-an', monAn)
