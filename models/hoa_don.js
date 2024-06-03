@@ -43,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
     chiet_khau: DataTypes.DOUBLE,
     ghi_chu: DataTypes.STRING,
     phuong_thuc_thanh_toan: DataTypes.STRING,
+    trang_thai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+
+    },
   }, {
     timestamps: false,
     sequelize,

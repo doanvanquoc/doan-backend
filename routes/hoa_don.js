@@ -85,6 +85,58 @@ const router = express.Router()
  *         description: Success
  */
 
+// swagger cho router cap nhat ban trong hoa don
+/**
+ * @swagger
+ * /hoa-don/cap-nhat-ban:
+ *   post:
+ *     summary: Cập nhật bàn trong hóa đơn
+ *     tags: [HoaDon]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idHoaDon:
+ *                 type: integer
+ *                 description: Mã hóa đơn
+ *               idBan:
+ *                 type: integer
+ *                 description: Mã bàn
+ *     responses:
+ *       200:
+ *         description: Success
+ */ 
+
+// swagger cho router cap nhat trang thai
+/**
+ * @swagger
+ * /hoa-don/cap-nhat-trang-thai:
+ *   post:
+ *     summary: Cập nhật trạng thái hóa đơn
+ *     tags: [HoaDon]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idHoaDon:
+ *                 type: integer
+ *                 description: Mã hóa đơn
+ *               trangThai:
+ *                 type: integer
+ *                 description: Trạng thái
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
 router.get('/', controller.layDanhSachHoaDon)
+router.post('/cap-nhat-ban', controller.capNhatBanTrongHoaDon)
+router.post('/cap-nhat-trang-thai', controller.capNhatTrangThai)
 
 module.exports = router
