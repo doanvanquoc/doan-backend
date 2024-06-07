@@ -13,6 +13,20 @@ const xoaDanhSachCTHD = async (req, res) => {
   }
 }
 
+const capNhatIdHoaDon = async (req, res) => {
+  try {
+    const { idCTHD, idHoaDon } = req.body;
+    if (!idCTHD || !idHoaDon) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.capNhatIdHoaDon(idCTHD, idHoaDon);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
 module.exports = { 
-  xoaDanhSachCTHD
+  xoaDanhSachCTHD,
+  capNhatIdHoaDon
 }

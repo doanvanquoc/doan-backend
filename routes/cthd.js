@@ -57,6 +57,34 @@ const router = express.Router();
  *         description: Lỗi server
  */
 
+// swagger cho api cap-nhat-id-hoa-don
+/**
+ * @swagger
+ * /cthd/cap-nhat-id-hoa-don:
+ *   post:
+ *     summary: Cập nhật id hóa đơn
+ *     tags: [ChiTietHoaDon]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idCTHD:
+ *                 type: integer
+ *               idHoaDon:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Thiếu thông tin
+ *       500:
+ *         description: Lỗi server
+ */
+
 router.post('/xoa-danh-sach-cthd', controller.xoaDanhSachCTHD);
+router.post('/cap-nhat-id-hoa-don', controller.capNhatIdHoaDon);
 
 module.exports = router;

@@ -31,7 +31,29 @@ const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, re
   }
 });
 
+const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise (async (resolve, reject) => {
+  try {
+    //cap nhat id hoa don trong bang chi tiet hoa don
+    const result = await db.ChiTietHoaDon.update({
+      id_hoa_don: idHoaDon
+    }, {
+      where: {
+        id_cthd: idCTHD
+      }
+    });
+    if (result[0] === 0) {
+      resolve({ success: false, message: 'Không tìm thấy cthd' });
+    }
+    else {
+      resolve({ success: true, message: 'Cập nhật thành công' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+})
+
 
 module.exports = {
-  xoaDanhSachCTHD
+  xoaDanhSachCTHD,
+  capNhatIdHoaDon
 }
