@@ -26,7 +26,21 @@ const capNhatIdHoaDon = async (req, res) => {
   }
 }
 
+const capNhatDanhSachCTHD = async (req, res) => {
+  try {
+    const { danhSachCTHD } = req.body;
+    if (!danhSachCTHD) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.capNhatDanhSachCTHD(danhSachCTHD);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
 module.exports = { 
   xoaDanhSachCTHD,
-  capNhatIdHoaDon
+  capNhatIdHoaDon,
+  capNhatDanhSachCTHD
 }

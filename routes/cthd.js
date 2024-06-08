@@ -28,6 +28,22 @@ const router = express.Router();
  *           description: Thời gian
  */
 
+// schema for ChiTietHoaDon cap nhat danh sach cthd
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ChiTietHoaDonCapNhat:
+ *       type: object
+ *       properties:
+ *         id_cthd:
+ *           type: integer
+ *           description: Mã chi tiết hóa đơn
+ *         so_luong:
+ *           type: integer
+ *           description: Số lượng
+ */
+
 // swagger cho api xoa-danh-sach-cthd
 /**
  * @swagger
@@ -84,7 +100,35 @@ const router = express.Router();
  *         description: Lỗi server
  */
 
+// swagger cho api cap-nhat-danh-sach-cthd
+/**
+ * @swagger
+ * /cthd/cap-nhat-danh-sach-cthd:
+ *   post:
+ *     summary: Cập nhật danh sách chi tiết hóa đơn
+ *     tags: [ChiTietHoaDon]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               danhSachCTHD:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/ChiTietHoaDonCapNhat'
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Thiếu thông tin
+ *       500:
+ *         description: Lỗi server
+ */
+
 router.post('/xoa-danh-sach-cthd', controller.xoaDanhSachCTHD);
 router.post('/cap-nhat-id-hoa-don', controller.capNhatIdHoaDon);
+router.post('/cap-nhat-danh-sach-cthd', controller.capNhatDanhSachCTHD);
 
 module.exports = router;

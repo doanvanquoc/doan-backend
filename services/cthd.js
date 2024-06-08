@@ -31,7 +31,7 @@ const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, re
   }
 });
 
-const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise (async (resolve, reject) => {
+const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
     //cap nhat id hoa don trong bang chi tiet hoa don
     const result = await db.ChiTietHoaDon.update({
@@ -52,8 +52,38 @@ const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise (async (resolve, rejec
   }
 })
 
+const capNhatDanhSachCTHD = (danhSachCTHD) => new Promise(async (resolve, reject) => {
+  try {
+    console.log('danhSachCTHD:', danhSachCTHD);
+    let updateSuccess = false;
+    for (let i = 0; i < danhSachCTHD.length; i++) {
+      const result = await db.ChiTietHoaDon.update({
+        so_luong: danhSachCTHD[i].so_luong
+      }, {
+        where: {
+          id_cthd: danhSachCTHD[i].id_cthd
+        }
+      });
+
+      if (result[0] > 0) {
+        updateSuccess = true;
+      }
+    }
+
+    if (!updateSuccess) {
+      resolve({ success: false, message: 'Cập nhật thất bại' });
+    } else {
+      resolve({ success: true, message: 'Cập nhật thành công' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error });
+  }
+});
+
+
 
 module.exports = {
   xoaDanhSachCTHD,
-  capNhatIdHoaDon
+  capNhatIdHoaDon,
+  capNhatDanhSachCTHD
 }
