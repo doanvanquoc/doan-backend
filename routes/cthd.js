@@ -42,8 +42,10 @@ const router = express.Router();
  *         so_luong:
  *           type: integer
  *           description: Số lượng
+ *         thanh_tien:
+ *           type: number
+ *           description: Thành tiền
  */
-
 // swagger cho api xoa-danh-sach-cthd
 /**
  * @swagger
@@ -99,7 +101,6 @@ const router = express.Router();
  *       500:
  *         description: Lỗi server
  */
-
 // swagger cho api cap-nhat-danh-sach-cthd
 /**
  * @swagger
@@ -118,6 +119,8 @@ const router = express.Router();
  *                 type: array
  *                 items:
  *                   $ref: '#/components/schemas/ChiTietHoaDonCapNhat'
+ *               idHoaDon:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Cập nhật thành công

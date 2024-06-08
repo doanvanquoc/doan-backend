@@ -52,33 +52,38 @@ const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise(async (resolve, reject
   }
 })
 
-const capNhatDanhSachCTHD = (danhSachCTHD) => new Promise(async (resolve, reject) => {
+const capNhatDanhSachCTHD = (danhSachCTHD, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
     console.log('danhSachCTHD:', danhSachCTHD);
-    let updateSuccess = false;
+    let tongTien = 0;
+
     for (let i = 0; i < danhSachCTHD.length; i++) {
       const result = await db.ChiTietHoaDon.update({
-        so_luong: danhSachCTHD[i].so_luong
+        so_luong: danhSachCTHD[i].so_luong,
+        thanh_tien: danhSachCTHD[i].thanh_tien
       }, {
         where: {
           id_cthd: danhSachCTHD[i].id_cthd
         }
       });
 
-      if (result[0] > 0) {
-        updateSuccess = true;
-      }
+      tongTien += danhSachCTHD[i].thanh_tien;
     }
 
-    if (!updateSuccess) {
-      resolve({ success: false, message: 'Cập nhật thất bại' });
-    } else {
-      resolve({ success: true, message: 'Cập nhật thành công' });
-    }
+    await db.HoaDon.update({
+      tong_tien: tongTien
+    }, {
+      where: {
+        id_hoa_don: idHoaDon
+      }
+    });
+
+    resolve({ success: true, message: 'Cập nhật thành công' });
   } catch (error) {
-    reject({ success: false, message: error });
+    reject({ success: false, message: error.message });
   }
 });
+
 
 
 
