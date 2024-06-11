@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     thanh_tien: DataTypes.DECIMAL(10, 2),
     ghi_chu: DataTypes.STRING,
     thoi_gian: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       defaultValue: DataTypes.NOW
     }
 
