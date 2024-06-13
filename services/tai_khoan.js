@@ -35,9 +35,9 @@ const dangNhap = (tai_khoan, mat_khau) => new Promise(async (resolve, reject) =>
       const isMatch = mat_khau === account.mat_khau;
       const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
       if (isMatch) {
-        const token = jwt.sign({ tai_khoan: account.tai_khoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
+        const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
         // resolve({ success: true, message: 'Đăng nhập thành công', token });
-        resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan });
+        resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan, token });
       } else {
         resolve({ success: false, message: 'Mật khẩu không đúng' });
       }
@@ -54,8 +54,8 @@ const dangNhapBangKhuonMat = (tai_khoan) => new Promise(async (resolve, reject) 
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
       const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
-      const token = jwt.sign({ tai_khoan: account.tai_khoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
-      resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan });
+      const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
+      resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan, token });
     }
   } catch (error) {
     reject({ success: false, message: error.message });
