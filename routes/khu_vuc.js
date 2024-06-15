@@ -1,5 +1,7 @@
 const express = require('express')  
 const controller = require('../controllers/khu_vuc')
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router()
 
 //schema cho khu vực
@@ -36,6 +38,6 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/KhuVuc'
  */
 
-router.get('/', controller.layDanhSachKhuVuc)
+router.get('/', verify_token, controller.layDanhSachKhuVuc)
 
 module.exports = router

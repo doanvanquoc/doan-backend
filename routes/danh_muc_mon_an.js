@@ -1,5 +1,7 @@
 const express = require('express')
 const controller = require('../controllers/danh_muc_mon_an')
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router()
 
 //schema cho danh mục món ăn
@@ -36,6 +38,6 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/DanhMucMonAn'
  */
 
-router.get('/', controller.layDanhSachDanhMucMonAn)
+router.get('/', verify_token, controller.layDanhSachDanhMucMonAn)
 
 module.exports = router

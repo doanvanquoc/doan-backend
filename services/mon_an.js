@@ -9,11 +9,6 @@ const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
           as: 'danh_muc',
           attributes: ['id_danh_muc', 'ten_danh_muc']
         },
-        {
-          model: db.HinhAnhMonAn,
-          as: 'hinh_anh',
-          attributes: ['id_hinh_anh', 'duong_dan']
-        }
       ]
     });
     resolve({ success: true, data: monAn });
@@ -83,13 +78,6 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
               {
                 model: db.MonAn,
                 as: 'mon_an',
-                include: [
-                  {
-                    model: db.HinhAnhMonAn,
-                    as: 'hinh_anh',
-                    attributes: ['id_hinh_anh', 'duong_dan'],
-                  }
-                ]
               }
             ]
           },
@@ -142,13 +130,6 @@ const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon) => new Promise(
               {
                 model: db.MonAn,
                 as: 'mon_an',
-                include: [
-                  {
-                    model: db.HinhAnhMonAn,
-                    as: 'hinh_anh',
-                    attributes: ['id_hinh_anh', 'duong_dan'],
-                  }
-                ]
               }
             ]
           },

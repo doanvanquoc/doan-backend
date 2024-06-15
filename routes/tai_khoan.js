@@ -1,6 +1,6 @@
 const express = require('express')
 const controller = require('../controllers/tai_khoan')
-
+const verify_token = require('../middlewares/verify_token')
 const router = express.Router()
 
 // schema for TaiKhoan

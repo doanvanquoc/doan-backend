@@ -1,5 +1,6 @@
 const express = require('express')
 const controller = require('../controllers/ban')
+const verify_token = require('../middlewares/verify_token')
 const router = express.Router()
 
 //schema cho bàn
@@ -62,7 +63,7 @@ const router = express.Router()
  */
 
 
-router.get('/:id_khu_vuc', controller.layBanTheoKhuVuc)
-router.get('/', controller.layDanhSachBan)
+router.get('/:id_khu_vuc', verify_token, controller.layBanTheoKhuVuc)
+router.get('/', verify_token, controller.layDanhSachBan)
 
 module.exports = router

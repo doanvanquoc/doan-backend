@@ -1,5 +1,7 @@
 const express = require('express');
 const chucVuController = require('../controllers/chuc_vu');
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router();
 
 //schema cho chức vụ
@@ -36,6 +38,6 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/ChucVu'
  */
 
-router.get('/', chucVuController.layDanhSachChucVu);
+router.get('/', verify_token, chucVuController.layDanhSachChucVu);
 
 module.exports = router;

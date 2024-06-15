@@ -1,5 +1,7 @@
 const express = require('express')
 const controller = require('../controllers/mon_an')
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router()
 
 /**
@@ -193,9 +195,9 @@ const router = express.Router()
  */ 
 
 
-router.get('/tat-ca', controller.layDanhSachMonAn)
-router.get('/:id', controller.layMonAnTheoDanhMuc)
-router.post('/dat-mon', controller.datMon)
-router.post('/them-mon-vao-hoa-don-da-co', controller.themMonVaoHoaDonDaCo)
+router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)
+router.get('/:id', verify_token, controller.layMonAnTheoDanhMuc)
+router.post('/dat-mon', verify_token, controller.datMon)
+router.post('/them-mon-vao-hoa-don-da-co', verify_token, controller.themMonVaoHoaDonDaCo)
 
 module.exports = router

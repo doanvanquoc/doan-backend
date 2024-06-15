@@ -1,5 +1,7 @@
 const express = require('express')
 const controller = require('../controllers/hoa_don')
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router()
 
 // schema for HoaDon
@@ -135,8 +137,8 @@ const router = express.Router()
  *         description: Success
  */
 
-router.get('/', controller.layDanhSachHoaDon)
-router.post('/cap-nhat-ban', controller.capNhatBanTrongHoaDon)
-router.post('/cap-nhat-trang-thai', controller.capNhatTrangThai)
+router.get('/', verify_token, controller.layDanhSachHoaDon)
+router.post('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
+router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
 
 module.exports = router

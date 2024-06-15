@@ -1,5 +1,7 @@
 const express = require('express');
 const controller = require('../controllers/cthd');
+const verify_token = require('../middlewares/verify_token')
+
 const router = express.Router();
 
 // schema for ChiTietHoaDon
@@ -130,8 +132,8 @@ const router = express.Router();
  *         description: Lỗi server
  */
 
-router.post('/xoa-danh-sach-cthd', controller.xoaDanhSachCTHD);
-router.post('/cap-nhat-id-hoa-don', controller.capNhatIdHoaDon);
-router.post('/cap-nhat-danh-sach-cthd', controller.capNhatDanhSachCTHD);
+router.post('/xoa-danh-sach-cthd', verify_token, controller.xoaDanhSachCTHD);
+router.post('/cap-nhat-id-hoa-don', verify_token, controller.capNhatIdHoaDon);
+router.post('/cap-nhat-danh-sach-cthd', verify_token, controller.capNhatDanhSachCTHD);
 
 module.exports = router;
