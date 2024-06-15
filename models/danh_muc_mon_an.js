@@ -22,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    ten_danh_muc: DataTypes.STRING,
-    hinh_anh: DataTypes.STRING
+    ten_danh_muc: DataTypes.STRING
   }, {
     timestamps: false,
     sequelize,
