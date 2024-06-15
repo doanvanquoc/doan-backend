@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_ban',
         as: 'ban'
       });
+      HoaDon.belongsTo(models.PhuongThucThanhToan, {
+        foreignKey: 'phuong_thuc_thanh_toan',
+        as: 'phuong_thuc'
+      });
     }
   }
   HoaDon.init({
@@ -42,7 +46,10 @@ module.exports = (sequelize, DataTypes) => {
     tong_tien: DataTypes.DECIMAL(10, 2),
     chiet_khau: DataTypes.DOUBLE,
     ghi_chu: DataTypes.STRING,
-    phuong_thuc_thanh_toan: DataTypes.STRING,
+    phuong_thuc_thanh_toan: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
     trang_thai: {
       type: DataTypes.INTEGER,
       defaultValue: 1

@@ -28,7 +28,7 @@ const datMon = async (req, res) => {
     if (!hoaDon || !danhSachChiTietHoaDon) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.datMon(hoaDon, danhSachChiTietHoaDon);
+    const result = await monAnService.datMon(hoaDon, danhSachChiTietHoaDon, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);
@@ -41,7 +41,7 @@ const themMonVaoHoaDonDaCo = async (req, res) => {
     if (!id_hoa_don || !danhSachChiTietHoaDon) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danhSachChiTietHoaDon);
+    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danhSachChiTietHoaDon, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);

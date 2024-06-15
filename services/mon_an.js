@@ -44,20 +44,19 @@ const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) =
   }
 });
 
-const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, reject) => {
+const datMon = (hoaDon, danhSachChiTietHoaDon, user) => new Promise(async (resolve, reject) => {
   try {
-    console.log("0");
+    console.log(user);
     const hoaDonMoi = await db.HoaDon.create(hoaDon);
-    console.log("1");
     if (hoaDonMoi) {
       await Promise.all(danhSachChiTietHoaDon.map(async (chiTietHoaDon) => {
         chiTietHoaDon.id_hoa_don = hoaDonMoi.id_hoa_don;
+        chiTietHoaDon.tai_khoan = user;
         await db.ChiTietHoaDon.create(chiTietHoaDon);
       }));
-      console.log('2');
       const thongTinHoaDon = await db.HoaDon.findOne({
         where: { id_hoa_don: hoaDonMoi.id_hoa_don },
-        attributes: {exclude: ['id_ban']},
+        attributes: {exclude: ['id_ban', 'phuong_thuc_thanh_toan']},
         include: [
           {
             model: db.Ban,
@@ -81,6 +80,11 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
               }
             ]
           },
+          {
+            model: db.PhuongThucThanhToan,
+            as: 'phuong_thuc',
+            attributes: ['id_thanh_toan', 'ten_phuong_thuc']
+          }
           
         ]
       });
@@ -95,7 +99,7 @@ const datMon = (hoaDon, danhSachChiTietHoaDon) => new Promise(async (resolve, re
   }
 });
 
-const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon) => new Promise(async (resolve, reject) => {
+const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Promise(async (resolve, reject) => {
   try {
     const hoaDonMoi = await db.HoaDon.findOne({ where: { id_hoa_don} });
     if (hoaDonMoi) {

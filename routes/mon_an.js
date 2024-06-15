@@ -4,6 +4,7 @@ const verify_token = require('../middlewares/verify_token')
 
 const router = express.Router()
 
+
 /**
  * @swagger
  * components:
@@ -26,6 +27,8 @@ const router = express.Router()
  *           type: string
  *           format: time
  *           description: Giờ ra
+ *         ban:
+ *           type: string
  *         id_ban:
  *           type: integer
  *           description: Bàn
@@ -33,7 +36,7 @@ const router = express.Router()
  *           type: number
  *           description: Tổng tiền
  *         phuong_thuc_thanh_toan:
- *           type: string
+ *           type: integer
  *           description: Phương thức thanh toán
  *     ChiTietHoaDon:
  *       type: object
@@ -41,6 +44,9 @@ const router = express.Router()
  *         id_mon_an:
  *           type: integer
  *           description: Mã món ăn
+ *         id_hoa_don:
+ *           type: integer
+ *           description: Mã hóa đơn
  *         so_luong:
  *           type: integer
  *           description: Số lượng
@@ -74,7 +80,7 @@ const router = express.Router()
  * 
  */
 
-//swagger cho mon-an/dat-mon thêm require auth header schema
+//swagger cho mon-an/dat-mon thêm require auth header schema su dung hoa-don schema
 /**
  * @swagger
  * /mon-an/dat-mon:
@@ -90,29 +96,19 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               id_ban:
- *                 type: integer
- *                 description: Mã bàn
- *               danhSachMonAn:
+ *               hoaDon:
+ *                 $ref: '#/components/schemas/HoaDon'
+ *               danhSachChiTietHoaDon:
  *                 type: array
  *                 items:
- *                   $ref: '#/components/schemas/MonAn'
+ *                   $ref: '#/components/schemas/ChiTietHoaDon'
  *     responses:
  *       200:
  *         description: Món đã được đặt
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   description: Kết quả của yêu cầu
- *                 data:
- *                   $ref: '#/components/schemas/HoaDon'
  *       400:
  *         description: Lỗi khi đặt món
  */
+
 
 //swagger cho mon-an/tat-ca thêm require auth header schema
 /**
@@ -165,7 +161,7 @@ const router = express.Router()
  *         description: Lỗi khi lấy danh sách món ăn theo danh mục
  */
 
-// swagger cho mon-an/them-mon-vao-hoa-don-da-co thêm required auth header schema
+//swagger co su dung hoa-don schema
 /**
  * @swagger
  * /mon-an/them-mon-vao-hoa-don-da-co:
@@ -184,18 +180,20 @@ const router = express.Router()
  *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               id_mon_an:
- *                 type: integer
- *                 description: Mã món ăn
- *               so_luong:
- *                 type: integer
- *                 description: Số lượng
+ *               danhSachChiTietHoaDon:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/ChiTietHoaDon'
  *     responses:
  *       200:
  *         description: Món đã được thêm vào hóa đơn
  *       400:
  *         description: Lỗi khi thêm món vào hóa đơn
  */
+
+
+
+
 
 
 router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)
