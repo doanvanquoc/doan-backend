@@ -4,6 +4,16 @@ const verify_token = require('../middlewares/verify_token')
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 //schema cho khu vực
 /**
  * @swagger
@@ -20,13 +30,15 @@ const router = express.Router()
  *           description: Tên khu vực
  */
 
-//swagger cho api lấy danh sách khu vực
+//swagger cho api lấy danh sách khu vực thêm required auth header
 /**
  * @swagger
  * /khu-vuc:
  *   get:
  *     summary: Lấy danh sách khu vực
  *     tags: [KhuVuc]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Danh sách khu vực

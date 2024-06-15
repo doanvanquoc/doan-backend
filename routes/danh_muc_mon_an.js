@@ -4,6 +4,16 @@ const verify_token = require('../middlewares/verify_token')
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 //schema cho danh mục món ăn
 /**
  * @swagger
@@ -20,13 +30,15 @@ const router = express.Router()
  *           description: Tên danh mục
  */
 
-//swagger cho api lấy danh sách danh mục món ăn
+//swagger cho api lấy danh sách danh mục món ăn thêm require header Authorization
 /**
  * @swagger
  * /danh-muc-mon-an:
  *   get:
  *     summary: Lấy danh sách danh mục món ăn
  *     tags: [DanhMucMonAn]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Danh sách danh mục món ăn

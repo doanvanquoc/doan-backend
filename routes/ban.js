@@ -3,6 +3,17 @@ const controller = require('../controllers/ban')
 const verify_token = require('../middlewares/verify_token')
 const router = express.Router()
 
+//schema cho security schema Authorization header 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 //schema cho bàn
 /**
  * @swagger
@@ -19,13 +30,15 @@ const router = express.Router()
  *           description: Tên bàn
  */
 
-//swagger cho api lấy danh sách bàn
+//swagger cho api lấy danh sách bàn theo khu vực, thêm require header Authorization
 /**
  * @swagger
  * /ban:
  *   get:
  *     summary: Lấy danh sách bàn
  *     tags: [Ban]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Danh sách bàn
@@ -37,7 +50,7 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/Ban'
  */
 
-//swagger cho api lấy bàn theo khu vực
+//swagger cho api lấy bàn theo khu vực, thêm require header Authorization 
 /**
  * @swagger
  * /ban/{id_khu_vuc}:
@@ -51,6 +64,8 @@ const router = express.Router()
  *         description: Mã khu vực
  *         schema:
  *           type: integer
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Danh sách bàn theo khu vực

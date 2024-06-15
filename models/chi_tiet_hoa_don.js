@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_mon_an',
         as: 'mon_an'
       });
+      ChiTietHoaDon.belongsTo(models.TaiKhoan, {
+        foreignKey: 'tai_khoan',
+        as: 'nhan_vien'
+      });
     }
   }
   ChiTietHoaDon.init({
@@ -33,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     thoi_gian: {
       type: DataTypes.TIME,
       defaultValue: DataTypes.NOW
-    }
+    },
+    tai_khoan: DataTypes.STRING
 
   }, {
     timestamps: false,

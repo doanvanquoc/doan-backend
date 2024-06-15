@@ -74,12 +74,15 @@ const router = express.Router()
  * 
  */
 
+//swagger cho mon-an/dat-mon thêm require auth header schema
 /**
  * @swagger
  * /mon-an/dat-mon:
  *   post:
- *     summary: Tạo hóa đơn mới
+ *     summary: Đặt món
  *     tags: [MonAn]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -87,15 +90,16 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               hoaDon:
- *                 $ref: '#/components/schemas/HoaDon'
- *               danhSachChiTietHoaDon:
+ *               id_ban:
+ *                 type: integer
+ *                 description: Mã bàn
+ *               danhSachMonAn:
  *                 type: array
  *                 items:
- *                   $ref: '#/components/schemas/ChiTietHoaDon'
+ *                   $ref: '#/components/schemas/MonAn'
  *     responses:
  *       200:
- *         description: Hóa đơn đã được tạo thành công
+ *         description: Món đã được đặt
  *         content:
  *           application/json:
  *             schema:
@@ -107,29 +111,32 @@ const router = express.Router()
  *                 data:
  *                   $ref: '#/components/schemas/HoaDon'
  *       400:
- *         description: Lỗi khi tạo hóa đơn
+ *         description: Lỗi khi đặt món
  */
 
+//swagger cho mon-an/tat-ca thêm require auth header schema
 /**
  * @swagger
  * /mon-an/tat-ca:
  *   get:
- *     summary: Lấy danh sách tất cả các món ăn
+ *     summary: Lấy danh sách món ăn
  *     tags: [MonAn]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Thành công
+ *         description: Danh sách món ăn
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/MonAn'
- *       500:
- *         description: Lỗi server
+ *       400:
+ *         description: Lỗi khi lấy danh sách món ăn
  */
 
-//swagger cho mon-an/{id}
+//swagger cho mon-an/{id} thêm require auth header schema
 /**
  * @swagger
  * /mon-an/{id}:
@@ -143,9 +150,11 @@ const router = express.Router()
  *         description: Mã danh mục món ăn
  *         schema:
  *           type: integer
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Thành công
+ *         description: Danh sách món ăn theo danh mục
  *         content:
  *           application/json:
  *             schema:
@@ -153,16 +162,18 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/MonAn'
  *       400:
- *         description: Lỗi khi lấy danh sách món ăn
+ *         description: Lỗi khi lấy danh sách món ăn theo danh mục
  */
 
-// swagger cho mon-an/them-mon-vao-hoa-don-da-co
+// swagger cho mon-an/them-mon-vao-hoa-don-da-co thêm required auth header schema
 /**
  * @swagger
  * /mon-an/them-mon-vao-hoa-don-da-co:
  *   post:
  *     summary: Thêm món vào hóa đơn đã có
  *     tags: [MonAn]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -173,26 +184,18 @@ const router = express.Router()
  *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               danhSachChiTietHoaDon:
- *                 type: array
- *                 items:
- *                   $ref: '#/components/schemas/ChiTietHoaDon'
+ *               id_mon_an:
+ *                 type: integer
+ *                 description: Mã món ăn
+ *               so_luong:
+ *                 type: integer
+ *                 description: Số lượng
  *     responses:
  *       200:
  *         description: Món đã được thêm vào hóa đơn
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   description: Kết quả của yêu cầu
- *                 data:
- *                   $ref: '#/components/schemas/HoaDon'
  *       400:
  *         description: Lỗi khi thêm món vào hóa đơn
- */ 
+ */
 
 
 router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)

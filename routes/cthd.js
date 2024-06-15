@@ -4,6 +4,17 @@ const verify_token = require('../middlewares/verify_token')
 
 const router = express.Router();
 
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 // schema for ChiTietHoaDon
 /**
  * @swagger
@@ -30,31 +41,34 @@ const router = express.Router();
  *           description: Thời gian
  */
 
-// schema for ChiTietHoaDon cap nhat danh sach cthd
+// schema for ChiTietHoaDon cap nhat danh sach cthd, thêm required auth header
 /**
  * @swagger
- * components:
- *   schemas:
- *     ChiTietHoaDonCapNhat:
- *       type: object
- *       properties:
- *         id_cthd:
- *           type: integer
- *           description: Mã chi tiết hóa đơn
- *         so_luong:
- *           type: integer
- *           description: Số lượng
- *         thanh_tien:
- *           type: number
- *           description: Thành tiền
+ * /cthd:
+ *   get:
+ *     summary: Lấy danh sách chi tiết hóa đơn
+ *     tags: [ChiTietHoaDon]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Danh sách chi tiết hóa đơn
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ChiTietHoaDon'
  */
-// swagger cho api xoa-danh-sach-cthd
+// swagger cho api xoa-danh-sach-cthd, thêm required auth header
 /**
  * @swagger
  * /cthd/xoa-danh-sach-cthd:
  *   post:
  *     summary: Xóa danh sách chi tiết hóa đơn
  *     tags: [ChiTietHoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -62,12 +76,10 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               danhSachId:
+ *               danhSachIdCTHD:
  *                 type: array
  *                 items:
  *                   type: integer
- *               idHoaDon:
- *                 type: integer
  *     responses:
  *       200:
  *         description: Xóa thành công
@@ -77,13 +89,15 @@ const router = express.Router();
  *         description: Lỗi server
  */
 
-// swagger cho api cap-nhat-id-hoa-don
+// swagger cho api cap-nhat-id-hoa-don thêm required auth header
 /**
  * @swagger
  * /cthd/cap-nhat-id-hoa-don:
  *   post:
  *     summary: Cập nhật id hóa đơn
  *     tags: [ChiTietHoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -91,8 +105,6 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               idCTHD:
- *                 type: integer
  *               idHoaDon:
  *                 type: integer
  *     responses:
@@ -103,13 +115,15 @@ const router = express.Router();
  *       500:
  *         description: Lỗi server
  */
-// swagger cho api cap-nhat-danh-sach-cthd
+// swagger cho api cap-nhat-danh-sach-cthd thêm required auth header
 /**
  * @swagger
  * /cthd/cap-nhat-danh-sach-cthd:
  *   post:
  *     summary: Cập nhật danh sách chi tiết hóa đơn
  *     tags: [ChiTietHoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -120,9 +134,7 @@ const router = express.Router();
  *               danhSachCTHD:
  *                 type: array
  *                 items:
- *                   $ref: '#/components/schemas/ChiTietHoaDonCapNhat'
- *               idHoaDon:
- *                 type: integer
+ *                   $ref: '#/components/schemas/ChiTietHoaDon'
  *     responses:
  *       200:
  *         description: Cập nhật thành công

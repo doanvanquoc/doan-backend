@@ -4,6 +4,16 @@ const verify_token = require('../middlewares/verify_token')
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 // schema for HoaDon
 /**
  * @swagger
@@ -75,25 +85,35 @@ const router = express.Router()
  *          description: Đơn vị tính
  */
 
-// GET all hoa_don
+// GET all hoa_don thêm required auth header
 /**
  * @swagger
  * /hoa-don:
  *   get:
- *     summary: Get all hoa_don
+ *     summary: Lấy danh sách hóa đơn
  *     tags: [HoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Success
+ *         description: Danh sách hóa đơn
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/HoaDon'
  */
 
-// swagger cho router cap nhat ban trong hoa don
+// swagger cho router cap nhat ban trong hoa don thêm required auth header
 /**
  * @swagger
  * /hoa-don/cap-nhat-ban:
  *   post:
  *     summary: Cập nhật bàn trong hóa đơn
  *     tags: [HoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -110,15 +130,17 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: Success
- */ 
+ */
 
-// swagger cho router cap nhat trang thai
+// swagger cho router cap nhat trang thai thêm required auth header
 /**
  * @swagger
  * /hoa-don/cap-nhat-trang-thai:
  *   post:
  *     summary: Cập nhật trạng thái hóa đơn
  *     tags: [HoaDon]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
