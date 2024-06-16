@@ -62,8 +62,30 @@ const dangNhapBangKhuonMat = (tai_khoan) => new Promise(async (resolve, reject) 
   }
 });
 
+const layLichSuDatMon = (user) => new Promise(async (resolve, reject) => {
+  try {
+    const lichSuDatMon = await db.HoaDon.findAll({
+      include: [
+        {
+          model: db.ChiTietHoaDon,
+          as: 'chi_tiet_hoa_don',
+          where: { tai_khoan: user.tai_khoan },
+          include: { model: db.MonAn, as: 'mon_an', attributes: { exclude: ['id_mon_an'] } },
+          attributes: { exclude: ['id_hoa_don', 'id_mon_an'] }
+        },
+        { model: db.Ban, as: 'ban', attributes: { exclude: ['id_ban'] } },
+        { model: db.PhuongThucThanhToan, as: 'phuong_thuc', attributes: { exclude: ['id_phuong_thuc_thanh_toan'] } }
+      ],
+    })
+    resolve({ success: true, message: 'Lấy lịch sử đặt món thành công', data: lichSuDatMon });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+})
+
 module.exports = {
   login: dangNhap,
   register: dangKy,
-  dangNhapBangKhuonMat
+  dangNhapBangKhuonMat,
+  layLichSuDatMon
 }

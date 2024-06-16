@@ -42,8 +42,19 @@ const dangNhapBangKhuonMat = async (req, res) => {
   }
 }
 
+const layLichSuDatMon = async (req, res) => {
+  const { user } = req;
+  try {
+    const result = await service.layLichSuDatMon(user);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   register,
   login,
-  dangNhapBangKhuonMat
+  dangNhapBangKhuonMat,
+  layLichSuDatMon
 }
