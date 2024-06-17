@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/chi_tiet_ca_lam_viec');
+const controller = require('../controllers/ca_lam_viec');
 const verify_token = require('../middlewares/verify_token');
 
 // schema swagger chi tiết ca làm việc
@@ -40,7 +40,7 @@ const verify_token = require('../middlewares/verify_token');
  * /mo-ca:
  *   post:
  *     tags:
- *       - Chi tiết ca làm việc
+ *       - Ca Làm Việc
  *     security:
  *       - BearerAuth: []
  *     summary: Mở ca làm việc
@@ -60,6 +60,25 @@ const verify_token = require('../middlewares/verify_token');
  *         description: Unauthorized
  */
 
+// swagger cho route lay-danh-sach-ca
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     tags:
+ *       - Ca Làm Việc
+ *     summary: Lấy danh sách ca làm việc
+ *     description: Lấy danh sách ca làm việc
+ *     responses:
+ *       200:
+ *         description: Lấy danh sách ca làm việc thành công
+ *       400:
+ *         description: Lấy danh sách ca làm việc thất bại
+ *       401:
+ *         description: Unauthorized
+ */
+
 router.post('/mo-ca', verify_token, controller.moCa);
+router.get('/', verify_token, controller.layDanhSachCa);
 
 module.exports = router;

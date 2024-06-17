@@ -23,7 +23,7 @@ const ban = require('./routes/ban')
 const khuVuc = require('./routes/khu_vuc')
 const hoadon = require('./routes/hoa_don')
 const cthd = require('./routes/cthd')
-const caLamViec = require('./routes/chi_tiet_ca_lam_viec')  
+const caLamViec = require('./routes/ca_lam_viec')  
 
 setupSwagger(app);
 

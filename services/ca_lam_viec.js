@@ -14,6 +14,20 @@ const moCa = (chiTietCa, user) => new Promise(async (resolve, reject) => {
   }
 });
 
+const layDanhSachCa = () => new Promise(async (resolve, reject) => {
+  try {
+    const res = await db.CaLamViec.findAll();
+    if (res) {
+      resolve({ success: true, data: res });
+    } else {
+      resolve({ success: false, message: 'Không có ca nào' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
-  moCa
+  moCa,
+  layDanhSachCa
 };
