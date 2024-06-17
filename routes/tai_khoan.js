@@ -88,9 +88,37 @@ const router = express.Router()
  *         description: Lấy lịch sử đặt món thất bại
  */
 
+// swagger cho doi-mat-khau
+/**
+ * @swagger
+ * /tai-khoan/doi-mat-khau:
+ *   post:
+ *     summary: Đổi mật khẩu
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               mat_khau_cu:
+ *                 type: string
+ *               mat_khau_moi:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Đổi mật khẩu thành công
+ *       400:
+ *         description: Đổi mật khẩu thất bại
+ */ 
+
 router.post('/dang-ky', controller.register)
 router.post('/dang-nhap', controller.login)
 router.post('/dang-nhap-bang-khuon-mat', controller.dangNhapBangKhuonMat)
 router.get('/lich-su-dat-mon', verify_token, controller.layLichSuDatMon)
+router.post('/doi-mat-khau', verify_token, controller.doiMatKhau)
 
 module.exports = router

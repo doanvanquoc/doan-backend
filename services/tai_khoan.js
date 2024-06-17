@@ -83,9 +83,35 @@ const layLichSuDatMon = (user) => new Promise(async (resolve, reject) => {
   }
 })
 
+const doiMatKhau = (tai_khoan, mat_khau_cu, mat_khau_moi) => new Promise(async (resolve, reject) => {
+  try {
+    const account = await db.TaiKhoan.findOne({ where: { tai_khoan } });
+    if (!account) {
+      reject({ success: false, message: 'Tài khoản không tồn tại' });
+    } else {
+      // const isMatch = bcrypt.compareSync(mat_khau_cu, account.mat_khau);
+      const isMatch = mat_khau_cu === account.mat_khau;
+      if (isMatch) {
+        // const res = await db.TaiKhoan.update({ mat_khau: hashPassword(mat_khau_moi) }, { where: { tai_khoan } });
+        const res = await db.TaiKhoan.update({ mat_khau: mat_khau_moi }, { where: { tai_khoan } });
+        if (res) {
+          resolve({ success: true, message: 'Đổi mật khẩu thành công' });
+        } else {
+          resolve({ success: false, message: 'Đổi mật khẩu thất bại' });
+        }
+      } else {
+        resolve({ success: false, message: 'Mật khẩu cũ không đúng' });
+      }
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   login: dangNhap,
   register: dangKy,
   dangNhapBangKhuonMat,
-  layLichSuDatMon
+  layLichSuDatMon,
+  doiMatKhau
 }

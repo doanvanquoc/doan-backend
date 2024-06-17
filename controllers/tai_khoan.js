@@ -52,9 +52,25 @@ const layLichSuDatMon = async (req, res) => {
   }
 }
 
+const doiMatKhau = async (req, res) => {
+  const { user } = req;
+  const { mat_khau_cu, mat_khau_moi } = req.body;
+  if (!mat_khau_cu || !mat_khau_moi) {
+    res.status(400).json({ success: false, message: 'Thiếu thông tin mật khẩu' });
+    return;
+  }
+  try {
+    const result = await service.doiMatKhau(user.tai_khoan, mat_khau_cu, mat_khau_moi);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   dangNhapBangKhuonMat,
-  layLichSuDatMon
+  layLichSuDatMon,
+  doiMatKhau
 }

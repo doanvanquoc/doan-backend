@@ -23,6 +23,7 @@ const ban = require('./routes/ban')
 const khuVuc = require('./routes/khu_vuc')
 const hoadon = require('./routes/hoa_don')
 const cthd = require('./routes/cthd')
+const caLamViec = require('./routes/chi_tiet_ca_lam_viec')  
 
 setupSwagger(app);
 
@@ -39,6 +40,7 @@ app.use('/ban', ban)
 app.use('/khu-vuc', khuVuc)
 app.use('/hoa-don', hoadon)
 app.use('/cthd', cthd)
+app.use('/ca-lam-viec', caLamViec)
 
 server.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)
