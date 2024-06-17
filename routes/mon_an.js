@@ -201,6 +201,35 @@ const router = express.Router()
  *         description: Lỗi khi thêm món vào hóa đơn
  */
 
+//swagger cho route cap-nhat-trang-thai
+/**
+ * @swagger
+ * /mon-an/cap-nhat-trang-thai:
+ *   post:
+ *     summary: Cập nhật trạng thái món ăn
+ *     tags: [MonAn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idMonAn:
+ *                 type: integer
+ *                 description: Mã món ăn
+ *               trangThai:
+ *                 type: integer
+ *                 description: Trạng thái
+ *     responses:
+ *       200:
+ *         description: Cập nhật trạng thái món ăn thành công
+ *       400:
+ *         description: Lỗi khi cập nhật trạng thái món ăn
+ */
+
 
 
 
@@ -210,5 +239,6 @@ router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)
 router.get('/:id', verify_token, controller.layMonAnTheoDanhMuc)
 router.post('/dat-mon', verify_token, controller.datMon)
 router.post('/them-mon-vao-hoa-don-da-co', verify_token, controller.themMonVaoHoaDonDaCo)
+router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiMonAn)
 
 module.exports = router

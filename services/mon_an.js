@@ -1,5 +1,5 @@
 const db = require('../models');
-
+const io = require('../config/socket').getSocketIO();
 const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
   try {
     const monAn = await db.MonAn.findAll({
@@ -150,9 +150,27 @@ const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Pr
   }
 });
 
+const capNhatTrangThaiMonAn = (trangThai, idMonAn) => new Promise(async (resolve, reject) => {
+  try {
+    const monAn = await db.MonAn.findOne({ where: { id_mon_an: idMonAn } });
+    if (monAn) {
+      console.log('co mon an');
+      await db.MonAn.update({ trang_thai: trangThai }, { where: { id_mon_an: idMonAn } });
+      resolve({ success: true, message: 'Cập nhật trạng thái món ăn thành công' });
+      io.emit('cap-nhat-trang-thai-mon-an', { idMonAn, trangThai })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy món ăn' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+})
+
 module.exports = {
   layDanhSachMonAn,
   layMonAnTheoDanhMuc,
   datMon,
-  themMonVaoHoaDonDaCo
+  themMonVaoHoaDonDaCo,
+  capNhatTrangThaiMonAn
 }

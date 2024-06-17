@@ -48,9 +48,24 @@ const themMonVaoHoaDonDaCo = async (req, res) => {
   }
 }
 
+const capNhatTrangThaiMonAn = async (req, res) => {
+  try {
+    const {idMonAn, trangThai} = req.body
+    if (!idMonAn || (trangThai != 0 && !trangThai)) {
+      return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
+    }
+    const result = await monAnService.capNhatTrangThaiMonAn(trangThai, idMonAn);
+    console.log('result', result);
+    res.json(result);
+  } catch (error) {
+    res.json(error)
+  }
+}
+
 module.exports = {
   layDanhSachMonAn,
   layMonAnTheoDanhMuc,
   datMon,
-  themMonVaoHoaDonDaCo
+  themMonVaoHoaDonDaCo,
+  capNhatTrangThaiMonAn
 }

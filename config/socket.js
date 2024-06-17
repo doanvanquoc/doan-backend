@@ -16,7 +16,6 @@ const initializeSocket = (server) => {
     socket.on('disconnect', () => {
       console.log('Ngắt kết nối từ client');
     });
-
   });
 };
 

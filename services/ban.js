@@ -1,5 +1,4 @@
 const db = require('../models');
-
 const layDanhSachBan = () => new Promise(async (resolve, reject) => {
   try {
     const ban = await db.Ban.findAll();
