@@ -37,7 +37,7 @@ const verify_token = require('../middlewares/verify_token');
 // swagger cho route mo-ca
 /**
  * @swagger
- * /mo-ca:
+ * /ca-lam-viec/mo-ca:
  *   post:
  *     tags:
  *       - Ca Làm Việc
@@ -63,7 +63,7 @@ const verify_token = require('../middlewares/verify_token');
 // swagger cho route lay-danh-sach-ca
 /**
  * @swagger
- * /:
+ * /ca-lam-viec:
  *   get:
  *     tags:
  *       - Ca Làm Việc
@@ -78,7 +78,7 @@ const verify_token = require('../middlewares/verify_token');
  *         description: Unauthorized
  */
 
-router.post('/mo-ca', verify_token, controller.moCa);
 router.get('/', verify_token, controller.layDanhSachCa);
+router.post('/mo-ca', verify_token, controller.moCa);
 
 module.exports = router;
