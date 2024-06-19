@@ -28,6 +28,9 @@ const router = express.Router()
  *         ten_ban:
  *           type: string
  *           description: Tên bàn
+ *         trang_thai:
+ *           type: int
+ *           desciption: Trang thái của bàn
  */
 
 //swagger cho api lấy danh sách bàn theo khu vực, thêm require header Authorization
@@ -77,8 +80,38 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/Ban'
  */
 
+// swagger cho api cap-nhat-trang-thai, thêm require header Authorization
+/**
+ * @swagger
+ * /ban/cap-nhat-trang-thai:
+ *   post:
+ *     summary: Cập nhật trạng thái bàn
+ *     tags: [Ban]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idBan:
+ *                 type: integer
+ *                 description: Mã bàn
+ *               trangThai:
+ *                 type: integer
+ *                 description: Trạng thái bàn
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Cập nhật thất bại
+ */
+
 
 router.get('/:id_khu_vuc', verify_token, controller.layBanTheoKhuVuc)
 router.get('/', verify_token, controller.layDanhSachBan)
+router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
 
 module.exports = router

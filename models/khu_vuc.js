@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     ten_khu_vuc: DataTypes.STRING,
+    trang_thai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    }
   }, {
     timestamps: false,
     sequelize,

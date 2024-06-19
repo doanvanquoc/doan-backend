@@ -1,5 +1,6 @@
 const db = require('../models');
 const io = require('../config/socket').getSocketIO();
+const banService = require('./ban');
 const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
   try {
     const monAn = await db.MonAn.findAll({
@@ -88,7 +89,7 @@ const datMon = (hoaDon, danhSachChiTietHoaDon, user) => new Promise(async (resol
           
         ]
       });
-      console.log("3");
+      await banService.capNhatTrangThaiBan(hoaDonMoi.id_ban, 1);
       resolve({ success: true, data: thongTinHoaDon });
     }
     else {
@@ -108,7 +109,7 @@ const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Pr
         await db.ChiTietHoaDon.create(chiTietHoaDon);
       }));
 
-      //tinh lai tong tien
+      
       const tongTien = await db.ChiTietHoaDon.sum('thanh_tien', { where: { id_hoa_don } });
       await db.HoaDon.update({ tong_tien: tongTien }, { where: { id_hoa_don } });
       const thongTinHoaDon = await db.HoaDon.findOne({
@@ -140,6 +141,7 @@ const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Pr
           
         ]
       });
+      
       resolve({ success: true, data: thongTinHoaDon });
     }
     else {
@@ -158,6 +160,7 @@ const capNhatTrangThaiMonAn = (trangThai, idMonAn) => new Promise(async (resolve
       await db.MonAn.update({ trang_thai: trangThai }, { where: { id_mon_an: idMonAn } });
       resolve({ success: true, message: 'Cập nhật trạng thái món ăn thành công' });
       io.emit('cap-nhat-trang-thai-mon-an', { idMonAn, trangThai })
+      console.log('emitted');
     }
     else {
       resolve({ success: false, message: 'Không tìm thấy món ăn' });

@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 1
     },
+    tinh_trang: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
     hinh_anh: DataTypes.STRING
   }, {
     timestamps: false,

@@ -50,6 +50,36 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/KhuVuc'
  */
 
+//swagger cho api cập nhật trạng thái khu vực thêm required auth header
+/**
+ * @swagger
+ * /khu-vuc/cap-nhat-trang-thai:
+ *   post:
+ *     summary: Cập nhật trạng thái khu vực
+ *     tags: [KhuVuc]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idKhuVuc:
+ *                 type: integer
+ *                 description: Mã khu vực
+ *               trangThai:
+ *                 type: integer
+ *                 description: Tình trạng
+ *     responses:
+ *       200:
+ *         description: Cập nhật trạng thái khu vực thành công
+ *       400:
+ *         description: Lỗi khi cập nhật trạng thái khu vực
+ */
+
 router.get('/', verify_token, controller.layDanhSachKhuVuc)
+router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiKhuVuc)
 
 module.exports = router

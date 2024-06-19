@@ -37,8 +37,6 @@ const router = express.Router()
  *           type: string
  *           format: time
  *           description: Giờ ra
- *         ban:
- *           type: string
  *         id_ban:
  *           type: integer
  *           description: Bàn
@@ -54,9 +52,6 @@ const router = express.Router()
  *         id_mon_an:
  *           type: integer
  *           description: Mã món ăn
- *         id_hoa_don:
- *           type: integer
- *           description: Mã hóa đơn
  *         so_luong:
  *           type: integer
  *           description: Số lượng
@@ -87,6 +82,9 @@ const router = express.Router()
  *         trang_thai:
  *          type: integer
  *          description: Trạng thái
+ *         tinh_trang:
+ *          type: integer
+ *          description: Tình trạng
  * 
  */
 

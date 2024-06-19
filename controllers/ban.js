@@ -22,4 +22,18 @@ const layBanTheoKhuVuc = async (req, res) => {
   }
 }
 
-module.exports = {layDanhSachBan, layBanTheoKhuVuc}
+const capNhatTrangThaiBan = async (req, res) => {
+  try {
+    const {idBan, trangThai} = req.body
+    if (!idBan) {
+      return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
+
+    }
+    const result = await service.capNhatTrangThaiBan(idBan, trangThai)
+    res.json(result)
+  } catch (error) {
+    res.json(error)
+  }
+}
+
+module.exports = {layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan}

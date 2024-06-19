@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     ten_ban: DataTypes.STRING,
     id_khu_vuc: DataTypes.INTEGER,
+    trang_thai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   }, {
     timestamps: false,
     sequelize,

@@ -1,4 +1,5 @@
 const db = require('../models');
+const io = require('../config/socket').getSocketIO();
 const layDanhSachBan = () => new Promise(async (resolve, reject) => {
   try {
     const ban = await db.Ban.findAll();
@@ -24,4 +25,21 @@ const layBanTheoKhuVuc = (id_khu_vuc) => new Promise(async (resolve, reject) => 
   }
 });
 
-module.exports = { layDanhSachBan, layBanTheoKhuVuc }
+const capNhatTrangThaiBan = (idBan, trangThai) => new Promise(async (resolve, reject) => {
+  try {
+    const ban = await db.Ban.findOne({ where: { id_ban: idBan } })
+    if (ban) {
+      await db.Ban.update({ trang_thai: trangThai }, { where: { id_ban: idBan } })
+      io.emit('cap-nhat-trang-thai-ban', { idBan, trangThai })
+      console.log('emitted');
+      resolve({ success: true, message: 'Cập nhật trạng thái bàn thành công' })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy bàn' })
+    }
+  } catch (error) {
+    reject({ success: false, message: error })
+  }
+})
+
+module.exports = { layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan }
