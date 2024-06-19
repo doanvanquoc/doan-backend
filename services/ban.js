@@ -2,7 +2,15 @@ const db = require('../models');
 const io = require('../config/socket').getSocketIO();
 const layDanhSachBan = () => new Promise(async (resolve, reject) => {
   try {
-    const ban = await db.Ban.findAll();
+    const ban = await db.Ban.findAll({
+      include: [
+        {
+          model: db.KhuVuc,
+          as: 'khu_vuc'
+        }
+      ]
+    
+    });
     resolve({ success: true, data: ban });
   } catch (error) {
     reject({ success: false, message: error.message });
