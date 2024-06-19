@@ -229,11 +229,47 @@ const router = express.Router()
  */
 
 
+// swagger cho route phan-trang them require auth header schema
+/**
+ * @swagger
+ * /mon-an/phan-trang:
+ *   get:
+ *     summary: Lấy danh sách món ăn phân trang
+ *     tags: [MonAn]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: true
+ *         description: Số trang
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         required: true
+ *         description: Số lượng món ăn trong 1 trang
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Danh sách món ăn phân trang
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/MonAn'
+ *       400:
+ *         description: Lỗi khi lấy danh sách món ăn phân trang
+ */
+
 
 
 
 
 router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)
+router.get('/phan-trang', verify_token, controller.layDanhSachMonAnPhanTrang)
 router.get('/:id', verify_token, controller.layMonAnTheoDanhMuc)
 router.post('/dat-mon', verify_token, controller.datMon)
 router.post('/them-mon-vao-hoa-don-da-co', verify_token, controller.themMonVaoHoaDonDaCo)

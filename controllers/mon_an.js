@@ -1,8 +1,12 @@
 const monAnService = require('../services/mon_an');
 
-const layDanhSachMonAn = async (req, res) => {
+const layDanhSachMonAnPhanTrang = async (req, res) => {
   try {
-    const result = await monAnService.layDanhSachMonAn();
+    const { page, limit } = req.query;
+    if ((page != 0 && !page) || (limit != 0 && !limit)) {
+      return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
+    }
+    const result = await monAnService.layDanhSachMonAnPhanTrang(page, limit);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);
@@ -35,6 +39,15 @@ const datMon = async (req, res) => {
   }
 }
 
+const layDanhSachMonAn = async (req, res) => {  
+  try {
+    const result = await monAnService.layDanhSachMonAn();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+} 
+
 const themMonVaoHoaDonDaCo = async (req, res) => {
   try {
     const {id_hoa_don, danhSachChiTietHoaDon} = req.body
@@ -63,8 +76,9 @@ const capNhatTrangThaiMonAn = async (req, res) => {
 }
 
 module.exports = {
-  layDanhSachMonAn,
+  layDanhSachMonAnPhanTrang,
   layMonAnTheoDanhMuc,
+  layDanhSachMonAn,
   datMon,
   themMonVaoHoaDonDaCo,
   capNhatTrangThaiMonAn

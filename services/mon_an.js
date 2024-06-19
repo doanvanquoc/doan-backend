@@ -1,22 +1,36 @@
 const db = require('../models');
 const io = require('../config/socket').getSocketIO();
 const banService = require('./ban');
-const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
+const layDanhSachMonAnPhanTrang = (page, limit) => new Promise(async (resolve, reject) => {
   try {
-    const monAn = await db.MonAn.findAll({
+    page = parseInt(page, 10) || 1;
+    limit = parseInt(limit, 10) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: monAn } = await db.MonAn.findAndCountAll({
       include: [
         {
           model: db.DanhMucMonAn,
           as: 'danh_muc',
           attributes: ['id_danh_muc', 'ten_danh_muc']
         },
-      ]
+      ],
+      limit: limit,
+      offset: offset,
     });
-    resolve({ success: true, data: monAn });
+
+    resolve({
+      success: true,
+      data: monAn,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    });
   } catch (error) {
     reject({ success: false, message: error.message });
   }
 });
+
 
 const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) => {
   try {
@@ -31,6 +45,28 @@ const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) =
           model: db.HinhAnhMonAn,
           as: 'hinh_anh',
           attributes: ['id_hinh_anh', 'duong_dan']
+        }
+      ]
+    });
+    if (monAn && monAn.length > 0) {
+      resolve({ success: true, data: monAn });
+    }
+    else {
+      reject({ success: false, message: 'Không tìm thấy món ăn' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
+  try {
+    const monAn = await db.MonAn.findAll({
+      include: [
+        {
+          model: db.DanhMucMonAn,
+          as: 'danh_muc',
+          attributes: ['id_danh_muc', 'ten_danh_muc']
         }
       ]
     });
@@ -171,6 +207,7 @@ const capNhatTrangThaiMonAn = (trangThai, idMonAn) => new Promise(async (resolve
 })
 
 module.exports = {
+  layDanhSachMonAnPhanTrang,
   layDanhSachMonAn,
   layMonAnTheoDanhMuc,
   datMon,
