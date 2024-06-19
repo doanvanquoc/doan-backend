@@ -6,7 +6,10 @@ const layDanhSachBan = () => new Promise(async (resolve, reject) => {
       include: [
         {
           model: db.KhuVuc,
-          as: 'khu_vuc'
+          as: 'khu_vuc',
+          where: {
+            trang_thai: 1
+          }
         }
       ]
     

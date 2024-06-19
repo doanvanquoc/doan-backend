@@ -120,5 +120,6 @@ router.post('/dang-nhap', controller.login)
 router.post('/dang-nhap-bang-khuon-mat', controller.dangNhapBangKhuonMat)
 router.get('/lich-su-dat-mon', verify_token, controller.layLichSuDatMon)
 router.post('/doi-mat-khau', verify_token, controller.doiMatKhau)
+router.post('/dang-nhap-admin', controller.dangNhapAdmin)
 
 module.exports = router

@@ -67,10 +67,25 @@ const doiMatKhau = async (req, res) => {
   }
 }
 
+const dangNhapAdmin = async (req, res) => {
+  const { tai_khoan, mat_khau } = req.body;
+  if (!tai_khoan || !mat_khau) {
+    res.status(400).json({ success: false, message: 'Thiếu thông tin đăng nhập' });
+    return;
+  }
+  try {
+    const result = await service.dangNhapAdmin(tai_khoan, mat_khau);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   dangNhapBangKhuonMat,
   layLichSuDatMon,
-  doiMatKhau
+  doiMatKhau,
+  dangNhapAdmin
 }

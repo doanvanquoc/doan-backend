@@ -108,10 +108,42 @@ const doiMatKhau = (tai_khoan, mat_khau_cu, mat_khau_moi) => new Promise(async (
   }
 });
 
+const dangNhapAdmin = (tai_khoan, mat_khau) => new Promise(async (resolve, reject) => {
+  try {
+    const account = await db.TaiKhoan.findOne({ where: { tai_khoan } });
+    if (!account) {
+      reject({ success: false, message: 'Tài khoản không tồn tại' });
+    } else {
+      const isMatch = mat_khau === account.mat_khau;
+      const taiKhoan = await db.TaiKhoan.findOne({
+        where: { tai_khoan }, include: {
+          model: db.ChucVu, as: 'chuc_vu', where: {
+            id_chuc_vu: 1
+          }, attributes: { exclude: ['id_chuc_vu'] }
+        }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] }
+      });
+      if (isMatch) {
+        if (taiKhoan) {
+          const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
+          resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan, token });
+        }
+        else {
+          resolve({ success: false, message: 'Tài khoản không phải admin' });
+        }
+      } else {
+        resolve({ success: false, message: 'Mật khẩu không đúng' });
+      }
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   login: dangNhap,
   register: dangKy,
   dangNhapBangKhuonMat,
   layLichSuDatMon,
-  doiMatKhau
+  doiMatKhau,
+  dangNhapAdmin
 }
