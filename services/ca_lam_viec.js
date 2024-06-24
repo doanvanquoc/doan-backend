@@ -27,7 +27,30 @@ const layDanhSachCa = () => new Promise(async (resolve, reject) => {
   }
 });
 
+const layDanhSachChiTietCa = () => new Promise(async (resolve, reject) => {
+  try {
+    const res = await db.ChiTietCaLamViec.findAll({
+      include: [
+        {
+          model: db.CaLamViec,
+          as: 'ca_lam_viec',
+        }
+      ],
+      attributes: { exclude: ['id_ca'] }
+
+    });
+    if (res) {
+      resolve({ success: true, data: res });
+    } else {
+      resolve({ success: false, message: 'Không có chi tiết ca nào' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   moCa,
-  layDanhSachCa
+  layDanhSachCa,
+  layDanhSachChiTietCa
 };

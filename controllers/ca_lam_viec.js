@@ -18,7 +18,17 @@ const layDanhSachCa = async (req, res) => {
   }
 }
 
+const layDanhSachChiTietCa = async (req, res) => {
+  try {
+    const result = await service.layDanhSachChiTietCa();
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   moCa,
-  layDanhSachCa
+  layDanhSachCa,
+  layDanhSachChiTietCa
 };
