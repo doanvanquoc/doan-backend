@@ -94,7 +94,7 @@ const router = express.Router()
  * /mon-an/dat-mon:
  *   post:
  *     summary: Đặt món
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -124,7 +124,7 @@ const router = express.Router()
  * /mon-an/tat-ca:
  *   get:
  *     summary: Lấy danh sách món ăn
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -146,7 +146,7 @@ const router = express.Router()
  * /mon-an/{id}:
  *   get:
  *     summary: Lấy danh sách món ăn theo danh mục
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     parameters:
  *       - in: path
  *         name: id
@@ -175,7 +175,7 @@ const router = express.Router()
  * /mon-an/them-mon-vao-hoa-don-da-co:
  *   post:
  *     summary: Thêm món vào hóa đơn đã có
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -205,7 +205,7 @@ const router = express.Router()
  * /mon-an/cap-nhat-trang-thai:
  *   post:
  *     summary: Cập nhật trạng thái món ăn
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -235,7 +235,7 @@ const router = express.Router()
  * /mon-an/phan-trang:
  *   get:
  *     summary: Lấy danh sách món ăn phân trang
- *     tags: [MonAn]
+ *     tags: [Món Ăn]
  *     security:
  *       - BearerAuth: []
  *     parameters:

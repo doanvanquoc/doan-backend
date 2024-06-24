@@ -91,7 +91,7 @@ const router = express.Router()
  * /hoa-don:
  *   get:
  *     summary: Lấy danh sách hóa đơn
- *     tags: [HoaDon]
+ *     tags: [Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -111,7 +111,7 @@ const router = express.Router()
  * /hoa-don/cap-nhat-ban:
  *   post:
  *     summary: Cập nhật bàn trong hóa đơn
- *     tags: [HoaDon]
+ *     tags: [Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -138,7 +138,7 @@ const router = express.Router()
  * /hoa-don/cap-nhat-trang-thai:
  *   post:
  *     summary: Cập nhật trạng thái hóa đơn
- *     tags: [HoaDon]
+ *     tags: [Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:

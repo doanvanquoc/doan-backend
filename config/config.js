@@ -6,7 +6,8 @@ let config = {
     database: dotenv.DB_NAME,
     host: dotenv.DB_HOST,
     port: dotenv.DB_PORT,
-    dialect: dotenv.DB_DIALECT
+    dialect: dotenv.DB_DIALECT,
+    timezone: '+07:00',
 };
 
 module.exports = {

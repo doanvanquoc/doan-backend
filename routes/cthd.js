@@ -47,7 +47,7 @@ const router = express.Router();
  * /cthd:
  *   get:
  *     summary: Lấy danh sách chi tiết hóa đơn
- *     tags: [ChiTietHoaDon]
+ *     tags: [Chi Tiết Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -66,7 +66,7 @@ const router = express.Router();
  * /cthd/xoa-danh-sach-cthd:
  *   post:
  *     summary: Xóa danh sách chi tiết hóa đơn
- *     tags: [ChiTietHoaDon]
+ *     tags: [Chi Tiết Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -95,7 +95,7 @@ const router = express.Router();
  * /cthd/cap-nhat-id-hoa-don:
  *   post:
  *     summary: Cập nhật id hóa đơn
- *     tags: [ChiTietHoaDon]
+ *     tags: [Chi Tiết Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -121,7 +121,7 @@ const router = express.Router();
  * /cthd/cap-nhat-danh-sach-cthd:
  *   post:
  *     summary: Cập nhật danh sách chi tiết hóa đơn
- *     tags: [ChiTietHoaDon]
+ *     tags: [Chi Tiết Hóa Đơn]
  *     security:
  *       - BearerAuth: []
  *     requestBody:

@@ -3,8 +3,6 @@ const db = require('../models')
 const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
     // Log the inputs
-    console.log('danhSachId:', danhSachId);
-    console.log('idHoaDon:', idHoaDon);
 
     // Destroy each cthd in danhSachId array where idHoaDon = idHoaDon
     for (let i = 0; i < danhSachId.length; i++) {
@@ -16,11 +14,9 @@ const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, re
       });
 
       // Log the result of each destroy operation
-      console.log(`Deleted id_cthd: ${danhSachId[i]}, affected rows: ${result}`);
     }
 
     // Log success message
-    console.log('Xóa thành công');
 
     resolve({ success: true, message: 'Xóa thành công' });
   } catch (error) {
@@ -54,7 +50,6 @@ const capNhatIdHoaDon = (idCTHD, idHoaDon) => new Promise(async (resolve, reject
 
 const capNhatDanhSachCTHD = (danhSachCTHD, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
-    console.log('danhSachCTHD:', danhSachCTHD);
     let tongTien = 0;
 
     for (let i = 0; i < danhSachCTHD.length; i++) {

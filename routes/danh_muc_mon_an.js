@@ -36,7 +36,7 @@ const router = express.Router()
  * /danh-muc-mon-an:
  *   get:
  *     summary: Lấy danh sách danh mục món ăn
- *     tags: [DanhMucMonAn]
+ *     tags: [Nhóm Món]
  *     security:
  *       - BearerAuth: []
  *     responses:

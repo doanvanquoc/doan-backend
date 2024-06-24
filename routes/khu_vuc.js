@@ -36,7 +36,7 @@ const router = express.Router()
  * /khu-vuc:
  *   get:
  *     summary: Lấy danh sách khu vực
- *     tags: [KhuVuc]
+ *     tags: [Khu Vực]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -56,7 +56,7 @@ const router = express.Router()
  * /khu-vuc/cap-nhat-trang-thai:
  *   post:
  *     summary: Cập nhật trạng thái khu vực
- *     tags: [KhuVuc]
+ *     tags: [Khu Vực]
  *     security:
  *       - BearerAuth: []
  *     requestBody:

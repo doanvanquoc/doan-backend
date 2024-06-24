@@ -37,7 +37,7 @@ const router = express.Router();
  * /chuc-vu:
  *   get:
  *     summary: Lấy danh sách chức vụ
- *     tags: [ChucVu]
+ *     tags: [Chức Vụ]
  *     security:
  *       - BearerAuth: []
  *     responses:

@@ -68,7 +68,6 @@ const capNhatTrangThaiMonAn = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
     const result = await monAnService.capNhatTrangThaiMonAn(trangThai, idMonAn);
-    console.log('result', result);
     res.json(result);
   } catch (error) {
     res.json(error)

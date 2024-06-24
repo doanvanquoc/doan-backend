@@ -42,7 +42,6 @@ const capNhatTrangThaiBan = (idBan, trangThai) => new Promise(async (resolve, re
     if (ban) {
       await db.Ban.update({ trang_thai: trangThai }, { where: { id_ban: idBan } })
       io.emit('cap-nhat-trang-thai-ban', { idBan, trangThai })
-      console.log('emitted');
       resolve({ success: true, message: 'Cập nhật trạng thái bàn thành công' })
     }
     else {

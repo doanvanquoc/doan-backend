@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
     req.user = user.taiKhoan;
-    console.log('user verify: ', user.taiKhoan)
     next();
   } catch (error) {
     return res.status(401).json({ success: false, message: 'Kết nối bị từ chối. Token không hợp lệ hoặc đã hết hạn' });

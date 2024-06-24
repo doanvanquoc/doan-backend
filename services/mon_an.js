@@ -83,7 +83,6 @@ const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
 
 const datMon = (hoaDon, danhSachChiTietHoaDon, user) => new Promise(async (resolve, reject) => {
   try {
-    console.log(user);
     const hoaDonMoi = await db.HoaDon.create(hoaDon);
     if (hoaDonMoi) {
       await Promise.all(danhSachChiTietHoaDon.map(async (chiTietHoaDon) => {
@@ -192,11 +191,9 @@ const capNhatTrangThaiMonAn = (trangThai, idMonAn) => new Promise(async (resolve
   try {
     const monAn = await db.MonAn.findOne({ where: { id_mon_an: idMonAn } });
     if (monAn) {
-      console.log('co mon an');
       await db.MonAn.update({ trang_thai: trangThai }, { where: { id_mon_an: idMonAn } });
       resolve({ success: true, message: 'Cập nhật trạng thái món ăn thành công' });
       io.emit('cap-nhat-trang-thai-mon-an', { idMonAn, trangThai })
-      console.log('emitted');
     }
     else {
       resolve({ success: false, message: 'Không tìm thấy món ăn' });
