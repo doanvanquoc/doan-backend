@@ -5,7 +5,7 @@ const layDanhSachHoaDon = async (req, res) => {
     const result = await service.layDanhSachHoaDon();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 
@@ -18,7 +18,7 @@ const capNhatBanTrongHoaDon = async (req, res) => {
     const result = await service.capNhatBanTrongHoaDon(idHoaDon, idBan);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 
@@ -31,7 +31,7 @@ const capNhatTrangThai = async (req, res) => {
     const result = await service.capNhatTrangThai(idHoaDon, trangThai);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 
@@ -44,7 +44,7 @@ const thanhToan = async (req, res) => {
     const result = await service.thanhToan(id_hoa_don, gio_ra, phuong_thuc_thanh_toan, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 

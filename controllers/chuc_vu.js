@@ -5,7 +5,7 @@ const layDanhSachChucVu = async (req, res) => {
     const result = await chucVuService.layDanhSachChucVu();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 

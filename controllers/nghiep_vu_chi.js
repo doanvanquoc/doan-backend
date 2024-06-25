@@ -10,7 +10,7 @@ const themThongKeChi = async (req, res) => {
     const result = await service.themThongKeChi(thongKeChi, req.user);
     res.status(200).send(result);
   } catch (error) {
-    res.status(500).send(error);
+    res.send(error);
   }
 }
 
@@ -19,7 +19,7 @@ const layDanhSachThongKeChi = async (req, res) => {
     const result = await service.layDanhSachThongKeChi();
     res.status(200).send(result);
   } catch (error) {
-    res.status(500).send(error);
+    res.send(error);
   }
 }
 
@@ -28,7 +28,7 @@ const layDanhSachNghiepVuChi = async (req, res) => {
     const result = await service.layDanhSachNghiepVuChi();
     res.status(200).send(result);
   } catch (error) {
-    res.status(500).send(error);
+    res.send(error);
   }
 }
 

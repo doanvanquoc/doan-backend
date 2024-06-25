@@ -9,7 +9,7 @@ const layDanhSachMonAnPhanTrang = async (req, res) => {
     const result = await monAnService.layDanhSachMonAnPhanTrang(page, limit);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 
@@ -22,7 +22,7 @@ const layMonAnTheoDanhMuc = async (req, res) => {
     const result = await monAnService.layMonAnTheoDanhMuc(idDanhMuc);
     res.json(result)
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 
@@ -35,7 +35,7 @@ const datMon = async (req, res) => {
     const result = await monAnService.datMon(hoaDon, danhSachChiTietHoaDon, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 
@@ -44,7 +44,7 @@ const layDanhSachMonAn = async (req, res) => {
     const result = await monAnService.layDanhSachMonAn();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 } 
 
@@ -57,7 +57,7 @@ const themMonVaoHoaDonDaCo = async (req, res) => {
     const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danhSachChiTietHoaDon, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 

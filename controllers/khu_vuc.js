@@ -5,7 +5,7 @@ const layDanhSachKhuVuc = async (req, res) => {
     const result = await service.layDanhSachKhuVuc();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 };
 
@@ -19,7 +19,7 @@ const capNhatTrangThaiKhuVuc = async (req, res) => {
     const result = await service.capNhatTrangThaiKhuVuc(idKhuVuc, trangThai);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 } 
 

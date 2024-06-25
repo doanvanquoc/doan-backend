@@ -5,7 +5,7 @@ const layDanhSachDanhMucMonAn = async (req, res) => {
     const result = await danhMucMonAnService.layDanhSachDanhMucMonAn();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 

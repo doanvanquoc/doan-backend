@@ -9,7 +9,7 @@ const xoaDanhSachCTHD = async (req, res) => {
     const result = await service.xoaDanhSachCTHD(danhSachId, idHoaDon);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 
@@ -22,7 +22,7 @@ const capNhatIdHoaDon = async (req, res) => {
     const result = await service.capNhatIdHoaDon(idCTHD, idHoaDon);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 
@@ -35,7 +35,7 @@ const capNhatDanhSachCTHD = async (req, res) => {
     const result = await service.capNhatDanhSachCTHD(danhSachCTHD, idHoaDon);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.json(error.message);
   }
 }
 

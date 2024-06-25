@@ -5,7 +5,7 @@ const layDanhSachBan = async (req, res) => {
     const result = await service.layDanhSachBan();
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 
@@ -18,7 +18,7 @@ const layBanTheoKhuVuc = async (req, res) => {
     const result = await service.layBanTheoKhuVuc(id_khu_vuc);
     res.json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res.json(error);
   }
 }
 
