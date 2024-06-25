@@ -36,7 +36,7 @@ const verify_token = require('../middlewares/verify_token');
 //swagger cho router POST /thong_ke_thu thêm required header security
 /**
  * @swagger
- * /thong_ke_thu:
+ * /thu:
  *   post:
  *     tags:
  *       - Thống Kê Thu
@@ -59,7 +59,7 @@ const verify_token = require('../middlewares/verify_token');
 //swagger cho router GET /thong_ke_thu lấy required header security
 /**
  * @swagger
- * /thong_ke_thu:
+ * /thu/thong-ke:
  *   get:
  *     tags:
  *       - Thống Kê Thu
@@ -73,7 +73,25 @@ const verify_token = require('../middlewares/verify_token');
  *         description: Lấy danh sách ThongKeThu thất bại
  */
 
+// swagger cho router GET /thong_ke_thu lấy required header security
+/**
+ * @swagger
+ * /thu:
+ *   get:
+ *     tags:
+ *       - Thống Kê Thu
+ *     description: Lấy danh sách Nghiệp Vụ Thu
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lấy danh sách Nghiệp Vụ Thu thành công
+ *       400:
+ *         description: Lấy danh sách Nghiệp Vụ Thu thất bại
+ */
+
 router.post('/', verify_token, controller.themThongKeThu);
-router.get('/', verify_token, controller.layDanhSachThongKeThu);
+router.get('/', verify_token, controller.layDanhSachNghiepVuThu);
+router.get('/thong-ke', verify_token, controller.layDanhSachThongKeThu);
 
 module.exports = router;

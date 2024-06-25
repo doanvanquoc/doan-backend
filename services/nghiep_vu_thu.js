@@ -31,7 +31,22 @@ const layDanhSachThongKeThu = () => new Promise(async (resolve, reject) => {
   }
 });
 
+const layDanhSachNghiepVuThu = () => new Promise(async (resolve, reject) => {
+  try {
+    const result = await db.NghiepVuThu.findAll();
+    if (result) {
+      resolve({ success: true, data: result });
+    }
+    else {
+      resolve({ success: false, message: 'Không có dữ liệu' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message })
+  }
+});
+
 module.exports = {
   themThongKeThu,
-  layDanhSachThongKeThu
+  layDanhSachThongKeThu,
+  layDanhSachNghiepVuThu
 }

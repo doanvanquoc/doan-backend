@@ -35,8 +35,22 @@ const capNhatTrangThai = async (req, res) => {
   }
 }
 
+const thanhToan = async (req, res) => {
+  try {
+    const {id_hoa_don, gio_ra, phuong_thuc_thanh_toan} = req.body;
+    if (!id_hoa_don || !gio_ra || !phuong_thuc_thanh_toan) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.thanhToan(id_hoa_don, gio_ra, phuong_thuc_thanh_toan, req.user.tai_khoan);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
-  capNhatTrangThai
+  capNhatTrangThai,
+  thanhToan
 }

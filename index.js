@@ -24,8 +24,9 @@ const khuVuc = require('./routes/khu_vuc')
 const hoadon = require('./routes/hoa_don')
 const cthd = require('./routes/cthd')
 const caLamViec = require('./routes/ca_lam_viec')  
-const thongKeChi = require('./routes/nghiep_vu_chi')
-const thongKeThu = require('./routes/nghiep_vu_thu')
+const chi = require('./routes/nghiep_vu_chi')
+const thu = require('./routes/nghiep_vu_thu')
+const pttt = require('./routes/phuong_thuc_thanh_toan')
 
 setupSwagger(app);
 
@@ -43,8 +44,9 @@ app.use('/khu-vuc', khuVuc)
 app.use('/hoa-don', hoadon)
 app.use('/cthd', cthd)
 app.use('/ca-lam-viec', caLamViec)
-app.use('/thong-ke-chi', thongKeChi)
-app.use('/thong-ke-thu', thongKeThu)
+app.use('/chi', chi)
+app.use('/thu', thu)
+app.use('/phuong-thuc-thanh-toan', pttt)
 
 server.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)

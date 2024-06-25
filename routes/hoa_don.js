@@ -14,6 +14,8 @@ const router = express.Router()
  *       bearerFormat: JWT
  */
 
+
+
 // schema for HoaDon
 /**
  * @swagger
@@ -83,7 +85,29 @@ const router = express.Router()
  *         don_vi_tinh:
  *          type: string
  *          description: Đơn vị tính
+ 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ThongTin:
+ *       type: object
+ *       properties:
+ *         id_hoa_don:
+ *           type: integer
+ *           description: Mã hóa đơn
+ *         gio_ra:
+ *           type: string
+ *           format: time
+ *           description: Giờ ra
+ *         phuong_thuc_thanh_toan:
+ *           type: integer
+ *           description: Phương thức thanh toán
+ *         ghi_chu:
+ *           type: string
+ *           description: Ghi chú
  */
+
 
 // GET all hoa_don thêm required auth header
 /**
@@ -159,8 +183,28 @@ const router = express.Router()
  *         description: Success
  */
 
+// swagger cho router thanh toan thêm required auth header
+/**
+ * @swagger
+ * /hoa-don/thanh-toan:
+ *   post:
+ *     summary: Thanh toán hóa đơn
+ *     tags: [Hóa Đơn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ThongTin'
+ *     responses:
+ *       200:
+ *         description: Success
+ */
 router.get('/', verify_token, controller.layDanhSachHoaDon)
 router.post('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
 router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
+router.post('/thanh-toan', verify_token, controller.thanhToan)
 
 module.exports = router

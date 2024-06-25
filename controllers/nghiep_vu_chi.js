@@ -10,7 +10,7 @@ const themThongKeChi = async (req, res) => {
     const result = await service.themThongKeChi(thongKeChi, req.user);
     res.status(200).send(result);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send(error);
   }
 }
 
@@ -19,11 +19,21 @@ const layDanhSachThongKeChi = async (req, res) => {
     const result = await service.layDanhSachThongKeChi();
     res.status(200).send(result);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send(error);
+  }
+}
+
+const layDanhSachNghiepVuChi = async (req, res) => {
+  try {
+    const result = await service.layDanhSachNghiepVuChi();
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send(error);
   }
 }
 
 module.exports = {
   themThongKeChi,
-  layDanhSachThongKeChi
+  layDanhSachThongKeChi,
+  layDanhSachNghiepVuChi
 }

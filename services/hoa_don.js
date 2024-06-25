@@ -64,8 +64,34 @@ const capNhatTrangThai = (idHoaDon, trangThai) => new Promise(async (resolve, re
   }
 })
 
+const thanhToan = (id_hoa_don, gio_ra, phuong_thuc_thanh_toan, ghi_chu, thu_ngan) => new Promise(async (resolve, reject) => {
+  try {
+    const hoaDon = await db.HoaDon.findByPk(id_hoa_don)
+    if (hoaDon) {
+      //update hoa don using thongTin
+      const hoaDonMoi = await db.HoaDon.update({
+        gio_ra,
+        phuong_thuc_thanh_toan,
+        ghi_chu,
+        thu_ngan
+      }, {
+        where: {
+          id_hoa_don: id_hoa_don
+        }
+      })
+      resolve({ success: true, message: 'Thanh toán hóa đơn thành công' })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy hóa đơn nào' })
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message })
+  }
+})
+
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
-  capNhatTrangThai
+  capNhatTrangThai,
+  thanhToan
 }
