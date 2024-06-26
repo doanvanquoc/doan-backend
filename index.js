@@ -27,6 +27,7 @@ const caLamViec = require('./routes/ca_lam_viec')
 const chi = require('./routes/nghiep_vu_chi')
 const thu = require('./routes/nghiep_vu_thu')
 const pttt = require('./routes/phuong_thuc_thanh_toan')
+const wifiRoutes = require('./routes/wifiRoutes');
 
 setupSwagger(app);
 
@@ -47,6 +48,7 @@ app.use('/ca-lam-viec', caLamViec)
 app.use('/chi', chi)
 app.use('/thu', thu)
 app.use('/phuong-thuc-thanh-toan', pttt)
+app.use('/wifi', wifiRoutes);
 
 server.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)
