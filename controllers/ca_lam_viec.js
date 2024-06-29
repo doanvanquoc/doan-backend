@@ -27,8 +27,22 @@ const layDanhSachChiTietCa = async (req, res) => {
   }
 }
 
+const dongCa = async (req, res) => {
+  try {
+    const {idChiTietCa, soDuCuoi, ghiChu} = req.body;
+    if (!idChiTietCa || !soDuCuoi) {
+      return res.json({ success: false, message: 'Thiếu thông tin' });
+    }
+    const result = await service.dongCa(idChiTietCa, soDuCuoi, ghiChu);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   moCa,
   layDanhSachCa,
-  layDanhSachChiTietCa
+  layDanhSachChiTietCa,
+  dongCa
 };

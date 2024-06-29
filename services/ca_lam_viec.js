@@ -14,6 +14,26 @@ const moCa = (chiTietCa, user) => new Promise(async (resolve, reject) => {
   }
 });
 
+const dongCa =(idChiTietCa, soDuCuoi, ghiChu) => new Promise(async (resolve, reject) => {
+  try {
+    const res = await db.ChiTietCaLamViec.update({
+      so_du_cuoi: soDuCuoi,
+      ghi_chu: ghiChu,
+    }, {
+      where: {
+        id_chi_tiet_ca: idChiTietCa
+      }
+    });
+    if (res) {
+      resolve({ success: true, message: 'Đóng ca thành công' });
+    } else {
+      resolve({ success: false, message: 'Đóng ca thất bại' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 const layDanhSachCa = () => new Promise(async (resolve, reject) => {
   try {
     const res = await db.CaLamViec.findAll();
@@ -52,5 +72,6 @@ const layDanhSachChiTietCa = () => new Promise(async (resolve, reject) => {
 module.exports = {
   moCa,
   layDanhSachCa,
-  layDanhSachChiTietCa
+  layDanhSachChiTietCa,
+  dongCa
 };

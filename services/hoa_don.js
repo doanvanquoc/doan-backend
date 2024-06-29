@@ -89,9 +89,10 @@ const thanhToan = (id_hoa_don, gio_ra, phuong_thuc_thanh_toan, ghi_chu, thu_ngan
   }
 })
 
+
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
   capNhatTrangThai,
-  thanhToan
+  thanhToan,
 }

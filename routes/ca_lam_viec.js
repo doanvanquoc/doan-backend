@@ -98,8 +98,35 @@ const verify_token = require('../middlewares/verify_token');
  *         description: Unauthorized
  */
 
+// swagger cho route dong-ca
+/**
+ * @swagger
+ * /ca-lam-viec/dong-ca:
+ *   post:
+ *     tags:
+ *       - Ca Làm Việc
+ *     security:
+ *       - BearerAuth: []
+ *     summary: Đóng ca làm việc
+ *     description: Đóng ca làm việc
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/ChiTietCaLamViec'
+ *     responses:
+ *       200:
+ *         description: Đóng ca làm việc thành công
+ *       400:
+ *         description: Đóng ca làm việc thất bại
+ *       401:
+ *         description: Unauthorized
+ */
+
 router.get('/', verify_token, controller.layDanhSachCa);
 router.post('/mo-ca', verify_token, controller.moCa);
+router.post('/dong-ca', verify_token, controller.dongCa);
 router.get('/chi-tiet', verify_token, controller.layDanhSachChiTietCa);
 
 module.exports = router;

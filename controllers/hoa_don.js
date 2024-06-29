@@ -37,7 +37,7 @@ const capNhatTrangThai = async (req, res) => {
 
 const thanhToan = async (req, res) => {
   try {
-    const {id_hoa_don, gio_ra, phuong_thuc_thanh_toan} = req.body;
+    const { id_hoa_don, gio_ra, phuong_thuc_thanh_toan } = req.body;
     if (!id_hoa_don || !gio_ra || !phuong_thuc_thanh_toan) {
       return res.status(400).json('Thiếu thông tin');
     }
@@ -48,9 +48,10 @@ const thanhToan = async (req, res) => {
   }
 }
 
+
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
   capNhatTrangThai,
-  thanhToan
+  thanhToan,
 }
