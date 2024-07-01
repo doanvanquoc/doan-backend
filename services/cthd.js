@@ -1,4 +1,5 @@
 const db = require('../models')
+const io = require('../config/socket').getSocketIO();
 
 const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
@@ -79,11 +80,35 @@ const capNhatDanhSachCTHD = (danhSachCTHD, idHoaDon) => new Promise(async (resol
   }
 });
 
+const capNhatTrangThaiCTHD = (idCTHD, trangThai) => new Promise(async (resolve, reject) => {
+  try {
+    const result = await db.ChiTietHoaDon.update({
+      trang_thai: trangThai
+    }, {
+      where: {
+        id_cthd: idCTHD
+      }
+    });
+
+    if (result[0] === 0) {
+      resolve({ success: false, message: 'Không tìm thấy cthd' });
+    }
+    else {
+      io.emit('cap-nhat-trang-thai-cthd', { idCTHD, trangThai });
+      console.log('Emit:', { idCTHD, trangThai });
+      resolve({ success: true, message: 'Cập nhật thành công' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 
 
 
 module.exports = {
   xoaDanhSachCTHD,
   capNhatIdHoaDon,
-  capNhatDanhSachCTHD
+  capNhatDanhSachCTHD,
+  capNhatTrangThaiCTHD
 }

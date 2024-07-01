@@ -98,7 +98,7 @@ const verify_token = require('../middlewares/verify_token');
  *         description: Unauthorized
  */
 
-// swagger cho route dong-ca
+// swagger cho route dong-ca voi cac tham so idChiTietCa, soDuCuoi, ghiChu
 /**
  * @swagger
  * /ca-lam-viec/dong-ca:
@@ -114,7 +114,14 @@ const verify_token = require('../middlewares/verify_token');
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/ChiTietCaLamViec'
+ *           type: object
+ *           properties:
+ *             idChiTietCa:
+ *               type: integer
+ *             soDuCuoi:
+ *               type: number
+ *             ghiChu:
+ *               type: string
  *     responses:
  *       200:
  *         description: Đóng ca làm việc thành công

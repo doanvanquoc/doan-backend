@@ -144,8 +144,40 @@ const router = express.Router();
  *         description: Lỗi server
  */
 
+// swagger cho api cap-nhat-trang-thai-cthd thêm required auth header
+/**
+ * @swagger
+ * /cthd/cap-nhat-trang-thai-cthd:
+ *   post:
+ *     summary: Cập nhật trạng thái chi tiết hóa đơn
+ *     tags: [Chi Tiết Hóa Đơn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idCTHD:
+ *                 type: integer
+ *                 description: Mã chi tiết hóa đơn
+ *               trangThai:
+ *                 type: integer
+ *                 description: Trạng thái
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Thiếu thông tin
+ *       500:
+ *         description: Lỗi server
+ */
+
 router.post('/xoa-danh-sach-cthd', verify_token, controller.xoaDanhSachCTHD);
 router.post('/cap-nhat-id-hoa-don', verify_token, controller.capNhatIdHoaDon);
 router.post('/cap-nhat-danh-sach-cthd', verify_token, controller.capNhatDanhSachCTHD);
+router.post('/cap-nhat-trang-thai-cthd', verify_token, controller.capNhatTrangThaiCTHD);
 
 module.exports = router;

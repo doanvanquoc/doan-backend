@@ -1,20 +1,19 @@
 const service = require('../services/tai_khoan');
 
-const register = async (req, res) => {
-  const { username: tai_khoan, password } = req.body;
-  if (!tai_khoan || !password) {
+const dangKy = async (req, res) => {
+  if (!req.body.tai_khoan || !req.body.mat_khau || !req.body.email || !req.body.id_chuc_vu) {
     res.status(400).json({ success: false, message: 'Thiếu thông tin đăng ký' });
     return;
   }
   try {
-    const result = await service.register(tai_khoan, password);
+    const result = await service.register(req.body);
     res.json(result);
   } catch (error) {
     res.json(error);
   }
 }
 
-const login = async (req, res) => {
+const dangNhap = async (req, res) => {
   const { tai_khoan, mat_khau } = req.body;
   if (!tai_khoan || !mat_khau) {
     res.status(400).json({ success: false, message: 'Thiếu thông tin đăng nhập' });
@@ -82,8 +81,8 @@ const dangNhapAdmin = async (req, res) => {
 }
 
 module.exports = {
-  register,
-  login,
+  dangKy: dangKy,
+  dangNhap: dangNhap,
   dangNhapBangKhuonMat,
   layLichSuDatMon,
   doiMatKhau,

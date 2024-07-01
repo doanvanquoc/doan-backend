@@ -202,9 +202,39 @@ const router = express.Router()
  *       200:
  *         description: Success
  */
+
+// swagger cho router cap nhat phuong thuc thanh toan thêm required auth header
+/**
+ * @swagger
+ * /hoa-don/cap-nhat-phuong-thuc-thanh-toan:
+ *   post:
+ *     summary: Cập nhật phương thức thanh toán
+ *     tags: [Hóa Đơn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idHoaDon:
+ *                 type: integer
+ *                 description: Mã hóa đơn
+ *               idPhuongThuc:
+ *                 type: integer
+ *                 description: Mã phương thức thanh toán
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
+
 router.get('/', verify_token, controller.layDanhSachHoaDon)
 router.post('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
 router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
 router.post('/thanh-toan', verify_token, controller.thanhToan)
+router.post('/cap-nhat-phuong-thuc-thanh-toan', verify_token, controller.capNhatPhuongThucThanhToan)
 
 module.exports = router

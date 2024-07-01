@@ -8,17 +8,18 @@ dotenv.config()
 //hash password
 const hashPassword = (password) => bcrypt.hashSync(password, salt);
 
-const dangKy = (username, password) => new Promise(async (resolve, reject) => {
+const dangKy = (thongTin) => new Promise(async (resolve, reject) => {
   try {
-    const res = await db.Account.findOrCreate({
-      where: { username },
-      defaults: { username, password: hashPassword(password) }
-    });
-    if (res[1]) {
-      const token = jwt.sign({ id: res[0].id, username: res[0].username }, process.env.JWT_SECRET, { expiresIn: '1h' })
-      resolve({ success: true, message: 'Tạo tài khoản thành công', token });
+    const account = await db.TaiKhoan.findOne({ where: { tai_khoan: thongTin.tai_khoan } });
+    if (account) {
+      reject({ success: false, message: 'Tài khoản đã tồn tại' });
     } else {
-      resolve({ success: false, message: 'Tài khoản đã tồn tại' });
+      const res = await db.TaiKhoan.create({ ...thongTin, mat_khau: hashPassword(thongTin.mat_khau) });
+      if (res) {
+        resolve({ success: true, message: 'Đăng ký thành công' });
+      } else {
+        resolve({ success: false, message: 'Đăng ký thất bại' });
+      }
     }
   } catch (error) {
     reject({ success: false, message: error.message });
@@ -31,8 +32,7 @@ const dangNhap = (tai_khoan, mat_khau) => new Promise(async (resolve, reject) =>
     if (!account) {
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
-      // const isMatch = bcrypt.compareSync(password, account.password);
-      const isMatch = mat_khau === account.mat_khau;
+      const isMatch = bcrypt.compareSync(mat_khau, account.mat_khau);
       const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
       if (isMatch) {
         const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
@@ -89,11 +89,11 @@ const doiMatKhau = (tai_khoan, mat_khau_cu, mat_khau_moi) => new Promise(async (
     if (!account) {
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
-      // const isMatch = bcrypt.compareSync(mat_khau_cu, account.mat_khau);
-      const isMatch = mat_khau_cu === account.mat_khau;
+      const isMatch = bcrypt.compareSync(mat_khau_cu, account.mat_khau);
+      // const isMatch = mat_khau_cu === account.mat_khau;
       if (isMatch) {
-        // const res = await db.TaiKhoan.update({ mat_khau: hashPassword(mat_khau_moi) }, { where: { tai_khoan } });
-        const res = await db.TaiKhoan.update({ mat_khau: mat_khau_moi }, { where: { tai_khoan } });
+        const res = await db.TaiKhoan.update({ mat_khau: hashPassword(mat_khau_moi) }, { where: { tai_khoan } });
+        // const res = await db.TaiKhoan.update({ mat_khau: mat_khau_moi }, { where: { tai_khoan } });
         if (res) {
           resolve({ success: true, message: 'Đổi mật khẩu thành công' });
         } else {

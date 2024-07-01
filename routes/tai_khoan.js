@@ -31,9 +31,12 @@ const router = express.Router()
  *         email:
  *           type: string
  *           description: Email
- *         chuc_vu:
- *           type: string
- *           description: Chức vụ
+ *         id_chuc_vu:
+ *           type: integer
+ *           description: ID chức vụ
+ *         ca_lam_viec:
+ *           type: integer
+ *           description: Id ca làm việc
  */
 
 //scheme for TaiKhoanLogin
@@ -113,10 +116,30 @@ const router = express.Router()
  *         description: Đổi mật khẩu thành công
  *       400:
  *         description: Đổi mật khẩu thất bại
- */ 
+ */
 
-router.post('/dang-ky', controller.register)
-router.post('/dang-nhap', controller.login)
+// swagger cho dang-ky
+/**
+ * @swagger
+ * /tai-khoan/dang-ky:
+ *   post:
+ *     summary: Đăng ký
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TaiKhoan'
+ *     responses:
+ *       200:
+ *         description: Đăng ký thành công
+ *       400:
+ *         description: Đăng ký thất bại
+ */
+
+router.post('/dang-ky', controller.dangKy)
+router.post('/dang-nhap', controller.dangNhap)
 router.post('/dang-nhap-bang-khuon-mat', controller.dangNhapBangKhuonMat)
 router.get('/lich-su-dat-mon', verify_token, controller.layLichSuDatMon)
 router.post('/doi-mat-khau', verify_token, controller.doiMatKhau)

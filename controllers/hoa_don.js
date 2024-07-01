@@ -48,10 +48,24 @@ const thanhToan = async (req, res) => {
   }
 }
 
+const capNhatPhuongThucThanhToan = async (req, res) => {
+  try {
+    const { idHoaDon, idPhuongThuc } = req.body;
+    if (!idHoaDon || !idPhuongThuc) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.capNhatPhuongThucThanhToan(idHoaDon, idPhuongThuc);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
   capNhatTrangThai,
   thanhToan,
+  capNhatPhuongThucThanhToan
 }

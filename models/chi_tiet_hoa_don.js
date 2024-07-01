@@ -38,7 +38,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TIME,
       defaultValue: DataTypes.NOW
     },
-    tai_khoan: DataTypes.STRING
+    tai_khoan: DataTypes.STRING,
+    trang_thai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+
+    },
+    ly_do: DataTypes.STRING,
 
   }, {
     timestamps: false,
