@@ -3,9 +3,6 @@ const io = require('../config/socket').getSocketIO();
 
 const xoaDanhSachCTHD = (danhSachId, idHoaDon) => new Promise(async (resolve, reject) => {
   try {
-    // Log the inputs
-
-    // Destroy each cthd in danhSachId array where idHoaDon = idHoaDon
     for (let i = 0; i < danhSachId.length; i++) {
       const result = await db.ChiTietHoaDon.destroy({
         where: {

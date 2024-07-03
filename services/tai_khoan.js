@@ -114,7 +114,8 @@ const dangNhapAdmin = (tai_khoan, mat_khau) => new Promise(async (resolve, rejec
     if (!account) {
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
-      const isMatch = mat_khau === account.mat_khau;
+      // const isMatch = mat_khau === account.mat_khau;
+      const isMatch = bcrypt.compareSync(mat_khau, account.mat_khau);
       const taiKhoan = await db.TaiKhoan.findOne({
         where: { tai_khoan }, include: {
           model: db.ChucVu, as: 'chuc_vu', where: {

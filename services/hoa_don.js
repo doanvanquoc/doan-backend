@@ -95,7 +95,23 @@ const capNhatPhuongThucThanhToan = (idHoaDon, idPhuongThucThanhToan) => new Prom
     if (hoaDon) {
       hoaDon.phuong_thuc_thanh_toan = idPhuongThucThanhToan
       await hoaDon.save()
-      resolve({ success: true, message: 'Cập nhật phương thức thanh toán thành công'})
+      resolve({ success: true, message: 'Cập nhật phương thức thanh toán thành công' })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy hóa đơn nào' })
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message })
+  }
+})
+
+const capNhatTongTien = (idHoaDon, tongTien) => new Promise(async (resolve, reject) => {
+  try {
+    const hoaDon = await db.HoaDon.findByPk(idHoaDon)
+    if (hoaDon) {
+      hoaDon.tong_tien = tongTien
+      await hoaDon.save()
+      resolve({ success: true, message: 'Cập nhật tổng tiền thành công' })
     }
     else {
       resolve({ success: false, message: 'Không tìm thấy hóa đơn nào' })
@@ -106,10 +122,12 @@ const capNhatPhuongThucThanhToan = (idHoaDon, idPhuongThucThanhToan) => new Prom
 })
 
 
+
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
   capNhatTrangThai,
   thanhToan,
-  capNhatPhuongThucThanhToan
+  capNhatPhuongThucThanhToan,
+  capNhatTongTien
 }

@@ -61,11 +61,25 @@ const capNhatPhuongThucThanhToan = async (req, res) => {
   }
 }
 
+const capNhatTongTien = async (req, res) => {
+  try {
+    const { idHoaDon, tongTien } = req.body;
+    if (!idHoaDon || !tongTien) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.capNhatTongTien(idHoaDon, tongTien);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 
 module.exports = {
   layDanhSachHoaDon,
   capNhatBanTrongHoaDon,
   capNhatTrangThai,
   thanhToan,
-  capNhatPhuongThucThanhToan
+  capNhatPhuongThucThanhToan,
+  capNhatTongTien
 }

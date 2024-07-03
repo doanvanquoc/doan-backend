@@ -11,8 +11,8 @@ const options = {
     },
     servers: [
       {
-        url: 'http://103.104.122.137:8080', // URL của API của bạn
-        // url: 'http://localhost:8080', // URL của API của bạn
+        // url: 'http://103.104.122.137:8080', // URL của API của bạn
+        url: 'http://localhost:8080', // URL của API của bạn
       },
     ],
   },
