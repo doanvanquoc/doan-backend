@@ -103,7 +103,6 @@ function generateDateRange(startDate, endDate) {
 
 const tinhTongDoanhThuTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
   try {
-    // Tính doanh thu từ bảng HoaDon
     const doanhThuHoadon = await db.HoaDon.findAll({
       where: {
         ngay: {

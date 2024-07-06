@@ -9,6 +9,26 @@ const layDanhSachChiNhanh = async (req, res) => {
   }
 }
 
+const themChiNhanh = async (req, res) => {
+  try {
+    const result = await service.themChiNhanh(req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const capNhatChiNhanh = async (req, res) => {
+  try {
+    const result = await service.capNhatChiNhanh(req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
-  layDanhSachChiNhanh
+  layDanhSachChiNhanh,
+  themChiNhanh,
+  capNhatChiNhanh
 }

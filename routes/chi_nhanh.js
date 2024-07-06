@@ -53,6 +53,56 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/ChiNhanh'
  */
 
+//swagger for api thêm chi nhánh, thêm require header Authorization
+/**
+ * @swagger
+ * /chi-nhanh:
+ *   post:
+ *     summary: Thêm chi nhánh
+ *     tags: [Chi Nhánh]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ChiNhanh'
+ *     responses:
+ *       200:
+ *         description: Thêm chi nhánh thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ChiNhanh'
+ */
+
+//swagger for api cập nhật chi nhánh, thêm require header Authorization
+/**
+ * @swagger
+ * /chi-nhanh:
+ *   put:
+ *     summary: Cập nhật chi nhánh
+ *     tags: [Chi Nhánh]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ChiNhanh'
+ *     responses:
+ *       200:
+ *         description: Cập nhật chi nhánh thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ChiNhanh'
+ */
+
 router.get('/', verify_token, controller.layDanhSachChiNhanh);
+router.post('/', verify_token, controller.themChiNhanh);
+router.put('/', verify_token, controller.capNhatChiNhanh);
 
 module.exports = router;

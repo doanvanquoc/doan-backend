@@ -9,4 +9,27 @@ const layDanhSachChiNhanh = () => new Promise(async (resolve, reject) => {
   }
 });
 
-module.exports = { layDanhSachChiNhanh }
+const themChiNhanh = (chiNhanh) => new Promise(async (resolve, reject) => {
+  try {
+    const newChiNhanh = await db.ChiNhanh.create(chiNhanh);
+    resolve({ success: true, data: newChiNhanh });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+const capNhatChiNhanh = (chiNhanh) => new Promise(async (resolve, reject) => {
+  try {
+    await db.ChiNhanh.update(chiNhanh, {
+      where: {
+        id: chiNhanh.id
+      }
+    });
+    const newChiNhanh = await db.ChiNhanh.findByPk(chiNhanh.id);
+    resolve({ success: true, data: newChiNhanh });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+module.exports = { layDanhSachChiNhanh, themChiNhanh, capNhatChiNhanh}

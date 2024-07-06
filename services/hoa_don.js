@@ -6,7 +6,7 @@ const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
     const danhSachHoaDon = await db.HoaDon.findAll(
 
       {
-        where: { trang_thai: 1 },
+        // where: { trang_thai: 1 },
         include: [
           {
             model: db.ChiTietHoaDon,
