@@ -23,14 +23,15 @@ module.exports = (sequelize, DataTypes) => {
   Ban.init({
     id_ban: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     ten_ban: DataTypes.STRING,
     id_khu_vuc: DataTypes.INTEGER,
     trang_thai: {
       type: DataTypes.INTEGER,
       defaultValue: 0
-    }
+    },
   }, {
     timestamps: false,
     sequelize,

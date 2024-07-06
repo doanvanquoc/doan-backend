@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
   ChiTietHoaDon.init({
     id_cthd: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     id_hoa_don: DataTypes.INTEGER,
     id_mon_an: DataTypes.INTEGER,

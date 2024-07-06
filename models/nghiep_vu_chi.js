@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   NghiepVuChi.init({
     id_nghiep_vu: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     ten_nghiep_vu: DataTypes.STRING
   }, {

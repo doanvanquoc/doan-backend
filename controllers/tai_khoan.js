@@ -80,11 +80,45 @@ const dangNhapAdmin = async (req, res) => {
   }
 }
 
+const layDanhSachNhanVien = async (req, res) => {
+  const { page, limit } = req.query;
+  try {
+    const result = await service.layDanhSachNhanVien(page, limit);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+
+const capNhatNhanVien = async (req, res) => {
+  try {
+    const result = await service.capNhatNhanVien(req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const xoaNhanVien = async (req, res) => {
+  try {
+    const taiKhoan = req.params.taiKhoan;
+    console.log('taikhoan', taiKhoan);
+    const result = await service.xoaNhanVien(taiKhoan);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   dangKy: dangKy,
   dangNhap: dangNhap,
   dangNhapBangKhuonMat,
   layLichSuDatMon,
   doiMatKhau,
-  dangNhapAdmin
+  dangNhapAdmin,
+  layDanhSachNhanVien,
+  capNhatNhanVien,
+  xoaNhanVien
 }

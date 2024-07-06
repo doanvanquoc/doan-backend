@@ -36,4 +36,39 @@ const capNhatTrangThaiBan = async (req, res) => {
   }
 }
 
-module.exports = {layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan}
+const themBan = async (req, res) => {
+  try {
+    const {ten_ban, id_khu_vuc} = req.body
+    if (!ten_ban || !id_khu_vuc) {
+      return res.status(400).json({ success: false, message: 'Thiếu thông tin' });
+    }
+    const result = await service.themBan(req.body)
+    res.json(result)
+  } catch (error) {
+    res.json(error)
+  }
+}
+
+const capNhatBan = async (req, res) => {
+  try {
+    const result = await service.capNhatBan(req.params.idBan, req.body)
+    res.json(result)
+  } catch (error) {
+    res.json(error)
+  }
+}
+
+const xoaBan = async (req, res) => {
+  try {
+    const {idBan} = req.params
+    if (!idBan) {
+      return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
+    }
+    const result = await service.xoaBan(idBan)
+    res.json(result)
+  } catch (error) {
+    res.json(error)
+  }
+}
+
+module.exports = {layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan, themBan, capNhatBan, xoaBan}

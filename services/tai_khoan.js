@@ -16,7 +16,14 @@ const dangKy = (thongTin) => new Promise(async (resolve, reject) => {
     } else {
       const res = await db.TaiKhoan.create({ ...thongTin, mat_khau: hashPassword(thongTin.mat_khau) });
       if (res) {
-        resolve({ success: true, message: 'Đăng ký thành công' });
+        const taiKhoanMoi = await db.TaiKhoan.findOne({
+          where: { tai_khoan: thongTin.tai_khoan }, include: [
+            { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } },
+            { model: db.CaLamViec, as: 'ca', attributes: { exclude: ['id_ca'] } },
+            { model: db.ChiNhanh, as: 'chi_nhanh_lam_viec', attributes: { exclude: ['id_chi_nhanh'] } }
+          ], attributes: { exclude: ['mat_khau', 'id_chuc_vu'] }
+        });
+        resolve({ success: true, message: 'Đăng ký thành công', data: taiKhoanMoi });
       } else {
         resolve({ success: false, message: 'Đăng ký thất bại' });
       }
@@ -140,11 +147,92 @@ const dangNhapAdmin = (tai_khoan, mat_khau) => new Promise(async (resolve, rejec
   }
 });
 
+const layDanhSachNhanVien = (page, limit) => new Promise(async (resolve, reject) => {
+  try {
+    page = parseInt(page, 10) || 1;
+    limit = parseInt(limit, 10) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: nhanVien } = await db.TaiKhoan.findAndCountAll({
+      attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+      include: [
+        {
+          model: db.ChucVu,
+          as: 'chuc_vu',
+          attributes: { exclude: ['id_chuc_vu'] }
+        },
+        {
+          model: db.CaLamViec,
+          as: 'ca',
+          attributes: { exclude: ['id_ca'] }
+        }
+      ],
+      where: {
+        trang_thai: 1
+      },
+      limit: limit,
+      offset: offset,
+    });
+
+    resolve({
+      success: true,
+      data: nhanVien,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+
+const capNhatNhanVien = (nhanVien) => new Promise(async (resolve, reject) => {
+  try {
+    const res = await db.TaiKhoan.update(nhanVien, { where: { tai_khoan: nhanVien.tai_khoan } });
+    if (res) {
+      const nhanVienMoi = await db.TaiKhoan.findOne({
+        where: { tai_khoan: nhanVien.tai_khoan },
+        attributes: {
+          exclude: ['mat_khau', 'id_chuc_vu'],
+        }, include: [
+          { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } },
+          { model: db.CaLamViec, as: 'ca', attributes: { exclude: ['id_ca'] } },
+          { model: db.ChiNhanh, as: 'chi_nhanh_lam_viec', attributes: { exclude: ['id_chi_nhanh'] } }
+        ]
+
+      });
+      resolve({ success: true, message: 'Cập nhật nhân viên thành công', data: nhanVienMoi });
+    } else {
+      resolve({ success: false, message: 'Cập nhật nhân viên thất bại' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+const xoaNhanVien = (tai_khoan) => new Promise(async (resolve, reject) => {
+  try {
+    console.log(tai_khoan);
+    const res = await db.TaiKhoan.update({ trang_thai: 0 }, { where: { tai_khoan } });
+    if (res) {
+      resolve({ success: true, message: 'Xóa nhân viên thành công' });
+    } else {
+      resolve({ success: false, message: 'Xóa nhân viên thất bại' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   login: dangNhap,
   register: dangKy,
   dangNhapBangKhuonMat,
   layLichSuDatMon,
   doiMatKhau,
-  dangNhapAdmin
+  dangNhapAdmin,
+  layDanhSachNhanVien,
+  capNhatNhanVien,
+  xoaNhanVien
 }

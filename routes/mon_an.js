@@ -1,6 +1,7 @@
 const express = require('express')
 const controller = require('../controllers/mon_an')
 const verify_token = require('../middlewares/verify_token')
+const upload = require('../config/multer')
 
 const router = express.Router()
 
@@ -264,15 +265,167 @@ const router = express.Router()
  *         description: Lỗi khi lấy danh sách món ăn phân trang
  */
 
+// swagger cho route them-mon-an them require auth header schema
+/**
+ * @swagger
+ * /mon-an:
+ *   post:
+ *     summary: Thêm món ăn
+ *     tags: [Món Ăn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ten_mon_an:
+ *                 type: string
+ *                 description: Tên món ăn
+ *               gia:
+ *                 type: number
+ *                 description: Đơn giá
+ *               don_vi_tinh:
+ *                 type: string
+ *                 description: Đơn vị tính
+ *               mo_ta:
+ *                 type: string
+ *                 description: Mô tả
+ *               id_danh_muc:
+ *                 type: integer
+ *                 description: Mã danh mục
+ *     responses:
+ *       200:
+ *         description: Món ăn đã được thêm
+ *       400:
+ *         description: Lỗi khi thêm món ăn
+ */
+
+//swagger cho route cap-nhat-mon-an them require auth header schema
+/**
+ * @swagger
+ * /mon-an/{id}:
+ *   post:
+ *     summary: Cập nhật món ăn
+ *     tags: [Món Ăn]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Mã món ăn
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ten_mon_an:
+ *                 type: string
+ *                 description: Tên món ăn
+ *               gia:
+ *                 type: number
+ *                 description: Đơn giá
+ *               don_vi_tinh:
+ *                 type: string
+ *                 description: Đơn vị tính
+ *               mo_ta:
+ *                 type: string
+ *                 description: Mô tả
+ *               id_danh_muc:
+ *                 type: integer
+ *                 description: Mã danh mục
+ *     responses:
+ *       200:
+ *         description: Món ăn đã được cập nhật
+ *       400:
+ *         description: Lỗi khi cập nhật món ăn
+ */
+
+//swagger cho route cap-nhat-mon-an-khong-hinh-anh them require auth header schema
+/**
+ * @swagger
+ * /mon-an/cap-nhat-khong-hinh-anh/{id}:
+ *   post:
+ *     summary: Cập nhật món ăn không hình ảnh
+ *     tags: [Món Ăn]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Mã món ăn
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ten_mon_an:
+ *                 type: string
+ *                 description: Tên món ăn
+ *               gia:
+ *                 type: number
+ *                 description: Đơn giá
+ *               don_vi_tinh:
+ *                 type: string
+ *                 description: Đơn vị tính
+ *               mo_ta:
+ *                 type: string
+ *                 description: Mô tả
+ *               id_danh_muc:
+ *                 type: integer
+ *                 description: Mã danh mục
+ *     responses:
+ *       200:
+ *         description: Món ăn đã được cập nhật
+ *       400:
+ *         description: Lỗi khi cập nhật món ăn
+ */
+
+//swagger cho route xoa-mon-an them require auth header schema  
+/**
+ * @swagger
+ * /mon-an/{id}:
+ *   delete:
+ *     summary: Xóa món ăn
+ *     tags: [Món Ăn]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Mã món ăn
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Món ăn đã được xóa
+ *       400:
+ *         description: Lỗi khi xóa món ăn
+ */
 
 
 
-
+router.post('/', verify_token, upload.single('anh'), controller.themMonAn)
 router.get('/tat-ca', verify_token, controller.layDanhSachMonAn)
 router.get('/phan-trang', verify_token, controller.layDanhSachMonAnPhanTrang)
 router.get('/:id', verify_token, controller.layMonAnTheoDanhMuc)
 router.post('/dat-mon', verify_token, controller.datMon)
 router.post('/them-mon-vao-hoa-don-da-co', verify_token, controller.themMonVaoHoaDonDaCo)
 router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiMonAn)
-
+router.post('/:id', verify_token, upload.single('anh'), controller.capNhatMonAn)
+router.post('/cap-nhat-khong-hinh-anh/:id', verify_token, controller.capNhatMonAnKhongHinhAnh)
+router.delete('/:id', verify_token, controller.xoaMonAn)
 module.exports = router

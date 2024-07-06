@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     ten_chuc_vu: DataTypes.STRING,
+    mo_ta: DataTypes.STRING
   }, {
     timestamps: false,
     sequelize,

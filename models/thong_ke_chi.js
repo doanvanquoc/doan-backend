@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   ThongKeChi.init({
     id_chi: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     so_tien: DataTypes.DECIMAL(10, 2),
     noi_dung: DataTypes.STRING,

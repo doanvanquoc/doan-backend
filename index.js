@@ -4,11 +4,11 @@ const server = require('http').createServer(app)
 const setupSwagger = require('./swagger');
 const cors = require('cors')
 const PORT = process.env.PORT || 8080
-const {initializeSocket} = require('./config/socket')
+const { initializeSocket } = require('./config/socket')
 
 initializeSocket(server)
 
-app.use(cors()) 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/', express.static('D:/anh'));
@@ -23,11 +23,12 @@ const ban = require('./routes/ban')
 const khuVuc = require('./routes/khu_vuc')
 const hoadon = require('./routes/hoa_don')
 const cthd = require('./routes/cthd')
-const caLamViec = require('./routes/ca_lam_viec')  
+const caLamViec = require('./routes/ca_lam_viec')
 const chi = require('./routes/nghiep_vu_chi')
 const thu = require('./routes/nghiep_vu_thu')
 const pttt = require('./routes/phuong_thuc_thanh_toan')
 const thongKe = require('./routes/thong_ke')
+const chiNhanh = require('./routes/chi_nhanh')
 
 setupSwagger(app);
 
@@ -49,6 +50,7 @@ app.use('/chi', chi)
 app.use('/thu', thu)
 app.use('/phuong-thuc-thanh-toan', pttt)
 app.use('/thong-ke', thongKe)
+app.use('/chi-nhanh', chiNhanh)
 
 server.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)

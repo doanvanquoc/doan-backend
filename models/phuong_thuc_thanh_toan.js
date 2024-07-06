@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   PhuongThucThanhToan.init({
     id_thanh_toan: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     ten_phuong_thuc: DataTypes.STRING,
   }, {

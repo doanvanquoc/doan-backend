@@ -18,6 +18,30 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tai_khoan',
         as: 'chi_tiet_hoa_don'
       });
+      TaiKhoan.hasMany(models.HoaDon, {
+        foreignKey: 'tai_khoan',
+        as: 'hoa_don'
+      });
+      TaiKhoan.hasMany(models.ThongKeChi, {
+        foreignKey: 'tai_khoan',
+        as: 'chi'
+      });
+      TaiKhoan.hasMany(models.ThongKeThu, {
+        foreignKey: 'tai_khoan',
+        as: 'thu'
+      }); 
+      TaiKhoan.belongsTo(models.CaLamViec, {
+        foreignKey: 'ca_lam_viec',
+        as: 'ca'
+      });
+      TaiKhoan.hasMany(models.ChiTietCaLamViec, {
+        foreignKey: 'tai_khoan',
+        as: 'nhan_vien'
+      });
+      TaiKhoan.belongsTo(models.ChiNhanh, {
+        foreignKey: 'chi_nhanh',
+        as: 'chi_nhanh_lam_viec'
+      });
     }
   }
   TaiKhoan.init({
@@ -29,6 +53,13 @@ module.exports = (sequelize, DataTypes) => {
     id_chuc_vu: DataTypes.INTEGER,
     email: DataTypes.STRING,
     ten_hien_thi: DataTypes.STRING,
+    ca_lam_viec: DataTypes.INTEGER,
+    trang_thai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    
+    },
+    chi_nhanh: DataTypes.INTEGER
   }, {
     timestamps: false,
     sequelize,

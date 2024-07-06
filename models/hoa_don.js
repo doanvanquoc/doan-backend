@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'phuong_thuc_thanh_toan',
         as: 'phuong_thuc'
       });
+      HoaDon.belongsTo(models.ChiNhanh, {
+        foreignKey: 'chi_nhanh',
+        as: 'chi_nhanh_lam_viec'
+      });
     }
   }
   HoaDon.init({
@@ -53,8 +57,10 @@ module.exports = (sequelize, DataTypes) => {
     trang_thai: {
       type: DataTypes.INTEGER,
       defaultValue: 1
-
     },
+    chi_nhanh: {
+      type: DataTypes.INTEGER,
+    }
   }, {
     timestamps: false,
     sequelize,

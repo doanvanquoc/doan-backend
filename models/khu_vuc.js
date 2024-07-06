@@ -12,20 +12,26 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       KhuVuc.hasMany(models.Ban, {
         foreignKey: 'id_khu_vuc',
-        as: 'ban'
+        as: 'khu_vuc'
+      });
+      KhuVuc.belongsTo(models.ChiNhanh, {
+        foreignKey: 'chi_nhanh',
+        as: 'chi_nhanh_lam_viec'
       });
     }
   }
   KhuVuc.init({
     id_khu_vuc: {
       type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true
     },
     ten_khu_vuc: DataTypes.STRING,
     trang_thai: {
       type: DataTypes.INTEGER,
       defaultValue: 1
-    }
+    },
+    chi_nhanh: DataTypes.INTEGER
   }, {
     timestamps: false,
     sequelize,

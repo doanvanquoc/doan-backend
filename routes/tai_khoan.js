@@ -37,6 +37,9 @@ const router = express.Router()
  *         ca_lam_viec:
  *           type: integer
  *           description: Id ca làm việc
+ *         chi_nhanh:
+ *           type: integer
+ *           description: Id ca làm việc
  */
 
 //scheme for TaiKhoanLogin
@@ -138,11 +141,109 @@ const router = express.Router()
  *         description: Đăng ký thất bại
  */
 
+// swagger cho dang-nhap-admin
+/**
+ * @swagger
+ * /tai-khoan/dang-nhap-admin:
+ *   post:
+ *     summary: Đăng nhập admin
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TaiKhoanLogin'
+ *     responses:
+ *       200:
+ *         description: Đăng nhập admin thành công
+ *       400:
+ *         description: Đăng nhập admin thất bại
+ */
+
+// swagger cho danh-sach co query page va limit
+/**
+ * @swagger
+ * /tai-khoan/danh-sach:
+ *   get:
+ *     summary: Lấy thông tin tài khoản
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: true
+ *         description: Số trang
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         required: true
+ *         description: Số lượng nhân viên trong 1 trang
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lấy thông tin tài khoản thành công
+ *       400:
+ *         description: Lấy thông tin tài khoản thất bại
+ */
+
+
+// swagger cho cap-nhat-nhan-vien khong co field mat_khau
+/**
+ * @swagger
+ * /tai-khoan/cap-nhat-nhan-vien:
+ *   put:
+ *     summary: Cập nhật nhân viên
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TaiKhoan'
+ *     responses:
+ *       200:
+ *         description: Cập nhật nhân viên thành công
+ *       400:
+ *         description: Cập nhật nhân viên thất bại
+ */
+
+// swagger cho xoa-nhan-vien  
+/**
+ * @swagger
+ * /tai-khoan/{taiKhoan}:
+ *   delete:
+ *     summary: Xóa nhân viên
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: taiKhoan
+ *         required: true
+ *         description: Tên tài khoản
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Xóa nhân viên thành công
+ *       400:
+ *         description: Xóa nhân viên thất bại
+ */
+
 router.post('/dang-ky', controller.dangKy)
 router.post('/dang-nhap', controller.dangNhap)
 router.post('/dang-nhap-bang-khuon-mat', controller.dangNhapBangKhuonMat)
 router.get('/lich-su-dat-mon', verify_token, controller.layLichSuDatMon)
 router.post('/doi-mat-khau', verify_token, controller.doiMatKhau)
 router.post('/dang-nhap-admin', controller.dangNhapAdmin)
+router.get('/danh-sach', verify_token, controller.layDanhSachNhanVien)
+router.put('/cap-nhat-nhan-vien', verify_token, controller.capNhatNhanVien)
+router.delete('/:taiKhoan', verify_token, controller.xoaNhanVien)
 
 module.exports = router

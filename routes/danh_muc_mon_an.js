@@ -50,6 +50,67 @@ const router = express.Router()
  *                 $ref: '#/components/schemas/DanhMucMonAn'
  */
 
+//swagger cho api thêm nhóm món
+/**
+ * @swagger
+ * /danh-muc-mon-an:
+ *   post:
+ *     summary: Thêm nhóm món
+ *     tags: [Nhóm Món]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tenNhom:
+ *                 type: string
+ *                 description: Tên nhóm món
+ *     responses:
+ *       200:
+ *         description: Nhóm món đã thêm
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DanhMucMonAn'
+ */
+
+//swagger cho api cập nhật nhóm món
+/**
+ * @swagger
+ * /danh-muc-mon-an:
+ *   put:
+ *     summary: Cập nhật nhóm món
+ *     tags: [Nhóm Món]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idNhom:
+ *                 type: integer
+ *                 description: Mã nhóm món
+ *               tenNhom:
+ *                 type: string
+ *                 description: Tên nhóm món
+ *     responses:
+ *       200:
+ *         description: Nhóm món đã cập nhật
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DanhMucMonAn'
+ */
+
 router.get('/', verify_token, controller.layDanhSachDanhMucMonAn)
+router.post('/', verify_token, controller.themNhomMon)
+router.put('/', verify_token, controller.capNhatNhomMon)
 
 module.exports = router

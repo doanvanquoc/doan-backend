@@ -1,9 +1,12 @@
 const db = require('../models')
 
-const layTop5MonAn = () => new Promise(async (resolve, reject) => {
+const layTop5MonAn = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
   try {
     const danhSachMonAn = await db.ChiTietHoaDon.findAll({
-      attributes: ['id_mon_an', [db.Sequelize.fn('sum', db.Sequelize.col('so_luong')), 'so_luong']],
+      attributes: [
+        'id_mon_an',
+        [db.Sequelize.fn('sum', db.Sequelize.col('so_luong')), 'so_luong']
+      ],
       group: ['id_mon_an'],
       order: [[db.Sequelize.fn('sum', db.Sequelize.col('so_luong')), 'DESC']],
       limit: 5,
@@ -12,70 +15,140 @@ const layTop5MonAn = () => new Promise(async (resolve, reject) => {
           model: db.MonAn,
           as: 'mon_an',
           attributes: ['ten_mon_an']
+        },
+        {
+          model: db.HoaDon,
+          as: 'hoa_don',
+          attributes: [],
+          where: {
+            ngay: {
+              [db.Sequelize.Op.between]: [tuNgay, denNgay]
+            },
+            gio_ra: {
+              [db.Sequelize.Op.ne]: null
+            }
+          },
+          required: true  // Chỉ lấy những ChiTietHoaDon có liên kết với HoaDon có trang_thai = 2
         }
-      ]
-    })
-    if (danhSachMonAn && danhSachMonAn.length > 0) {
-      resolve({ success: true, data: danhSachMonAn })
-    }
-    else {
-      resolve({ success: false, message: 'Không tìm thấy món ăn nào' })
-    }
-  } catch (error) {
-    reject({ success: false, message: error.message })
-  }
-})
+      ],
+    });
 
-const tinhDoanhThuTheoNgay = (ngay) => new Promise(async (resolve, reject) => {
-  try {
-    const doanhThu = await db.HoaDon.findAll({
-      where: {
-        ngay: ngay,
-        trang_thai: 1
-      },
-      attributes: [[db.Sequelize.fn('sum', db.Sequelize.col('tong_tien')), 'doanh_thu']]
-    })
-    if (doanhThu && doanhThu.length > 0) {
-      resolve({ success: true, data: doanhThu })
-    }
-    else {
-      resolve({ success: false, message: 'Không có doanh thu' })
+    if (danhSachMonAn && danhSachMonAn.length > 0) {
+      resolve({ success: true, data: danhSachMonAn });
+    } else {
+      resolve({ success: false, message: 'Không có món ăn nào được phục vụ trong khoảng thời gian này' });
     }
   } catch (error) {
-    reject({ success: false, message: error.message })
+    reject({ success: false, message: error.message });
   }
-})
+});
+
 
 const tinhDoanhThuTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
   try {
+    const ngayTrongKhoang = generateDateRange(tuNgay, denNgay);
+    // Lấy danh sách doanh thu từ cơ sở dữ liệu
     const doanhThu = await db.HoaDon.findAll({
       where: {
         ngay: {
           [db.Sequelize.Op.between]: [tuNgay, denNgay]
         },
-        trang_thai: 1
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
       },
-      attributes: [[db.Sequelize.fn('sum', db.Sequelize.col('tong_tien')), 'doanh_thu']]
-    })
-    if (doanhThu && doanhThu.length > 0) {
-      resolve({ success: true, data: doanhThu })
+      attributes: [
+        'ngay',
+        [db.Sequelize.fn('sum', db.Sequelize.col('tong_tien')), 'doanh_thu']
+      ],
+      group: ['ngay'],
+      raw: true,
+      order: ['ngay'] // Sắp xếp ngày tăng dần
+    });
+
+    // Nếu không có ngày nào có hóa đơn, trả về thông báo
+    if (doanhThu.length === 0) {
+      resolve({ success: false, message: 'Không có doanh thu nào trong khoảng thời gian này' });
+      return;
     }
-    else {
-      resolve({ success: false, message: 'Không có doanh thu' })
-    }
+
+    // Map kết quả từ cơ sở dữ liệu vào danh sách ngày trong khoảng
+    const formattedData = ngayTrongKhoang.map(date => {
+      const found = doanhThu.find(item => item.ngay === date);
+      return {
+        ngay: date,
+        doanh_thu: found ? parseFloat(found.doanh_thu).toFixed(2) : '0.00'
+      };
+    });
+
+    resolve({ success: true, data: formattedData });
   } catch (error) {
-    reject({ success: false, message: error.message })
+    reject({ success: false, message: error.message });
   }
-})
+});
 
 
-//liet ke tong doanh thu cua moi ngay trong 7 ngay gan nhat
+function generateDateRange(startDate, endDate) {
+  const dates = [];
+  let currentDate = new Date(startDate);
+  const end = new Date(endDate);
+
+  while (currentDate <= end) {
+    dates.push(currentDate.toISOString().slice(0, 10));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
+}
+
+const tinhTongDoanhThuTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    // Tính doanh thu từ bảng HoaDon
+    const doanhThuHoadon = await db.HoaDon.findAll({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      },
+      attributes: [
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'doanh_thu']
+      ],
+      raw: true
+    });
+
+    // Tính doanh thu từ bảng ThongKeThu
+    const doanhThuNgoai = await db.ThongKeThu.findAll({
+      where: {
+        thoi_gian: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+      },
+      attributes: [
+        [db.Sequelize.fn('sum', db.Sequelize.col('so_tien')), 'doanh_thu']
+      ],
+      raw: true
+    });
+    const tongDoanhThuHoadon = doanhThuHoadon[0].doanh_thu || 0;
+    const tongDoanhThuNgoai = doanhThuNgoai[0].doanh_thu || 0;
+    const tongDoanhThu = parseFloat(tongDoanhThuNgoai) + parseFloat(tongDoanhThuHoadon);
+
+    resolve({ success: true, data: tongDoanhThu });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 const tinhDoanhThuTheoTuan = () => new Promise(async (resolve, reject) => {
   try {
     // Lấy danh sách doanh thu trong 7 ngày gần nhất từ cơ sở dữ liệu
     const doanhThu = await db.HoaDon.findAll({
       where: {
-        trang_thai: 1,
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        },
         ngay: {
           [db.Sequelize.Op.gte]: db.Sequelize.literal('CURRENT_DATE - INTERVAL 7 DAY')
         }
@@ -98,10 +171,6 @@ const tinhDoanhThuTheoTuan = () => new Promise(async (resolve, reject) => {
       ngayTrongTuan.push(ngay.toISOString().split('T')[0]); // Chuyển ngày về định dạng 'YYYY-MM-DD'
 
     }
-    console.log('=======================');
-    console.log(ngayTrongTuan);
-    console.log('=======================');
-    console.log(doanhThu);
     const doanhThuMap = {};
     doanhThu.forEach(item => {
       doanhThuMap[item.ngay] = parseFloat(item.doanh_thu);
@@ -119,10 +188,174 @@ const tinhDoanhThuTheoTuan = () => new Promise(async (resolve, reject) => {
   }
 });
 
+const layTopPhuongThucThanhToan = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    const danhSachPhuongThucThanhToan = await db.HoaDon.findAll({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      },
+      attributes: ['phuong_thuc_thanh_toan', [db.Sequelize.fn('count', db.Sequelize.col('phuong_thuc_thanh_toan')), 'so_luong']],
+      group: ['phuong_thuc_thanh_toan'],
+      order: [[db.Sequelize.fn('count', db.Sequelize.col('phuong_thuc_thanh_toan')), 'DESC']],
+      limit: 5,
+      include: [
+        {
+          model: db.PhuongThucThanhToan,
+          as: 'phuong_thuc',
+          attributes: ['ten_phuong_thuc']
+        }
+      ]
+    })
+    if (danhSachPhuongThucThanhToan && danhSachPhuongThucThanhToan.length > 0) {
+      resolve({ success: true, data: danhSachPhuongThucThanhToan })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy phương thức thanh toán nào' })
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message })
+  }
+})
+
+const tinhGiamGiaVaChiPhiTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    const giamGia = await db.HoaDon.findAll({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      },
+      attributes: [
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * chiet_khau / 100')), 'giam_gia']
+      ],
+      raw: true
+    });
+
+    const chiPhi = await db.ThongKeChi.findAll({
+      where: {
+        thoi_gian: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        }
+      },
+      attributes: [
+        [db.Sequelize.fn('sum', db.Sequelize.col('so_tien')), 'chi_phi']
+      ],
+      raw: true
+    });
+
+    const tongGiamGia = giamGia[0].giam_gia || 0;
+    const tongChiPhi = chiPhi[0].chi_phi || 0;
+    const tongChiTieu = parseFloat(tongGiamGia) + parseFloat(tongChiPhi);
+    resolve({ success: true, data: tongChiTieu })
+  } catch (error) {
+    reject({ success: false, message: error })
+  }
+})
+
+const tinhSoHoaDonVaTrungBinhTien = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    // Đếm số lượng hóa đơn
+    const soHoaDon = await db.HoaDon.count({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      }
+    });
+
+    // Tính tổng tiền sau khi trừ chiết khấu
+    const tongTien = await db.HoaDon.findAll({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      },
+      attributes: [
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'tong_tien_sau_chiet_khau']
+      ],
+      raw: true
+    });
+
+    // Lấy tổng tiền từ kết quả truy vấn
+    const tongTienSauChietKhau = tongTien[0].tong_tien_sau_chiet_khau || 0;
+
+    // Tính trung bình tiền
+    const trungBinhTien = parseFloat(tongTienSauChietKhau) / soHoaDon;
+
+    resolve({ success: true, data: { soHoaDon, trungBinhTien } });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+const thongKeNhanVienBanChayTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    const danhSachNhanVien = await db.ChiTietHoaDon.findAll({
+      attributes: [
+        [db.Sequelize.fn('count', db.Sequelize.col('ChiTietHoaDon.tai_khoan')), 'so_luong']
+      ],
+      group: ['ChiTietHoaDon.tai_khoan'],
+      order: [[db.Sequelize.fn('count', db.Sequelize.col('ChiTietHoaDon.tai_khoan')), 'DESC']],
+      limit: 5,
+      include: [
+        {
+          model: db.TaiKhoan,
+          as: 'nhan_vien',
+          attributes: ['ten_hien_thi']
+        },
+        {
+          model: db.HoaDon,
+          as: 'hoa_don',
+          attributes: [],
+          where: {
+            ngay: {
+              [db.Sequelize.Op.between]: [tuNgay, denNgay]
+            },
+            gio_ra: {
+              [db.Sequelize.Op.ne]: null
+            }
+          },
+          required: true
+        }
+      ]
+    });
+
+    if (danhSachNhanVien && danhSachNhanVien.length > 0) {
+      resolve({ success: true, data: danhSachNhanVien });
+    } else {
+      resolve({ success: false, message: 'Không có nhân viên phục vụ nào làm việc trong khoảng thời gian này' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+
+
+
+
 
 module.exports = {
   layTop5MonAn,
-  tinhDoanhThuTheoNgay,
   tinhDoanhThuTheoKhoangThoiGian,
-  tinhDoanhThuTheoTuan
+  tinhDoanhThuTheoTuan,
+  tinhTongDoanhThuTheoKhoangThoiGian,
+  layTopPhuongThucThanhToan,
+  tinhGiamGiaVaChiPhiTheoKhoangThoiGian,
+  tinhSoHoaDonVaTrungBinhTien,
+  thongKeNhanVienBanChayTheoKhoangThoiGian
 }

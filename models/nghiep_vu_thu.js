@@ -14,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_ca',
         as: 'chi_tiet_ca'
       });
+      
     }
   }
   NghiepVuThu.init({
     id_nghiep_vu  : {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     ten_nghiep_vu: DataTypes.STRING
   }, {

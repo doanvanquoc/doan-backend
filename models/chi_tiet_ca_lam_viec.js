@@ -14,12 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_ca',
         as: 'ca_lam_viec'
       });
+      ChiTietCaLamViec.belongsTo(models.TaiKhoan, {
+        foreignKey: 'tai_khoan',
+        as: 'nhan_vien'
+      });
     }
   }
   ChiTietCaLamViec.init({
     id_chi_tiet_ca: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     id_ca: DataTypes.INTEGER,
     tai_khoan: DataTypes.STRING,

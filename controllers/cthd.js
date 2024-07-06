@@ -42,8 +42,7 @@ const capNhatDanhSachCTHD = async (req, res) => {
 const capNhatTrangThaiCTHD = async (req, res) => {
   try {
     const { idCTHD, trangThai } = req.body;
-    console.log(req.body);
-    if (!idCTHD || !trangThai) {
+    if (trangThai != 0 && (!idCTHD || !trangThai)) {
       return res.status(400).json('Thiếu thông tin');
     }
     const result = await service.capNhatTrangThaiCTHD(idCTHD, trangThai);

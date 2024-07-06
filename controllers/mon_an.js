@@ -74,11 +74,51 @@ const capNhatTrangThaiMonAn = async (req, res) => {
   }
 }
 
+const themMonAn = async (req, res) => {
+  try {
+    const result = await monAnService.themMonAn(req.body, req.file.filename);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const capNhatMonAn = async (req, res) => {
+  try {
+    const result = await monAnService.capNhatMonAn(req.params.id, req.body, req.file.filename);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const capNhatMonAnKhongHinhAnh = async (req, res) => {
+  try {
+    const result = await monAnService.capNhatMonAnKhongHinhAnh(req.params.id, req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const xoaMonAn = async (req, res) => {
+  try {
+    const result = await monAnService.xoaMonAn(req.params.id);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   layDanhSachMonAnPhanTrang,
   layMonAnTheoDanhMuc,
   layDanhSachMonAn,
   datMon,
   themMonVaoHoaDonDaCo,
-  capNhatTrangThaiMonAn
+  capNhatTrangThaiMonAn,
+  themMonAn,
+  capNhatMonAn,
+  capNhatMonAnKhongHinhAnh,
+  xoaMonAn
 }

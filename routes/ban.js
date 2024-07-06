@@ -109,8 +109,92 @@ const router = express.Router()
  *         description: Cập nhật thất bại
  */
 
+//swagger cho api them ban, thêm require header Authorization
+/**
+ * @swagger
+ * /ban:
+ *   post:
+ *     summary: Thêm bàn
+ *     tags: [Bàn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tenBan:
+ *                 type: string
+ *                 description: Tên bàn
+ *               idKhuVuc:
+ *                 type: integer
+ *                 description: Mã khu vực
+ *     responses:
+ *       200:
+ *         description: Thêm thành công
+ *       400:
+ *         description: Thêm thất bại
+ */
+
+//swagger cho api cap-nhat-ban, thêm require header Authorization
+/**
+ * @swagger
+ * /ban/{idBan}:
+ *   put:
+ *     summary: Cập nhật bàn
+ *     tags: [Bàn]
+ *     parameters:
+ *       - in: path
+ *         name: idBan
+ *         required: true
+ *         description: Mã bàn
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Ban'
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Cập nhật thất bại
+ */
+
+//swagger cho api xoa ban, thêm require header Authorization
+/**
+ * @swagger
+ * /ban/{idBan}:
+ *   delete:
+ *     summary: Xóa bàn
+ *     tags: [Bàn]
+ *     parameters:
+ *       - in: path
+ *         name: idBan
+ *         required: true
+ *         description: Mã bàn
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Xóa thành công
+ *       400:
+ *         description: Xóa thất bại
+ */
+
 
 router.get('/:id_khu_vuc', verify_token, controller.layBanTheoKhuVuc)
+router.post('/', verify_token, controller.themBan)
+router.put('/:idBan', verify_token, controller.capNhatBan)
+router.delete('/:idBan', verify_token, controller.xoaBan)
 router.get('/', verify_token, controller.layDanhSachBan)
 router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
 

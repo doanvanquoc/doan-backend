@@ -9,6 +9,26 @@ const layDanhSachChucVu = async (req, res) => {
   }
 }
 
+const themChucVu = async (req, res) => {
+  try {
+    const result = await chucVuService.themChucVu(req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const capNhatChucVu = async (req, res) => {
+  try {
+    const result = await chucVuService.capNhatChucVu(req.params.id, req.body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
-  layDanhSachChucVu
+  layDanhSachChucVu,
+  themChucVu,
+  capNhatChucVu
 }

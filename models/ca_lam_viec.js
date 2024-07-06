@@ -22,12 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_ca',
         as: 'thong_ke_chi'
       });
+      CaLamViec.hasMany(models.TaiKhoan, {
+        foreignKey: 'ca_lam_viec',
+        as: 'ca'
+      });
     }
   }
   CaLamViec.init({
     id_ca: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     ten_ca: DataTypes.STRING,
     bat_dau: DataTypes.TIME,

@@ -28,6 +28,9 @@ const router = express.Router()
  *         ten_khu_vuc:
  *           type: string
  *           description: Tên khu vực
+ *         chi_nhanh:
+ *           type: integer
+ *           description: Mã chi nhánh
  */
 
 //swagger cho api lấy danh sách khu vực thêm required auth header
@@ -79,7 +82,81 @@ const router = express.Router()
  *         description: Lỗi khi cập nhật trạng thái khu vực
  */
 
+// swagger cho api lấy tất cả khu vực thêm required auth header
+/**
+ * @swagger
+ * /khu-vuc/tat-ca:
+ *   get:
+ *     summary: Lấy tất cả khu vực
+ *     tags: [Khu Vực]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Danh sách khu vực
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/KhuVuc'
+ */ 
+
+//swagger cho api thêm khu vực thêm required auth header
+/**
+ * @swagger
+ * /khu-vuc:
+ *   post:
+ *     summary: Thêm khu vực
+ *     tags: [Khu Vực]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/KhuVuc'
+ *     responses:
+ *       200:
+ *         description: Thêm khu vực thành công
+ *       400:
+ *         description: Lỗi khi thêm khu vực
+ */
+
+//swagger cho api cập nhật khu vực thêm required auth header
+/**
+ * @swagger
+ * /khu-vuc/{idKhuVuc}:
+ *   put:
+ *     summary: Cập nhật khu vực
+ *     tags: [Khu Vực]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: idKhuVuc
+ *         required: true
+ *         description: Mã khu vực
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/KhuVuc'
+ *     responses:
+ *       200:
+ *         description: Cập nhật khu vực thành công
+ *       400:
+ *         description: Lỗi khi cập nhật khu vực
+ */
+
 router.get('/', verify_token, controller.layDanhSachKhuVuc)
+router.post('/', verify_token, controller.themKhuVuc)
+router.put('/:idKhuVuc', verify_token, controller.capNhatKhuVuc)
 router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiKhuVuc)
+router.get('/tat-ca', verify_token, controller.layTatCaKhuVuc)
 
 module.exports = router

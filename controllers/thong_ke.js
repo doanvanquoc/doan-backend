@@ -2,21 +2,13 @@ const service = require('../services/thong_ke');
 
 const layTop5MonAn = async (req, res) => {
   try {
-    const result = await service.layTop5MonAn();
+    const result = await service.layTop5MonAn(req.query.tuNgay, req.query.denNgay);
     res.json(result);
   } catch (error) {
     res.json(error.message);
   }
 }
 
-const tinhDoanhThuTheoNgay = async (req, res) => {
-  try {
-    const result = await service.tinhDoanhThuTheoNgay(req.query.ngay);
-    res.json(result);
-  } catch (error) {
-    res.json(error.message);
-  }
-}
 
 const tinhDoanhThuTheoKhoangThoiGian = async (req, res) => {
   try {
@@ -36,9 +28,58 @@ const tinhDoanhThuTheoTuan = async (req, res) => {
   }
 }
 
+const tinhTongDoanhThuTheoKhoangThoiGian = async (req, res) => {
+  try {
+    const result = await service.tinhTongDoanhThuTheoKhoangThoiGian(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
+const layTopPhuongThucThanhToan = async (req, res) => {
+  try {
+    const result = await service.layTopPhuongThucThanhToan(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
+const tinhGiamGiaVaChiPhiTheoKhoangThoiGian = async (req, res) => {
+  try {
+    const result = await service.tinhGiamGiaVaChiPhiTheoKhoangThoiGian(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
+const tinhSoHoaDonVaTrungBinhTien = async (req, res) => {
+  try {
+    const result = await service.tinhSoHoaDonVaTrungBinhTien(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
+const thongKeNhanVienBanChayTheoKhoangThoiGian = async (req, res) => {
+  try {
+    const result = await service.thongKeNhanVienBanChayTheoKhoangThoiGian(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 module.exports = {
   layTop5MonAn,
-  tinhDoanhThuTheoNgay,
   tinhDoanhThuTheoKhoangThoiGian,
-  tinhDoanhThuTheoTuan
+  tinhDoanhThuTheoTuan,
+  tinhTongDoanhThuTheoKhoangThoiGian,
+  layTopPhuongThucThanhToan,
+  tinhGiamGiaVaChiPhiTheoKhoangThoiGian,
+  tinhSoHoaDonVaTrungBinhTien,
+  thongKeNhanVienBanChayTheoKhoangThoiGian
 }
