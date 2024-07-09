@@ -1,4 +1,3 @@
-const { where } = require('sequelize')
 const db = require('../models')
 
 const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {

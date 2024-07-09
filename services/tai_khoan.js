@@ -149,38 +149,62 @@ const dangNhapAdmin = (tai_khoan, mat_khau) => new Promise(async (resolve, rejec
 
 const layDanhSachNhanVien = (page, limit) => new Promise(async (resolve, reject) => {
   try {
-    page = parseInt(page, 10) || 1;
-    limit = parseInt(limit, 10) || 10;
-    const offset = (page - 1) * limit;
+    if (page && limit) {
+      page = parseInt(page, 10) || 1;
+      limit = parseInt(limit, 10) || 10;
+      const offset = (page - 1) * limit;
 
-    const { count, rows: nhanVien } = await db.TaiKhoan.findAndCountAll({
-      attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
-      include: [
-        {
-          model: db.ChucVu,
-          as: 'chuc_vu',
-          attributes: { exclude: ['id_chuc_vu'] }
+      const { count, rows: nhanVien } = await db.TaiKhoan.findAndCountAll({
+        attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+        include: [
+          {
+            model: db.ChucVu,
+            as: 'chuc_vu',
+            attributes: { exclude: ['id_chuc_vu'] }
+          },
+          {
+            model: db.CaLamViec,
+            as: 'ca',
+            attributes: { exclude: ['id_ca'] }
+          }
+        ],
+        where: {
+          trang_thai: 1
         },
-        {
-          model: db.CaLamViec,
-          as: 'ca',
-          attributes: { exclude: ['id_ca'] }
-        }
-      ],
-      where: {
-        trang_thai: 1
-      },
-      limit: limit,
-      offset: offset,
-    });
+        limit: limit,
+        offset: offset,
+      });
 
-    resolve({
-      success: true,
-      data: nhanVien,
-      totalItems: count,
-      totalPages: Math.ceil(count / limit),
-      currentPage: page
-    });
+      resolve({
+        success: true,
+        data: nhanVien,
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+      });
+    }
+    else {
+      //lay tat ca nhan vien
+      const nhanVien = await db.TaiKhoan.findAll({
+        attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+        include: [
+          {
+            model: db.ChucVu,
+            as: 'chuc_vu',
+            attributes: { exclude: ['id_chuc_vu'] }
+          },
+          {
+            model: db.CaLamViec,
+            as: 'ca',
+            attributes: { exclude: ['id_ca'] }
+          }
+        ],
+        where: {
+          trang_thai: 1
+        }
+      });
+      resolve({ success: true, data: nhanVien });
+    }
   } catch (error) {
     reject({ success: false, message: error.message });
   }

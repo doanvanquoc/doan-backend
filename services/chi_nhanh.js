@@ -22,10 +22,10 @@ const capNhatChiNhanh = (chiNhanh) => new Promise(async (resolve, reject) => {
   try {
     await db.ChiNhanh.update(chiNhanh, {
       where: {
-        id: chiNhanh.id
+        id_chi_nhanh: chiNhanh.id_chi_nhanh
       }
     });
-    const newChiNhanh = await db.ChiNhanh.findByPk(chiNhanh.id);
+    const newChiNhanh = await db.ChiNhanh.findByPk(chiNhanh.id_chi_nhanh);
     resolve({ success: true, data: newChiNhanh });
   } catch (error) {
     reject({ success: false, message: error.message });
