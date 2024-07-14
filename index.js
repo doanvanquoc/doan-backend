@@ -12,6 +12,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/', express.static('D:/anh'));
+app.use(express.static('public'))
 
 
 const auth = require('./routes/auth')
@@ -29,6 +30,7 @@ const thu = require('./routes/nghiep_vu_thu')
 const pttt = require('./routes/phuong_thuc_thanh_toan')
 const thongKe = require('./routes/thong_ke')
 const chiNhanh = require('./routes/chi_nhanh')
+const thanhToan = require('./routes/thanh_toan')
 
 setupSwagger(app);
 
@@ -51,6 +53,7 @@ app.use('/thu', thu)
 app.use('/phuong-thuc-thanh-toan', pttt)
 app.use('/thong-ke', thongKe)
 app.use('/chi-nhanh', chiNhanh)
+app.use('/thanh-toan', thanhToan)
 
 server.listen(PORT, () => {
   console.log('Server đang chạy tại cổng ' + PORT)
