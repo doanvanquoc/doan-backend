@@ -76,10 +76,12 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               danh_sach_id_cthd:
+ *               danh_sach_id:
  *                 type: array
  *                 items:
  *                   type: integer
+ *               id_hoa_don:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Xóa thành công
