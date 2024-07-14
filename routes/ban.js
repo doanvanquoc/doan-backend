@@ -193,9 +193,9 @@ const router = express.Router()
 
 router.get('/:id_khu_vuc', verify_token, controller.layBanTheoKhuVuc)
 router.post('/', verify_token, controller.themBan)
+router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
 router.put('/:idBan', verify_token, controller.capNhatBan)
 router.delete('/:idBan', verify_token, controller.xoaBan)
 router.get('/', verify_token, controller.layDanhSachBan)
-router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
 
 module.exports = router

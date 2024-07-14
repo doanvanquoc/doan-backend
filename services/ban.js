@@ -77,7 +77,6 @@ const themBan = (ban) => new Promise(async (resolve, reject) => {
 
 const capNhatBan = (idBan, ban) => new Promise(async (resolve, reject) => {
   try {
-    console.log('id ban', idBan);
     const banDaCapNhat = await db.Ban.update(ban, { where: { id_ban: idBan } })
     if (banDaCapNhat) {
       const banVuaCapNhat = await db.Ban.findOne({ where: { id_ban: idBan }, include: [{ model: db.KhuVuc, as: 'khu_vuc' }]})

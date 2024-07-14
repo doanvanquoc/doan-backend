@@ -24,6 +24,8 @@ const layBanTheoKhuVuc = async (req, res) => {
 
 const capNhatTrangThaiBan = async (req, res) => {
   try {
+    // console.log('req body: ', req.body);
+    console.log("===================");
     const { id_ban, trang_thai } = req.body
     if (!id_ban) {
       return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
@@ -38,7 +40,7 @@ const capNhatTrangThaiBan = async (req, res) => {
 
 const themBan = async (req, res) => {
   try {
-    const {ten_ban, id_khu_vuc} = req.body
+    const { ten_ban, id_khu_vuc } = req.body
     if (!ten_ban || !id_khu_vuc) {
       return res.status(400).json({ success: false, message: 'Thiếu thông tin' });
     }
@@ -60,7 +62,7 @@ const capNhatBan = async (req, res) => {
 
 const xoaBan = async (req, res) => {
   try {
-    const {id_ban} = req.params
+    const { id_ban } = req.params
     if (!id_ban) {
       return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
     }
@@ -71,4 +73,4 @@ const xoaBan = async (req, res) => {
   }
 }
 
-module.exports = {layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan, themBan, capNhatBan, xoaBan}
+module.exports = { layDanhSachBan, layBanTheoKhuVuc, capNhatTrangThaiBan, themBan, capNhatBan, xoaBan }
