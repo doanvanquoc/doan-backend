@@ -77,7 +77,7 @@ const capNhatDanhSachCTHD = (danhSachCTHD, idHoaDon) => new Promise(async (resol
   }
 });
 
-const capNhatTrangThaiCTHD = (idCTHD, trangThai) => new Promise(async (resolve, reject) => {
+const capNhatTrangThaiCTHD = (idCTHD, trangThai, user) => new Promise(async (resolve, reject) => {
   try {
     const result = await db.ChiTietHoaDon.update({
       trang_thai: trangThai
@@ -92,7 +92,8 @@ const capNhatTrangThaiCTHD = (idCTHD, trangThai) => new Promise(async (resolve, 
     }
     else {
       io.emit('cap-nhat-trang-thai-cthd', { idCTHD, trangThai });
-      console.log('Emit:', { idCTHD, trangThai });
+      console.log({ idCTHD, trangThai, user });
+      console.log('Emit:', { idCTHD, trangThai, user });
       resolve({ success: true, message: 'Cập nhật thành công' });
     }
   } catch (error) {

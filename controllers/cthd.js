@@ -46,14 +46,14 @@ const capNhatTrangThaiCTHD = async (req, res) => {
     if (trang_thai != 0 && (!id_cthd || !trang_thai)) {
       return res.status(400).json('Thiếu thông tin');
     }
-    const result = await service.capNhatTrangThaiCTHD(id_cthd, trang_thai);
+    const result = await service.capNhatTrangThaiCTHD(id_cthd, trang_thai, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
     res.json(error.message);
   }
 }
 
-module.exports = { 
+module.exports = {
   xoaDanhSachCTHD,
   capNhatIdHoaDon,
   capNhatDanhSachCTHD,
