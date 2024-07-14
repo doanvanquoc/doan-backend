@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'chi_nhanh',
         as: 'chi_nhanh_lam_viec'
       });
+      HoaDon.belongsTo(models.TaiKhoan, {
+        foreignKey: 'thu_ngan',
+        as: 'tai_khoan'
+      });
     }
   }
   HoaDon.init({

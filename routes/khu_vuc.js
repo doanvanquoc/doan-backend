@@ -57,7 +57,7 @@ const router = express.Router()
 /**
  * @swagger
  * /khu-vuc/cap-nhat-trang-thai:
- *   post:
+ *   put:
  *     summary: Cập nhật trạng thái khu vực
  *     tags: [Khu Vực]
  *     security:
@@ -69,10 +69,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idKhuVuc:
+ *               id_khu_vuc:
  *                 type: integer
  *                 description: Mã khu vực
- *               trangThai:
+ *               trang_thai:
  *                 type: integer
  *                 description: Tình trạng
  *     responses:
@@ -156,7 +156,7 @@ const router = express.Router()
 router.get('/', verify_token, controller.layDanhSachKhuVuc)
 router.post('/', verify_token, controller.themKhuVuc)
 router.put('/:idKhuVuc', verify_token, controller.capNhatKhuVuc)
-router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiKhuVuc)
+router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiKhuVuc)
 router.get('/tat-ca', verify_token, controller.layTatCaKhuVuc)
 
 module.exports = router

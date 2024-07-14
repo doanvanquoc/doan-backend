@@ -38,7 +38,7 @@ const verify_token = require('../middlewares/verify_token');
 /**
  * @swagger
  * /ca-lam-viec/mo-ca:
- *   post:
+ *   put:
  *     tags:
  *       - Ca Làm Việc
  *     security:
@@ -102,7 +102,7 @@ const verify_token = require('../middlewares/verify_token');
 /**
  * @swagger
  * /ca-lam-viec/dong-ca:
- *   post:
+ *   put:
  *     tags:
  *       - Ca Làm Việc
  *     security:
@@ -116,11 +116,11 @@ const verify_token = require('../middlewares/verify_token');
  *         schema:
  *           type: object
  *           properties:
- *             idChiTietCa:
+ *             id_chi_tiet_ca:
  *               type: integer
- *             soDuCuoi:
+ *             so_du_cuoi:
  *               type: number
- *             ghiChu:
+ *             ghi_chu:
  *               type: string
  *     responses:
  *       200:
@@ -132,8 +132,8 @@ const verify_token = require('../middlewares/verify_token');
  */
 
 router.get('/', verify_token, controller.layDanhSachCa);
-router.post('/mo-ca', verify_token, controller.moCa);
-router.post('/dong-ca', verify_token, controller.dongCa);
+router.put('/mo-ca', verify_token, controller.moCa);
+router.put('/dong-ca', verify_token, controller.dongCa);
 router.get('/chi-tiet', verify_token, controller.layDanhSachChiTietCa);
 
 module.exports = router;

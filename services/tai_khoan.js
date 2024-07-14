@@ -166,6 +166,11 @@ const layDanhSachNhanVien = (page, limit) => new Promise(async (resolve, reject)
             model: db.CaLamViec,
             as: 'ca',
             attributes: { exclude: ['id_ca'] }
+          },
+          {
+            model: db.ChiNhanh,
+            as: 'chi_nhanh_lam_viec',
+            attributes: { exclude: ['id_chi_nhanh'] }
           }
         ],
         where: {

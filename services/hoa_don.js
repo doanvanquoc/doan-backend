@@ -14,9 +14,38 @@ const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
               {
                 model: db.MonAn,
                 as: 'mon_an'
+              },
+            ]
+          },
+          {
+            model: db.Ban,
+            as: 'ban'
+          },
+          {
+            model: db.PhuongThucThanhToan,
+            as: 'phuong_thuc'
+          },
+          {
+            model: db.ChiNhanh,
+            as: 'chi_nhanh_lam_viec'
+          },
+          {
+            model: db.TaiKhoan,
+            as: 'tai_khoan',
+            attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+            include: [
+              {
+                model: db.ChucVu,
+                as: 'chuc_vu',
+                attributes: { exclude: ['id_chuc_vu'] }
+              },
+              {
+                model: db.CaLamViec,
+                as: 'ca',
+                attributes: { exclude: ['id_ca'] }
               }
             ]
-          }
+          },
         ]
       }
     )

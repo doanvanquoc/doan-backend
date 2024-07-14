@@ -84,7 +84,7 @@ const router = express.Router()
 /**
  * @swagger
  * /ban/cap-nhat-trang-thai:
- *   post:
+ *   put:
  *     summary: Cập nhật trạng thái bàn
  *     tags: [Bàn]
  *     security:
@@ -96,10 +96,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idBan:
+ *               id_ban:
  *                 type: integer
  *                 description: Mã bàn
- *               trangThai:
+ *               trang_thai:
  *                 type: integer
  *                 description: Trạng thái bàn
  *     responses:
@@ -125,10 +125,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               tenBan:
+ *               ten_ban:
  *                 type: string
  *                 description: Tên bàn
- *               idKhuVuc:
+ *               id_khu_vuc:
  *                 type: integer
  *                 description: Mã khu vực
  *     responses:
@@ -196,6 +196,6 @@ router.post('/', verify_token, controller.themBan)
 router.put('/:idBan', verify_token, controller.capNhatBan)
 router.delete('/:idBan', verify_token, controller.xoaBan)
 router.get('/', verify_token, controller.layDanhSachBan)
-router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
+router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiBan)
 
 module.exports = router

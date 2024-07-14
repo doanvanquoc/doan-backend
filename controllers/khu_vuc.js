@@ -11,12 +11,12 @@ const layDanhSachKhuVuc = async (req, res) => {
 
 const capNhatTrangThaiKhuVuc = async (req, res) => {
   try {
-    const { idKhuVuc, trangThai } = req.body;
-    if (!idKhuVuc) {
+    const { id_khu_vuc, trang_thai } = req.body;
+    if (!id_khu_vuc) {
       res.status(400).json({ success: false, message: 'Thiếu thông tin' });
       return;
     }
-    const result = await service.capNhatTrangThaiKhuVuc(idKhuVuc, trangThai);
+    const result = await service.capNhatTrangThaiKhuVuc(id_khu_vuc, trang_thai);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -48,12 +48,12 @@ const themKhuVuc = async (req, res) => {
 
 const capNhatKhuVuc = async (req, res) => {
   try {
-    const { idKhuVuc } = req.params;
-    if (!idKhuVuc) {
+    const { id_khu_vuc } = req.params;
+    if (!id_khu_vuc) {
       res.status(400).json({ success: false, message: 'Thiếu thông tin' });
       return;
     }
-    const result = await service.capNhatKhuVuc(idKhuVuc, req.body);
+    const result = await service.capNhatKhuVuc(id_khu_vuc, req.body);
     res.json(result);
   } catch (error) {
     res.json(error);

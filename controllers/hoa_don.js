@@ -11,11 +11,11 @@ const layDanhSachHoaDon = async (req, res) => {
 
 const capNhatBanTrongHoaDon = async (req, res) => {
   try {
-    const { idHoaDon, idBan } = req.body;
-    if (!idHoaDon || !idBan) {
+    const { id_hoa_don, id_ban } = req.body;
+    if (!id_hoa_don || !id_ban) {
       return res.status(400).json('Thiếu thông tin');
     }
-    const result = await service.capNhatBanTrongHoaDon(idHoaDon, idBan);
+    const result = await service.capNhatBanTrongHoaDon(id_hoa_don, id_ban);
     res.json(result);
   } catch (error) {
     res.json(error.message);
@@ -24,11 +24,11 @@ const capNhatBanTrongHoaDon = async (req, res) => {
 
 const capNhatTrangThai = async (req, res) => {
   try {
-    const { idHoaDon, trangThai } = req.body;
-    if (trangThai != 0 && (!idHoaDon || !trangThai)) {
+    const { id_hoa_don, trang_thai } = req.body;
+    if (trang_thai != 0 && (!id_hoa_don || !trang_thai)) {
       return res.status(400).json('Thiếu thông tin');
     }
-    const result = await service.capNhatTrangThai(idHoaDon, trangThai);
+    const result = await service.capNhatTrangThai(id_hoa_don, trang_thai);
     res.json(result);
   } catch (error) {
     res.json(error.message);
@@ -50,11 +50,11 @@ const thanhToan = async (req, res) => {
 
 const capNhatPhuongThucThanhToan = async (req, res) => {
   try {
-    const { idHoaDon, idPhuongThuc } = req.body;
-    if (!idHoaDon || !idPhuongThuc) {
+    const { id_hoa_don, id_phuong_thuc } = req.body;
+    if (!id_hoa_don || !id_phuong_thuc) {
       return res.status(400).json('Thiếu thông tin');
     }
-    const result = await service.capNhatPhuongThucThanhToan(idHoaDon, idPhuongThuc);
+    const result = await service.capNhatPhuongThucThanhToan(id_hoa_don, id_phuong_thuc);
     res.json(result);
   } catch (error) {
     res.json(error.message);
@@ -63,11 +63,11 @@ const capNhatPhuongThucThanhToan = async (req, res) => {
 
 const capNhatTongTien = async (req, res) => {
   try {
-    const { idHoaDon, tongTien } = req.body;
-    if (!idHoaDon || !tongTien) {
+    const { id_hoa_don, tong_tien } = req.body;
+    if (!id_hoa_don || !tong_tien) {
       return res.status(400).json('Thiếu thông tin');
     }
-    const result = await service.capNhatTongTien(idHoaDon, tongTien);
+    const result = await service.capNhatTongTien(id_hoa_don, tong_tien);
     res.json(result);
   } catch (error) {
     res.json(error.message);

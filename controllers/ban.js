@@ -24,12 +24,12 @@ const layBanTheoKhuVuc = async (req, res) => {
 
 const capNhatTrangThaiBan = async (req, res) => {
   try {
-    const {idBan, trangThai} = req.body
-    if (!idBan) {
+    const { id_ban, trang_thai } = req.body
+    if (!id_ban) {
       return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
 
     }
-    const result = await service.capNhatTrangThaiBan(idBan, trangThai)
+    const result = await service.capNhatTrangThaiBan(id_ban, trang_thai)
     res.json(result)
   } catch (error) {
     res.json(error)
@@ -60,11 +60,11 @@ const capNhatBan = async (req, res) => {
 
 const xoaBan = async (req, res) => {
   try {
-    const {idBan} = req.params
-    if (!idBan) {
+    const {id_ban} = req.params
+    if (!id_ban) {
       return res.status(400).json({ success: false, message: 'Thiếu id bàn' });
     }
-    const result = await service.xoaBan(idBan)
+    const result = await service.xoaBan(id_ban)
     res.json(result)
   } catch (error) {
     res.json(error)

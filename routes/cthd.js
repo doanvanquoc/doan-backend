@@ -76,7 +76,7 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               danhSachIdCTHD:
+ *               danh_sach_id_cthd:
  *                 type: array
  *                 items:
  *                   type: integer
@@ -93,7 +93,7 @@ const router = express.Router();
 /**
  * @swagger
  * /cthd/cap-nhat-id-hoa-don:
- *   post:
+ *   put:
  *     summary: Cập nhật id hóa đơn
  *     tags: [Chi Tiết Hóa Đơn]
  *     security:
@@ -105,7 +105,7 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               idHoaDon:
+ *               id_hoa_don:
  *                 type: integer
  *     responses:
  *       200:
@@ -119,7 +119,7 @@ const router = express.Router();
 /**
  * @swagger
  * /cthd/cap-nhat-danh-sach-cthd:
- *   post:
+ *   put:
  *     summary: Cập nhật danh sách chi tiết hóa đơn
  *     tags: [Chi Tiết Hóa Đơn]
  *     security:
@@ -131,7 +131,7 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               danhSachCTHD:
+ *               danh_sach_cthd:
  *                 type: array
  *                 items:
  *                   $ref: '#/components/schemas/ChiTietHoaDon'
@@ -148,7 +148,7 @@ const router = express.Router();
 /**
  * @swagger
  * /cthd/cap-nhat-trang-thai-cthd:
- *   post:
+ *   put:
  *     summary: Cập nhật trạng thái chi tiết hóa đơn
  *     tags: [Chi Tiết Hóa Đơn]
  *     security:
@@ -160,10 +160,10 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               idCTHD:
+ *               id_cthd:
  *                 type: integer
  *                 description: Mã chi tiết hóa đơn
- *               trangThai:
+ *               trang_thai:
  *                 type: integer
  *                 description: Trạng thái
  *     responses:
@@ -176,8 +176,8 @@ const router = express.Router();
  */
 
 router.post('/xoa-danh-sach-cthd', verify_token, controller.xoaDanhSachCTHD);
-router.post('/cap-nhat-id-hoa-don', verify_token, controller.capNhatIdHoaDon);
-router.post('/cap-nhat-danh-sach-cthd', verify_token, controller.capNhatDanhSachCTHD);
-router.post('/cap-nhat-trang-thai-cthd', verify_token, controller.capNhatTrangThaiCTHD);
+router.put('/cap-nhat-id-hoa-don', verify_token, controller.capNhatIdHoaDon);
+router.put('/cap-nhat-danh-sach-cthd', verify_token, controller.capNhatDanhSachCTHD);
+router.put('/cap-nhat-trang-thai-cthd', verify_token, controller.capNhatTrangThaiCTHD);
 
 module.exports = router;

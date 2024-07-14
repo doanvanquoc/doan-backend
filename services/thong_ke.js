@@ -343,6 +343,49 @@ const thongKeNhanVienBanChayTheoKhoangThoiGian = (tuNgay, denNgay) => new Promis
   }
 });
 
+const thongKeTongDoanhThuTungChiNhanh = (tuNgay, denNgay) => new Promise(async (resolve, reject) => {
+  try {
+    const danhSachChiNhanh = await db.HoaDon.findAll({
+      where: {
+        ngay: {
+          [db.Sequelize.Op.between]: [tuNgay, denNgay]
+        },
+        gio_ra: {
+          [db.Sequelize.Op.ne]: null
+        }
+      },
+      attributes: [
+        'chi_nhanh',
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'doanh_thu']
+      ],
+      group: ['chi_nhanh'],
+      raw: true
+    });
+
+    if (danhSachChiNhanh.length === 0) {
+      resolve({ success: false, message: 'Không có doanh thu nào trong khoảng thời gian này' });
+      return;
+    }
+
+    const result = await Promise.all(danhSachChiNhanh.map(async item => {
+      const chiNhanh = await db.ChiNhanh.findOne({
+        where: {
+          id_chi_nhanh: item.chi_nhanh
+        },
+        attributes: ['ten_chi_nhanh']
+      });
+      return {
+        chi_nhanh: chiNhanh.ten_chi_nhanh,
+        doanh_thu: parseFloat(item.doanh_thu).toFixed(2)
+      };
+    }));
+
+    resolve({ success: true, data: result });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+})
+
 
 
 
@@ -356,5 +399,6 @@ module.exports = {
   layTopPhuongThucThanhToan,
   tinhGiamGiaVaChiPhiTheoKhoangThoiGian,
   tinhSoHoaDonVaTrungBinhTien,
-  thongKeNhanVienBanChayTheoKhoangThoiGian
+  thongKeNhanVienBanChayTheoKhoangThoiGian,
+  thongKeTongDoanhThuTungChiNhanh
 }

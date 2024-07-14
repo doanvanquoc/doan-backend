@@ -15,11 +15,11 @@ const layDanhSachMonAnPhanTrang = async (req, res) => {
 
 const layMonAnTheoDanhMuc = async (req, res) => {
   try {
-    const idDanhMuc = req.params.id
-    if (idDanhMuc != 0 && !idDanhMuc) {
+    const id_danh_muc = req.params.id
+    if (id_danh_muc != 0 && !id_danh_muc) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.layMonAnTheoDanhMuc(idDanhMuc);
+    const result = await monAnService.layMonAnTheoDanhMuc(id_danh_muc);
     res.json(result)
   } catch (error) {
     res.json(error);
@@ -28,11 +28,11 @@ const layMonAnTheoDanhMuc = async (req, res) => {
 
 const datMon = async (req, res) => {
   try {
-    const {hoaDon, danhSachChiTietHoaDon} = req.body
-    if (!hoaDon || !danhSachChiTietHoaDon) {
+    const {hoa_don, danh_sach_cthd} = req.body
+    if (!hoa_don || !danh_sach_cthd) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.datMon(hoaDon, danhSachChiTietHoaDon, req.user.tai_khoan);
+    const result = await monAnService.datMon(hoa_don, danh_sach_cthd, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -50,11 +50,11 @@ const layDanhSachMonAn = async (req, res) => {
 
 const themMonVaoHoaDonDaCo = async (req, res) => {
   try {
-    const {id_hoa_don, danhSachChiTietHoaDon} = req.body
-    if (!id_hoa_don || !danhSachChiTietHoaDon) {
+    const {id_hoa_don, danh_sach_cthd} = req.body
+    if (!id_hoa_don || !danh_sach_cthd) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danhSachChiTietHoaDon, req.user.tai_khoan);
+    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danh_sach_cthd, req.user.tai_khoan);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -63,11 +63,11 @@ const themMonVaoHoaDonDaCo = async (req, res) => {
 
 const capNhatTrangThaiMonAn = async (req, res) => {
   try {
-    const {idMonAn, trangThai} = req.body
-    if (!idMonAn || (trangThai != 0 && !trangThai)) {
+    const {id_mon_an, trang_thai} = req.body
+    if (!id_mon_an || (trang_thai != 0 && !trang_thai)) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.capNhatTrangThaiMonAn(trangThai, idMonAn);
+    const result = await monAnService.capNhatTrangThaiMonAn(trang_thai, id_mon_an);
     res.json(result);
   } catch (error) {
     res.json(error)

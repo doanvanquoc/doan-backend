@@ -43,7 +43,7 @@ const verify_token = require('../middlewares/verify_token');
  *     description: Thêm thông kê chi
  *     parameters:
  *       - in: body
- *         name: ThongKeChi
+ *         name: thong_ke_chi
  *         description: Thông tin ThongKeChi
  *         schema:
  *           $ref: '#/definitions/ThongKeChi'

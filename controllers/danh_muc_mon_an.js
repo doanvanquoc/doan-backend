@@ -11,11 +11,11 @@ const layDanhSachDanhMucMonAn = async (req, res) => {
 
 const themNhomMon = async (req, res) => {
   try {
-    const { tenNhom } = req.body;
-    if (!tenNhom) {
+    const { ten_nhom } = req.body;
+    if (!ten_nhom) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' });
     }
-    const result = await danhMucMonAnService.themNhomMon(tenNhom);
+    const result = await danhMucMonAnService.themNhomMon(ten_nhom);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -24,11 +24,11 @@ const themNhomMon = async (req, res) => {
 
 const capNhatNhomMon = async (req, res) => {
   try {
-    const { idNhom, tenNhom } = req.body;
-    if (!idNhom || !tenNhom) {
+    const { id_nhom, ten_nhom } = req.body;
+    if (!id_nhom || !ten_nhom) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' });
     }
-    const result = await danhMucMonAnService.capNhatNhomMon(idNhom, tenNhom);
+    const result = await danhMucMonAnService.capNhatNhomMon(id_nhom, ten_nhom);
     res.json(result);
   } catch (error) {
     res.json(error);

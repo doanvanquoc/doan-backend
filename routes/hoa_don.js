@@ -133,7 +133,7 @@ const router = express.Router()
 /**
  * @swagger
  * /hoa-don/cap-nhat-ban:
- *   post:
+ *   put:
  *     summary: Cập nhật bàn trong hóa đơn
  *     tags: [Hóa Đơn]
  *     security:
@@ -145,10 +145,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idHoaDon:
+ *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               idBan:
+ *               id_ban:
  *                 type: integer
  *                 description: Mã bàn
  *     responses:
@@ -160,7 +160,7 @@ const router = express.Router()
 /**
  * @swagger
  * /hoa-don/cap-nhat-trang-thai:
- *   post:
+ *   put:
  *     summary: Cập nhật trạng thái hóa đơn
  *     tags: [Hóa Đơn]
  *     security:
@@ -172,10 +172,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idHoaDon:
+ *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               trangThai:
+ *               trang_thai:
  *                 type: integer
  *                 description: Trạng thái
  *     responses:
@@ -207,7 +207,7 @@ const router = express.Router()
 /**
  * @swagger
  * /hoa-don/cap-nhat-phuong-thuc-thanh-toan:
- *   post:
+ *   put:
  *     summary: Cập nhật phương thức thanh toán
  *     tags: [Hóa Đơn]
  *     security:
@@ -219,10 +219,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idHoaDon:
+ *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               idPhuongThuc:
+ *               id_phuong_thuc:
  *                 type: integer
  *                 description: Mã phương thức thanh toán
  *     responses:
@@ -234,7 +234,7 @@ const router = express.Router()
 /**
  * @swagger
  * /hoa-don/cap-nhat-tong-tien:
- *   post:
+ *   put:
  *     summary: Cập nhật tổng tiền hóa đơn
  *     tags: [Hóa Đơn]
  *     security:
@@ -246,10 +246,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idHoaDon:
+ *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               tongTien:
+ *               tong_tien:
  *                 type: number
  *                 description: Tổng tiền
  *     responses:
@@ -259,10 +259,10 @@ const router = express.Router()
 
 
 router.get('/', verify_token, controller.layDanhSachHoaDon)
-router.post('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
-router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
+router.put('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
+router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
 router.post('/thanh-toan', verify_token, controller.thanhToan)
-router.post('/cap-nhat-phuong-thuc-thanh-toan', verify_token, controller.capNhatPhuongThucThanhToan)
-router.post('/cap-nhat-tong-tien', verify_token, controller.capNhatTongTien)
+router.put('/cap-nhat-phuong-thuc-thanh-toan', verify_token, controller.capNhatPhuongThucThanhToan)
+router.put('/cap-nhat-tong-tien', verify_token, controller.capNhatTongTien)
 
 module.exports = router

@@ -40,6 +40,9 @@ const router = express.Router()
  *         chi_nhanh:
  *           type: integer
  *           description: Id ca làm việc
+ *         ten_hien_thi:
+ *           type: integer
+ *           description: Id ca làm việc
  */
 
 //scheme for TaiKhoanLogin

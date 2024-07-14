@@ -189,7 +189,7 @@ const router = express.Router()
  *               id_hoa_don:
  *                 type: integer
  *                 description: Mã hóa đơn
- *               danhSachChiTietHoaDon:
+ *               danh_sach_cthd:
  *                 type: array
  *                 items:
  *                   $ref: '#/components/schemas/ChiTietHoaDon'
@@ -204,7 +204,7 @@ const router = express.Router()
 /**
  * @swagger
  * /mon-an/cap-nhat-trang-thai:
- *   post:
+ *   put:
  *     summary: Cập nhật trạng thái món ăn
  *     tags: [Món Ăn]
  *     security:
@@ -216,10 +216,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idMonAn:
+ *               id_mon_an:
  *                 type: integer
  *                 description: Mã món ăn
- *               trangThai:
+ *               trang_thai:
  *                 type: integer
  *                 description: Trạng thái
  *     responses:
@@ -307,7 +307,7 @@ const router = express.Router()
 /**
  * @swagger
  * /mon-an/{id}:
- *   post:
+ *   put:
  *     summary: Cập nhật món ăn
  *     tags: [Món Ăn]
  *     security:
@@ -352,7 +352,7 @@ const router = express.Router()
 /**
  * @swagger
  * /mon-an/cap-nhat-khong-hinh-anh/{id}:
- *   post:
+ *   put:
  *     summary: Cập nhật món ăn không hình ảnh
  *     tags: [Món Ăn]
  *     security:
@@ -424,8 +424,8 @@ router.get('/phan-trang', verify_token, controller.layDanhSachMonAnPhanTrang)
 router.get('/:id', verify_token, controller.layMonAnTheoDanhMuc)
 router.post('/dat-mon', verify_token, controller.datMon)
 router.post('/them-mon-vao-hoa-don-da-co', verify_token, controller.themMonVaoHoaDonDaCo)
-router.post('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiMonAn)
-router.post('/:id', verify_token, upload.single('anh'), controller.capNhatMonAn)
-router.post('/cap-nhat-khong-hinh-anh/:id', verify_token, controller.capNhatMonAnKhongHinhAnh)
+router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiMonAn)
+router.put('/:id', verify_token, upload.single('anh'), controller.capNhatMonAn)
+router.put('/cap-nhat-khong-hinh-anh/:id', verify_token, controller.capNhatMonAnKhongHinhAnh)
 router.delete('/:id', verify_token, controller.xoaMonAn)
 module.exports = router

@@ -73,6 +73,15 @@ const thongKeNhanVienBanChayTheoKhoangThoiGian = async (req, res) => {
   }
 }
 
+const thongKeTongDoanhThuTungChiNhanh = async (req, res) => {
+  try {
+    const result = await service.thongKeTongDoanhThuTungChiNhanh(req.query.tuNgay, req.query.denNgay);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 module.exports = {
   layTop5MonAn,
   tinhDoanhThuTheoKhoangThoiGian,
@@ -81,5 +90,6 @@ module.exports = {
   layTopPhuongThucThanhToan,
   tinhGiamGiaVaChiPhiTheoKhoangThoiGian,
   tinhSoHoaDonVaTrungBinhTien,
-  thongKeNhanVienBanChayTheoKhoangThoiGian
+  thongKeNhanVienBanChayTheoKhoangThoiGian,
+  thongKeTongDoanhThuTungChiNhanh
 }

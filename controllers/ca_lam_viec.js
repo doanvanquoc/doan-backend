@@ -29,11 +29,11 @@ const layDanhSachChiTietCa = async (req, res) => {
 
 const dongCa = async (req, res) => {
   try {
-    const {idChiTietCa, soDuCuoi, ghiChu} = req.body;
-    if (!idChiTietCa || !soDuCuoi) {
+    const {id_chi_tiet_ca, so_du_cuoi, ghi_chu} = req.body;
+    if (!id_chi_tiet_ca || !so_du_cuoi) {
       return res.json({ success: false, message: 'Thiếu thông tin' });
     }
-    const result = await service.dongCa(idChiTietCa, soDuCuoi, ghiChu);
+    const result = await service.dongCa(id_chi_tiet_ca, so_du_cuoi, ghi_chu);
     res.json(result);
   } catch (error) {
     res.json(error);

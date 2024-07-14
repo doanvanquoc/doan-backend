@@ -66,7 +66,7 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               tenNhom:
+ *               ten_nhom:
  *                 type: string
  *                 description: Tên nhóm món
  *     responses:
@@ -94,10 +94,10 @@ const router = express.Router()
  *           schema:
  *             type: object
  *             properties:
- *               idNhom:
+ *               id_nhom:
  *                 type: integer
  *                 description: Mã nhóm món
- *               tenNhom:
+ *               ten_nhom:
  *                 type: string
  *                 description: Tên nhóm món
  *     responses:

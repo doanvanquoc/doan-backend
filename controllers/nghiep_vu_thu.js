@@ -1,13 +1,13 @@
 const service = require('../services/nghiep_vu_thu');
 
 const themThongKeThu = async (req, res) => {
-  const {thongKeThu} = req.body
-  if (!thongKeThu) {
+  const {thong_ke_thu} = req.body
+  if (!thong_ke_thu) {
     res.status(400).send({ message: 'Thiếu thông tin' });
     return;
   }
   try {
-    const result = await service.themThongKeThu(thongKeThu, req.user);
+    const result = await service.themThongKeThu(thong_ke_thu, req.user);
     res.status(200).send(result);
   } catch (error) {
     res.send(error);

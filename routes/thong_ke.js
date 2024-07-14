@@ -46,7 +46,7 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Số lượng món ăn đã bán
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -102,7 +102,7 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Doanh thu theo khoảng thời gian
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -138,7 +138,7 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Doanh thu theo tuần
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -189,7 +189,7 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Tổng doanh thu theo tháng
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -242,7 +242,7 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Số lượng hóa đơn sử dụng phương thức thanh toán đó
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -294,7 +294,7 @@ const verify_token = require('../middlewares/verify_token');
  *                       description: Tổng chi phí theo khoảng thời gian
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -346,7 +346,7 @@ const verify_token = require('../middlewares/verify_token');
  *                       description: Trung bình tiền theo khoảng thời gian
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
@@ -385,11 +385,53 @@ const verify_token = require('../middlewares/verify_token');
  *                         description: Số hóa đơn mà nhân viên đã bán được
  *       400:
  *         description: Thiếu thông tin
- *       403:
+ *       401:
  *         description: Không có quyền truy cập
  *       500:
  *         description: Lỗi server
  */
+
+
+/**
+ * @swagger
+ * /thong-ke/doanh-thu-chi-nhanh:
+ *   get:
+ *     summary: Lấy doanh thu của các chi nhánh
+ *     tags: [Thống kê]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lấy doanh thu của các chi nhánh thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Trạng thái của việc lấy doanh thu của các chi nhánh
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       chi_nhanh:
+ *                         type: string
+ *                         description: "Tên của chi nhánh"
+ *                       doanh_thu:
+ *                         type: number
+ *                         format: double
+ *                         description: "Tổng doanh thu của chi nhánh (đơn vị: VNĐ)"
+ *       400:
+ *         description: Thiếu thông tin
+ *       401:
+ *         description: Không có quyền truy cập
+ *       500:
+ *         description: Lỗi server
+ */
+
+
 
 
 router.get('/top-5-mon-an', verify_token, controller.layTop5MonAn);
@@ -400,5 +442,6 @@ router.get('/top-phuong-thuc-thanh-toan', verify_token, controller.layTopPhuongT
 router.get('/giam-gia-va-chi-phi', verify_token, controller.tinhGiamGiaVaChiPhiTheoKhoangThoiGian);
 router.get('/so-hoa-don-va-trung-binh-tien', verify_token, controller.tinhSoHoaDonVaTrungBinhTien);
 router.get('/top-5-nhan-vien', verify_token, controller.thongKeNhanVienBanChayTheoKhoangThoiGian);
+router.get('/doanh-thu-chi-nhanh', verify_token, controller.thongKeTongDoanhThuTungChiNhanh);
 
 module.exports = router;
