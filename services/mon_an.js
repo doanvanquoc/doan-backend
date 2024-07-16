@@ -88,6 +88,7 @@ const layMonAnTheoDanhMuc = (idDanhMuc, user) => new Promise(async (resolve, rej
 
 const layDanhSachMonAn = (user) => new Promise(async (resolve, reject) => {
   try {
+    console.log('user: ', user.chi_nhanh);
     const monAn = await db.MonAn.findAll({
       where: {
         tinh_trang: 1,
