@@ -5,7 +5,19 @@ const moCa = (chiTietCa, user) => new Promise(async (resolve, reject) => {
     chiTietCa.tai_khoan = user.tai_khoan;
     const res = await db.ChiTietCaLamViec.create(chiTietCa);
     if (res) {
-      resolve({ success: true, message: 'Mở ca thành công' });
+      const chiTietCaMoi = await db.ChiTietCaLamViec.findOne({
+        where: {
+          id_chi_tiet_ca: res.id_chi_tiet_ca
+        },
+        include: [
+          {
+            model: db.CaLamViec,
+            as: 'ca_lam_viec',
+          }
+        ],
+        attributes: { exclude: ['id_ca'] }
+      });
+      resolve({ success: true, message: 'Mở ca thành công', data: chiTietCaMoi });
     } else {
       resolve({ success: false, message: 'Mở ca thất bại' });
     }
