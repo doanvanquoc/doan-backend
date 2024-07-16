@@ -2,11 +2,11 @@ const monAnService = require('../services/mon_an');
 
 const layDanhSachMonAnPhanTrang = async (req, res) => {
   try {
-    const { page, limit } = req.query;
+    const { page, limit, keyword } = req.query;
     if ((page != 0 && !page) || (limit != 0 && !limit)) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.layDanhSachMonAnPhanTrang(page, limit);
+    const result = await monAnService.layDanhSachMonAnPhanTrang(page, limit, keyword);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -19,7 +19,7 @@ const layMonAnTheoDanhMuc = async (req, res) => {
     if (id_danh_muc != 0 && !id_danh_muc) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.layMonAnTheoDanhMuc(id_danh_muc);
+    const result = await monAnService.layMonAnTheoDanhMuc(id_danh_muc, req.user);
     res.json(result)
   } catch (error) {
     res.json(error);
@@ -32,7 +32,7 @@ const datMon = async (req, res) => {
     if (!hoa_don || !danh_sach_cthd) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.datMon(hoa_don, danh_sach_cthd, req.user.tai_khoan);
+    const result = await monAnService.datMon(hoa_don, danh_sach_cthd, req.user);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -41,7 +41,7 @@ const datMon = async (req, res) => {
 
 const layDanhSachMonAn = async (req, res) => {  
   try {
-    const result = await monAnService.layDanhSachMonAn();
+    const result = await monAnService.layDanhSachMonAn(req.user);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -54,7 +54,7 @@ const themMonVaoHoaDonDaCo = async (req, res) => {
     if (!id_hoa_don || !danh_sach_cthd) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' })
     }
-    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danh_sach_cthd, req.user.tai_khoan);
+    const result = await monAnService.themMonVaoHoaDonDaCo(id_hoa_don, danh_sach_cthd);
     res.json(result);
   } catch (error) {
     res.json(error);
@@ -76,7 +76,7 @@ const capNhatTrangThaiMonAn = async (req, res) => {
 
 const themMonAn = async (req, res) => {
   try {
-    const result = await monAnService.themMonAn(req.body, req.file.filename);
+    const result = await monAnService.themMonAn(req.body, req.file.filename, req.user);
     res.json(result);
   } catch (error) {
     res.json(error);

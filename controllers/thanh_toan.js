@@ -6,7 +6,7 @@ const thanhToanChuyenKhoan = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Thiếu thông tin thanh toán' });
   }
   try {
-    const result = await service.thanhToanChuyenKhoan(tong_tien, mo_ta, res)
+    const result = await service.thanhToanChuyenKhoan(tong_tien, mo_ta)
     res.status(200).json(result)
   } catch (error) {
     res.send(error)

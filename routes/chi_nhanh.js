@@ -102,7 +102,7 @@ const router = express.Router()
  */
 
 router.get('/', verify_token, controller.layDanhSachChiNhanh);
-router.post('/', verify_token, controller.themChiNhanh);
+router.post('/', controller.themChiNhanh);
 router.put('/', verify_token, controller.capNhatChiNhanh);
 
 module.exports = router;

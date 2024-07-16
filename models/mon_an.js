@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_mon_an',
         as: 'chi_tiet_hoa_don'
       });
-      
+      MonAn.belongsTo(models.ChiNhanh, {
+        foreignKey: 'id_chi_nhanh',
+        as: 'chi_nhanh'
+      });
     }
   }
   MonAn.init({
@@ -40,7 +43,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 1
     },
-    hinh_anh: DataTypes.STRING
+    hinh_anh: DataTypes.STRING,
+    id_chi_nhanh: DataTypes.INTEGER 
   }, {
     timestamps: false,
     sequelize,

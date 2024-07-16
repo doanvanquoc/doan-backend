@@ -3,9 +3,7 @@ const db = require('../models')
 const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
   try {
     const danhSachHoaDon = await db.HoaDon.findAll(
-
       {
-        // where: { trang_thai: 1 },
         include: [
           {
             model: db.ChiTietHoaDon,
@@ -46,7 +44,9 @@ const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
               }
             ]
           },
-        ]
+        ],
+      // sắp xếp mới nhất lên đầu, theo giờ vào sớm nhất
+      order: [['gio_vao', 'ASC']]
       }
     )
     if (danhSachHoaDon && danhSachHoaDon.length > 0) {

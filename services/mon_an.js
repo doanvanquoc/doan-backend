@@ -1,11 +1,37 @@
 const db = require('../models');
 const io = require('../config/socket').getSocketIO();
 const banService = require('./ban');
-const layDanhSachMonAnPhanTrang = (page, limit) => new Promise(async (resolve, reject) => {
+const layDanhSachMonAnPhanTrang = (page, limit, keyword) => new Promise(async (resolve, reject) => {
   try {
     page = parseInt(page, 10) || 1;
     limit = parseInt(limit, 10) || 10;
     const offset = (page - 1) * limit;
+
+    let whereClause = {
+      tinh_trang: 1
+    };
+
+    // Giải mã keyword và thêm điều kiện tìm kiếm nếu có
+    if (keyword) {
+      const decodedKeyword = decodeURIComponent(keyword);
+      whereClause = {
+        ...whereClause,
+        [db.Sequelize.Op.or]: [
+          {
+            ten_mon_an: {
+              [db.Sequelize.Op.like]: `%${decodedKeyword}%`
+            }
+          },
+          // Có thể thêm các trường khác nếu cần tìm kiếm
+          // Ví dụ:
+          // {
+          //   mo_ta: {
+          //     [db.Sequelize.Op.like]: `%${decodedKeyword}%`
+          //   }
+          // }
+        ]
+      };
+    }
 
     const { count, rows: monAn } = await db.MonAn.findAndCountAll({
       include: [
@@ -15,9 +41,7 @@ const layDanhSachMonAnPhanTrang = (page, limit) => new Promise(async (resolve, r
           attributes: ['id_danh_muc', 'ten_danh_muc']
         },
       ],
-      where: {
-        tinh_trang: 1
-      },
+      where: whereClause,
       limit: limit,
       offset: offset,
     });
@@ -35,10 +59,10 @@ const layDanhSachMonAnPhanTrang = (page, limit) => new Promise(async (resolve, r
 });
 
 
-const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) => {
+const layMonAnTheoDanhMuc = (idDanhMuc, user) => new Promise(async (resolve, reject) => {
   try {
     const monAn = await db.MonAn.findAll({
-      where: { id_danh_muc: idDanhMuc }, include: [
+      where: { id_danh_muc: idDanhMuc, id_chi_nhanh: user.chi_nhanh }, include: [
         {
           model: db.DanhMucMonAn,
           as: 'danh_muc',
@@ -62,11 +86,12 @@ const layMonAnTheoDanhMuc = (idDanhMuc) => new Promise(async (resolve, reject) =
   }
 });
 
-const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
+const layDanhSachMonAn = (user) => new Promise(async (resolve, reject) => {
   try {
     const monAn = await db.MonAn.findAll({
       where: {
-        tinh_trang: 1
+        tinh_trang: 1,
+        id_chi_nhanh: user.chi_nhanh
       },
       include: [
         {
@@ -89,11 +114,12 @@ const layDanhSachMonAn = () => new Promise(async (resolve, reject) => {
 
 const datMon = (hoaDon, danhSachChiTietHoaDon, user) => new Promise(async (resolve, reject) => {
   try {
+    hoaDon.chi_nhanh = user.chi_nhanh;
     const hoaDonMoi = await db.HoaDon.create(hoaDon);
     if (hoaDonMoi) {
       await Promise.all(danhSachChiTietHoaDon.map(async (chiTietHoaDon) => {
         chiTietHoaDon.id_hoa_don = hoaDonMoi.id_hoa_don;
-        chiTietHoaDon.tai_khoan = user;
+        chiTietHoaDon.tai_khoan = user.tai_khoan;
         await db.ChiTietHoaDon.create(chiTietHoaDon);
       }));
       const thongTinHoaDon = await db.HoaDon.findOne({
@@ -141,7 +167,7 @@ const datMon = (hoaDon, danhSachChiTietHoaDon, user) => new Promise(async (resol
   }
 });
 
-const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Promise(async (resolve, reject) => {
+const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon) => new Promise(async (resolve, reject) => {
   try {
     const hoaDonMoi = await db.HoaDon.findOne({ where: { id_hoa_don } });
     if (hoaDonMoi) {
@@ -149,8 +175,6 @@ const themMonVaoHoaDonDaCo = (id_hoa_don, danhSachChiTietHoaDon, user) => new Pr
         chiTietHoaDon.id_hoa_don = hoaDonMoi.id_hoa_don;
         await db.ChiTietHoaDon.create(chiTietHoaDon);
       }));
-
-
       const tongTien = await db.ChiTietHoaDon.sum('thanh_tien', { where: { id_hoa_don } });
       await db.HoaDon.update({ tong_tien: tongTien }, { where: { id_hoa_don } });
       const thongTinHoaDon = await db.HoaDon.findOne({
@@ -199,19 +223,21 @@ const capNhatTrangThaiMonAn = (trangThai, idMonAn) => new Promise(async (resolve
     if (monAn) {
       await db.MonAn.update({ trang_thai: trangThai }, { where: { id_mon_an: idMonAn } });
       resolve({ success: true, message: 'Cập nhật trạng thái món ăn thành công' });
-      io.emit('cap-nhat-trang-thai-mon-an', { idMonAn, trangThai })
+      io.emit('cap-nhat-trang-thai-mon-an', { idMonAn, trangThai, chiNhanh: monAn.id_chi_nhanh });
+      console.log('emit: ', { idMonAn, trangThai, chiNhanh: monAn.id_chi_nhanh });
     }
     else {
       resolve({ success: false, message: 'Không tìm thấy món ăn' });
-    }
+    } 
   } catch (error) {
     reject({ success: false, message: error.message });
   }
 })
 
-const themMonAn = (monAn, hinhAnh) => new Promise(async (resolve, reject) => {
+const themMonAn = (monAn, hinhAnh, user) => new Promise(async (resolve, reject) => {
   try {
     monAn.hinh_anh = hinhAnh
+    monAn.id_chi_nhanh = user.chi_nhanh;
     const monAnMoi = await db.MonAn.create(monAn);
     if (monAnMoi) {
       const monAnDaThem = await db.MonAn.findOne({
