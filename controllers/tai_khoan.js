@@ -81,9 +81,9 @@ const dangNhapAdmin = async (req, res) => {
 }
 
 const layDanhSachNhanVien = async (req, res) => {
-  const { page, limit } = req.query;
+  const { page, limit, keyword } = req.query;
   try {
-    const result = await service.layDanhSachNhanVien(page, limit);
+    const result = await service.layDanhSachNhanVien(page, limit, keyword.trim());
     res.json(result);
   } catch (error) {
     res.json(error);

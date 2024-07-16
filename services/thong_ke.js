@@ -113,7 +113,7 @@ const tinhTongDoanhThuTheoKhoangThoiGian = (tuNgay, denNgay) => new Promise(asyn
         }
       },
       attributes: [
-        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'doanh_thu']
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien')), 'doanh_thu']
       ],
       raw: true
     });
@@ -284,7 +284,7 @@ const tinhSoHoaDonVaTrungBinhTien = (tuNgay, denNgay) => new Promise(async (reso
         }
       },
       attributes: [
-        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'tong_tien_sau_chiet_khau']
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien')), 'tong_tien_sau_chiet_khau']
       ],
       raw: true
     });
@@ -356,7 +356,7 @@ const thongKeTongDoanhThuTungChiNhanh = (tuNgay, denNgay) => new Promise(async (
       },
       attributes: [
         'chi_nhanh',
-        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien * (100 - chiet_khau) / 100')), 'doanh_thu']
+        [db.Sequelize.fn('sum', db.Sequelize.literal('tong_tien')), 'doanh_thu']
       ],
       group: ['chi_nhanh'],
       raw: true

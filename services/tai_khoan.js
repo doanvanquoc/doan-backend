@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const { Op } = require('sequelize');
+
 dotenv.config()
 //hash password
 const hashPassword = (password) => bcrypt.hashSync(password, salt);
@@ -40,7 +42,7 @@ const dangNhap = (tai_khoan, mat_khau) => new Promise(async (resolve, reject) =>
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
       const isMatch = bcrypt.compareSync(mat_khau, account.mat_khau);
-      const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
+      const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
       if (isMatch) {
         const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
         // resolve({ success: true, message: 'Đăng nhập thành công', token });
@@ -60,7 +62,7 @@ const dangNhapBangKhuonMat = (tai_khoan) => new Promise(async (resolve, reject) 
     if (!account) {
       reject({ success: false, message: 'Tài khoản không tồn tại' });
     } else {
-      const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', attributes: { exclude: ['id_chuc_vu'] } }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
+      const taiKhoan = await db.TaiKhoan.findOne({ where: { tai_khoan }, include: { model: db.ChucVu, as: 'chuc_vu', }, attributes: { exclude: ['mat_khau', 'id_chuc_vu'] } });
       const token = jwt.sign({ taiKhoan }, process.env.JWT_SECRET, { expiresIn: '8h' })
       resolve({ success: true, message: 'Đăng nhập thành công', data: taiKhoan, token });
     }
@@ -147,73 +149,67 @@ const dangNhapAdmin = (tai_khoan, mat_khau) => new Promise(async (resolve, rejec
   }
 });
 
-const layDanhSachNhanVien = (page, limit) => new Promise(async (resolve, reject) => {
+
+const layDanhSachNhanVien = (page, limit, keyword) => new Promise(async (resolve, reject) => {
   try {
-    if (page && limit) {
-      page = parseInt(page, 10) || 1;
-      limit = parseInt(limit, 10) || 10;
-      const offset = (page - 1) * limit;
+    page = parseInt(page, 10) || 1;
+    limit = parseInt(limit, 10) || 10;
+    const offset = (page - 1) * limit;
 
-      const { count, rows: nhanVien } = await db.TaiKhoan.findAndCountAll({
-        attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
-        include: [
-          {
-            model: db.ChucVu,
-            as: 'chuc_vu',
-            attributes: { exclude: ['id_chuc_vu'] }
-          },
-          {
-            model: db.CaLamViec,
-            as: 'ca',
-            attributes: { exclude: ['id_ca'] }
-          },
-          {
-            model: db.ChiNhanh,
-            as: 'chi_nhanh_lam_viec',
-            attributes: { exclude: ['id_chi_nhanh'] }
-          }
-        ],
-        where: {
-          trang_thai: 1
+    let whereClause = {
+      trang_thai: 1
+    };
+    console.log('keyword', keyword);
+
+    if (keyword) {
+      const decodedKeyword = decodeURIComponent(keyword);
+      whereClause = {
+        ...whereClause,
+        [Op.or]: [
+          { ten_hien_thi: { [Op.like]: `%${decodedKeyword}%` } },
+          { tai_khoan: { [Op.like]: `%${decodedKeyword}%` } },
+          // Thêm các điều kiện tìm kiếm khác nếu cần thiết
+        ]
+      };
+    }
+
+    const { count, rows: nhanVien } = await db.TaiKhoan.findAndCountAll({
+      attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+      include: [
+        {
+          model: db.ChucVu,
+          as: 'chuc_vu',
+          attributes: { exclude: ['id_chuc_vu'] }
         },
-        limit: limit,
-        offset: offset,
-      });
-
-      resolve({
-        success: true,
-        data: nhanVien,
-        totalItems: count,
-        totalPages: Math.ceil(count / limit),
-        currentPage: page
-      });
-    }
-    else {
-      //lay tat ca nhan vien
-      const nhanVien = await db.TaiKhoan.findAll({
-        attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
-        include: [
-          {
-            model: db.ChucVu,
-            as: 'chuc_vu',
-            attributes: { exclude: ['id_chuc_vu'] }
-          },
-          {
-            model: db.CaLamViec,
-            as: 'ca',
-            attributes: { exclude: ['id_ca'] }
-          }
-        ],
-        where: {
-          trang_thai: 1
+        {
+          model: db.CaLamViec,
+          as: 'ca',
+          attributes: { exclude: ['id_ca'] }
+        },
+        {
+          model: db.ChiNhanh,
+          as: 'chi_nhanh_lam_viec',
+          attributes: { exclude: ['id_chi_nhanh'] }
         }
-      });
-      resolve({ success: true, data: nhanVien });
-    }
+      ],
+      where: whereClause,
+      limit: limit,
+      offset: offset,
+    });
+
+    resolve({
+      success: true,
+      data: nhanVien,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    });
   } catch (error) {
     reject({ success: false, message: error.message });
   }
 });
+
+
 
 
 const capNhatNhanVien = (nhanVien) => new Promise(async (resolve, reject) => {

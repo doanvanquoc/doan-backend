@@ -74,6 +74,29 @@ const capNhatTongTien = async (req, res) => {
   }
 }
 
+const capNhatChietKhau = async (req, res) => {
+  try {
+    const { id_hoa_don, chiet_khau } = req.body;
+    if (!id_hoa_don || !chiet_khau) {
+      return res.status(400).json('Thiếu thông tin');
+    }
+    const result = await service.capNhatChietKhau(id_hoa_don, chiet_khau);
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
+const layDanhSachHoaDonPhanTrang = async (req, res) => {
+  try {
+    const { page, limit, keyword } = req.query;
+    const result = await service.layDanhSachHoaDonPhanTrang(page, limit, keyword.trim());
+    res.json(result);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 
 module.exports = {
   layDanhSachHoaDon,
@@ -81,5 +104,7 @@ module.exports = {
   capNhatTrangThai,
   thanhToan,
   capNhatPhuongThucThanhToan,
-  capNhatTongTien
+  capNhatTongTien,
+  capNhatChietKhau,
+  layDanhSachHoaDonPhanTrang
 }

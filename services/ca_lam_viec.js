@@ -69,9 +69,31 @@ const layDanhSachChiTietCa = () => new Promise(async (resolve, reject) => {
   }
 });
 
+const capNhatCaLamViec = (idCa, ca) => new Promise(async (resolve, reject) => {
+  try {
+    const res = await db.CaLamViec.update(ca, {
+      where: {
+        id_ca: idCa
+      }
+    });
+    if (res) {
+      const caLamViecMoi = await db.CaLamViec.findOne({
+        where: {
+          id_ca: idCa
+        }});
+      resolve({ success: true, message: 'Cập nhật ca thành công', data: caLamViecMoi });
+    } else {
+      resolve({ success: false, message: 'Cập nhật ca thất bại' });
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   moCa,
   layDanhSachCa,
   layDanhSachChiTietCa,
-  dongCa
+  dongCa,
+  capNhatCaLamViec
 };

@@ -1,4 +1,6 @@
 const db = require('../models')
+const { Op } = require('sequelize');
+
 
 const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
   try {
@@ -59,6 +61,90 @@ const layDanhSachHoaDon = () => new Promise(async (resolve, reject) => {
     reject({ success: false, message: error.message })
   }
 })
+
+
+const layDanhSachHoaDonPhanTrang = (page, limit, keyword) => new Promise(async (resolve, reject) => {
+  try {
+    page = parseInt(page, 10) || 1;
+    limit = parseInt(limit, 10) || 10;
+    const offset = (page - 1) * limit;
+
+    let includeArray = [
+      {
+        model: db.ChiTietHoaDon,
+        as: 'chi_tiet_hoa_don',
+        include: [
+          {
+            model: db.MonAn,
+            as: 'mon_an'
+          },
+        ]
+      },
+      {
+        model: db.Ban,
+        as: 'ban'
+      },
+      {
+        model: db.PhuongThucThanhThanh,
+        as: 'phuong_thuc'
+      },
+      {
+        model: db.ChiNhanh,
+        as: 'chi_nhanh_lam_viec'
+      },
+      {
+        model: db.TaiKhoan,
+        as: 'tai_khoan',
+        attributes: { exclude: ['mat_khau', 'id_chuc_vu', 'ca_lam_viec', 'trang_thai'] },
+        include: [
+          {
+            model: db.ChucVu,
+            as: 'chuc_vu',
+            attributes: { exclude: ['id_chuc_vu'] }
+          },
+          {
+            model: db.CaLamViec,
+            as: 'ca',
+            attributes: { exclude: ['id_ca'] }
+          }
+        ]
+      },
+    ];
+
+    let whereClause = {};
+
+    // Giải mã keyword và thêm điều kiện tìm kiếm nếu có
+    if (keyword) {
+      const decodedKeyword = decodeURIComponent(keyword);
+      whereClause = {
+        [Op.or]: [
+          { '$chi_tiet_hoa_don.mon_an.ten_mon_an$': { [Op.like]: `%${decodedKeyword}%` } },
+          // Thêm các điều kiện tìm kiếm khác nếu cần thiết
+        ]
+      };
+    }
+
+    const { count, rows: danhSachHoaDon } = await db.HoaDon.findAndCountAll({
+      include: includeArray,
+      where: whereClause,
+      limit: limit,
+      offset: offset,
+      order: [['gio_vao', 'ASC']]
+    });
+
+    resolve({
+      success: true,
+      data: danhSachHoaDon,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    });
+  } catch (error) {
+    reject({ success: false, message: error.message });
+  }
+});
+
+
 
 const capNhatBanTrongHoaDon = (idHoaDon, idBan) => new Promise(async (resolve, reject) => {
   try {
@@ -149,6 +235,22 @@ const capNhatTongTien = (idHoaDon, tongTien) => new Promise(async (resolve, reje
   }
 })
 
+const capNhatChietKhau = (idHoaDon, chietKhau) => new Promise(async (resolve, reject) => {
+  try {
+    const hoaDon = await db.HoaDon.findByPk(idHoaDon)
+    if (hoaDon) {
+      hoaDon.chiet_khau = chietKhau
+      await hoaDon.save()
+      resolve({ success: true, message: 'Cập nhật chiết khấu thành công' })
+    }
+    else {
+      resolve({ success: false, message: 'Không tìm thấy hóa đơn nào' })
+    }
+  } catch (error) {
+    reject({ success: false, message: error.message })
+  }
+})
+
 
 
 module.exports = {
@@ -157,5 +259,7 @@ module.exports = {
   capNhatTrangThai,
   thanhToan,
   capNhatPhuongThucThanhToan,
-  capNhatTongTien
+  capNhatTongTien,
+  capNhatChietKhau,
+  layDanhSachHoaDonPhanTrang
 }

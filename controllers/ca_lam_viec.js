@@ -40,9 +40,24 @@ const dongCa = async (req, res) => {
   }
 }
 
+const capNhatCaLamViec = async (req, res) => {
+  try {
+    const {id_ca, ten_ca, bat_dau, ket_thuc} = req.body;
+    if (!id_ca || !ten_ca || !bat_dau || !ket_thuc) {
+      return res.json({ success: false, message: 'Thiếu thông tin' });
+    }
+    const ca = {ten_ca, bat_dau, ket_thuc};
+    const result = await service.capNhatCaLamViec(id_ca, ca);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 module.exports = {
   moCa,
   layDanhSachCa,
   layDanhSachChiTietCa,
-  dongCa
+  dongCa,
+  capNhatCaLamViec,
 };

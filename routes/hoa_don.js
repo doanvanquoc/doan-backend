@@ -257,6 +257,70 @@ const router = express.Router()
  *         description: Success
  */
 
+// swagger cho router cap nhat chiet khau thêm required auth header
+/**
+ * @swagger
+ * /hoa-don/cap-nhat-chiet-khau:
+ *   put:
+ *     summary: Cập nhật chiết khấu hóa đơn
+ *     tags: [Hóa Đơn]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id_hoa_don:
+ *                 type: integer
+ *                 description: Mã hóa đơn
+ *               chiet_khau:
+ *                 type: number
+ *                 description: Chiết khấu
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
+// swagger cho router phan trang thêm required auth header co limit, page, keyword
+/**
+ * @swagger
+ * /hoa-don/phan-trang:
+ *   get:
+ *     summary: Lấy danh sách hóa đơn phân trang
+ *     tags: [Hóa Đơn]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Số trang
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Số lượng hóa đơn trên mỗi trang
+ *       - in: query
+ *         name: keyword
+ *         schema:
+ *           type: string
+ *         description: Từ khóa tìm kiếm
+ *     responses:
+ *       200:
+ *         description: Danh sách hóa đơn
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/HoaDon'
+ */
+
+
 
 router.get('/', verify_token, controller.layDanhSachHoaDon)
 router.put('/cap-nhat-ban', verify_token, controller.capNhatBanTrongHoaDon)
@@ -264,5 +328,7 @@ router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThai)
 router.post('/thanh-toan', verify_token, controller.thanhToan)
 router.put('/cap-nhat-phuong-thuc-thanh-toan', verify_token, controller.capNhatPhuongThucThanhToan)
 router.put('/cap-nhat-tong-tien', verify_token, controller.capNhatTongTien)
+router.put('/cap-nhat-chiet-khau', verify_token, controller.capNhatChietKhau)
+router.get('/phan-trang', verify_token, controller.layDanhSachHoaDonPhanTrang)
 
 module.exports = router
