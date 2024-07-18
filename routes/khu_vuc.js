@@ -155,8 +155,8 @@ const router = express.Router()
 
 router.get('/', verify_token, controller.layDanhSachKhuVuc)
 router.post('/', verify_token, controller.themKhuVuc)
-router.put('/:idKhuVuc', verify_token, controller.capNhatKhuVuc)
 router.put('/cap-nhat-trang-thai', verify_token, controller.capNhatTrangThaiKhuVuc)
+router.put('/:idKhuVuc', verify_token, controller.capNhatKhuVuc)
 router.get('/tat-ca', verify_token, controller.layTatCaKhuVuc)
 
 module.exports = router

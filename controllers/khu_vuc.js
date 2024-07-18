@@ -11,9 +11,10 @@ const layDanhSachKhuVuc = async (req, res) => {
 
 const capNhatTrangThaiKhuVuc = async (req, res) => {
   try {
+    console.log('req body: ', req.body);
     const { id_khu_vuc, trang_thai } = req.body;
     if (!id_khu_vuc) {
-      res.status(400).json({ success: false, message: 'Thiếu thông tin hihi' });
+      res.status(400).json({ success: false, message: 'Thiếu thông tin' });
       return;
     }
     const result = await service.capNhatTrangThaiKhuVuc(id_khu_vuc, trang_thai);
