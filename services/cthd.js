@@ -92,8 +92,6 @@ const capNhatTrangThaiCTHD = (idCTHD, trangThai, user) => new Promise(async (res
     }
     else {
       io.emit('cap-nhat-trang-thai-cthd', { idCTHD, trangThai, user });
-      console.log({ idCTHD, trangThai, user });
-      console.log('Emit:', { idCTHD, trangThai, user });
       resolve({ success: true, message: 'Cập nhật thành công' });
     }
   } catch (error) {

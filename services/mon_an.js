@@ -11,7 +11,6 @@ const layDanhSachMonAnPhanTrang = (page, limit, keyword) => new Promise(async (r
       tinh_trang: 1
     };
 
-    // Giải mã keyword và thêm điều kiện tìm kiếm nếu có
     if (keyword) {
       const decodedKeyword = decodeURIComponent(keyword);
       whereClause = {
@@ -22,13 +21,6 @@ const layDanhSachMonAnPhanTrang = (page, limit, keyword) => new Promise(async (r
               [db.Sequelize.Op.like]: `%${decodedKeyword}%`
             }
           },
-          // Có thể thêm các trường khác nếu cần tìm kiếm
-          // Ví dụ:
-          // {
-          //   mo_ta: {
-          //     [db.Sequelize.Op.like]: `%${decodedKeyword}%`
-          //   }
-          // }
         ]
       };
     }
@@ -40,6 +32,11 @@ const layDanhSachMonAnPhanTrang = (page, limit, keyword) => new Promise(async (r
           as: 'danh_muc',
           attributes: ['id_danh_muc', 'ten_danh_muc']
         },
+        {
+          model: db.ChiNhanh,
+          as: 'chi_nhanh',
+          attributes: ['id_chi_nhanh', 'ten_chi_nhanh']
+        }
       ],
       where: whereClause,
       limit: limit,
@@ -249,6 +246,11 @@ const themMonAn = (monAn, hinhAnh, user) => new Promise(async (resolve, reject) 
             as: 'danh_muc',
             attributes: ['id_danh_muc', 'ten_danh_muc']
           },
+          {
+            model: db.ChiNhanh,
+            as: 'chi_nhanh',
+            attributes: ['id_chi_nhanh', 'ten_chi_nhanh']
+          }
         ]
       });
       if (monAnDaThem) {
@@ -278,6 +280,11 @@ const capNhatMonAn = (idMonAn, thongTin, hinhAnh) => new Promise(async (resolve,
             as: 'danh_muc',
             attributes: ['id_danh_muc', 'ten_danh_muc']
           },
+          {
+            model: db.ChiNhanh,
+            as: 'chi_nhanh',
+            attributes: ['id_chi_nhanh', 'ten_chi_nhanh']
+          }
         ]
       });
       if (monAnDaCapNhat) {
@@ -306,6 +313,11 @@ const capNhatMonAnKhongHinhAnh = (idMonAn, thongTin) => new Promise(async (resol
               as: 'danh_muc',
               attributes: ['id_danh_muc', 'ten_danh_muc']
             },
+            {
+              model: db.ChiNhanh,
+              as: 'chi_nhanh',
+              attributes: ['id_chi_nhanh', 'ten_chi_nhanh']
+            }
           ]
         });
         if (monAnDaCapNhat) {

@@ -68,7 +68,7 @@ const layDanhSachHoaDonPhanTrang = (page, limit, keyword) => new Promise(async (
     page = parseInt(page, 10) || 1;
     limit = parseInt(limit, 10) || 10;
     const offset = (page - 1) * limit;
-
+    
     let includeArray = [
       {
         model: db.ChiTietHoaDon,
@@ -85,7 +85,7 @@ const layDanhSachHoaDonPhanTrang = (page, limit, keyword) => new Promise(async (
         as: 'ban'
       },
       {
-        model: db.PhuongThucThanhThanh,
+        model: db.PhuongThucThanhToan,
         as: 'phuong_thuc'
       },
       {
@@ -112,24 +112,22 @@ const layDanhSachHoaDonPhanTrang = (page, limit, keyword) => new Promise(async (
     ];
 
     let whereClause = {};
-
+    
     // Giải mã keyword và thêm điều kiện tìm kiếm nếu có
-    if (keyword) {
+    if (keyword && keyword.trim() !== ''){
       const decodedKeyword = decodeURIComponent(keyword);
       whereClause = {
         [Op.or]: [
-          { '$chi_tiet_hoa_don.mon_an.ten_mon_an$': { [Op.like]: `%${decodedKeyword}%` } },
-          // Thêm các điều kiện tìm kiếm khác nếu cần thiết
+          { thu_ngan: { [Op.like]: `%${decodedKeyword}%` } },
         ]
       };
     }
-
     const { count, rows: danhSachHoaDon } = await db.HoaDon.findAndCountAll({
       include: includeArray,
       where: whereClause,
       limit: limit,
       offset: offset,
-      order: [['gio_vao', 'ASC']]
+      order: [['gio_vao', 'DESC']]
     });
 
     resolve({
